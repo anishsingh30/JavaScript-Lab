@@ -1,0 +1,19 @@
+/* External CSS file */
+
+.external-box {
+    border-left: 4px solid #4a90e2;
+    background-color: #f5faff;
+}
+
+.external-box h2 {
+    color: #4a90e2;
+}
+
+.external-box button {
+    background-color: #4a90e2;
+    color: white;
+}
+
+.external-box button:hover {
+    background-color: #357abd;
+}

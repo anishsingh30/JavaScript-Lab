@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS - Three Methods Demo</title>
+    
+    <!-- EXTERNAL CSS -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- INTERNAL CSS -->
+    <style>
+        /* Remove default margins and padding from all elements */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        /* Style for the entire page background and layout */
+        body {
+            font-family: 'Arial', sans-serif;
+            /* Set background color to light blue */
+            background-color: #667eea;
+            /* Set minimum height to full viewport height */
+            min-height: 100vh;
+            /* Add space inside the body (padding) */
+            padding: 30px;
+        }
+        
+        /* Style for the container that holds all boxes */
+        .container {
+            /* Maximum width of 800px to keep content centered */
+            max-width: 800px;
+            /* Center the container with margin */
+            margin: 0 auto;
+        }
+        
+        /* Style for the main heading */
+        h1 {
+            /* Center align the text */
+            text-align: center;
+            /* Change text color to white */
+            color: white;
+            /* Add space below the heading */
+            margin-bottom: 40px;
+            /* Make text larger */
+            font-size: 2.5em;
+        }
+        
+        /* Style for each colored box */
+        .box {
+            /* Set background color to white */
+            background-color: white;
+            /* Round the corners of the box */
+            border-radius: 15px;
+            /* Add space inside the box */
+            padding: 30px;
+            /* Add space below each box */
+            margin-bottom: 30px;
+            /* Add a shadow effect around the box */
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            /* Smooth animation for any changes (0.3 seconds) */
+            transition: transform 0.3s ease;
+        }
+        
+        /* Make box move up slightly when you hover over it */
+        .box:hover {
+            /* Move box up by 5 pixels when hovering */
+            transform: translateY(-5px);
+        }
+        
+        /* Style for headings inside boxes */
+        .box h2 {
+            /* Add space below the heading */
+            margin-bottom: 15px;
+            /* Make heading text larger */
+            font-size: 1.8em;
+        }
+        
+        /* Style for paragraphs inside boxes */
+        .box p {
+            /* Set space between lines of text */
+            line-height: 1.6;
+            /* Add space below paragraph */
+            margin-bottom: 20px;
+            /* Set text size */
+            font-size: 1em;
+        }
+        
+        /* Style for buttons inside boxes */
+        .box button {
+            /* Add space inside button (padding) */
+            padding: 12px 30px;
+            /* Set button text size */
+            font-size: 1em;
+            /* Remove button border */
+            border: none;
+            /* Round button corners */
+            border-radius: 8px;
+            /* Change cursor to pointer when hovering */
+            cursor: pointer;
+            /* Make text bold */
+            font-weight: bold;
+            /* Smooth animation when button changes (0.3 seconds) */
+            transition: all 0.3s ease;
+        }
+        
+        /* Make button grow slightly when you hover over it */
+        .box button:hover {
+            /* Make button 5% larger when hovering */
+            transform: scale(1.05);
+        }
+        
+        /* Style for Inline CSS Box - Red theme */
+        .inline-box {
+            /* Add red line on the left side */
+            border-left: 5px solid #FF6B6B;
+        }
+        
+        /* Style for heading in Inline CSS Box */
+        .inline-box h2 {
+            /* Set heading color to red */
+            color: #FF6B6B;
+        }
+        
+        /* Style for Internal CSS Box - Green theme */
+        .internal-box {
+            /* Add green line on the left side */
+            border-left: 5px solid #4ECDC4;
+        }
+        
+        /* Style for heading in Internal CSS Box */
+        .internal-box h2 {
+            /* Set heading color to green */
+            color: #4ECDC4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> CSS - Three Methods Demo</h1>
+        
+        <!-- BOX 1: INLINE CSS -->
+        <div class="box inline-box" style="background-color: #FFE5E5; border: 2px solid #FF6B6B;">
+            <h2 style="color: #FF6B6B; font-size: 2em;">1️⃣ Inline CSS</h2>
+            <p style="color: #333; font-size: 16px; line-height: 1.8;">
+                <strong style="color: #FF6B6B; font-size: 24px;">Hello World from Anish Singh Prn:-24070521214</strong>
+            </p>
+            <button style="background-color: #FF6B6B; color: white;" onclick="inlineButtonClick()">
+                Click Me! 
+            </button>
+        </div>
+        
+        <!-- BOX 2: INTERNAL CSS -->
+        <div class="box internal-box" style="background-color: #E5F9F7;">
+            <h2>2️⃣ Internal CSS</h2>
+            <p style="color: #333; font-size: 16px; line-height: 1.8;">
+                <strong style="color: #4ECDC4; font-size: 24px;">Hello World from Anish Singh Prn:-24070521214</strong>
+            </p>
+            <button style="background-color: #4ECDC4; color: white;" onclick="internalButtonClick()">
+                Click Me! 
+            </button>
+        </div>
+        
+        <!-- BOX 3: EXTERNAL CSS -->
+        <div class="box external-box">
+            <h2>3️⃣ External CSS</h2>
+            <p style="color: #333; font-size: 16px; line-height: 1.8;">
+                <strong style="color: #FFD93D; font-size: 24px;">Hello World from Anish Singh Prn:-24070521214</strong>
+            </p>
+            <button onclick="externalButtonClick()">
+                Click Me! 
+            </button>
+        </div>
+    </div>
+    
+    <!-- JavaScript for Buttons -->
+    <script>
+        function inlineButtonClick() {
+            alert('✅ Inline CSS Button Clicked!\n\nInline styles are applied directly in HTML tags.');
+        }
+        
+        function internalButtonClick() {
+            alert('✅ Internal CSS Button Clicked!\n\nInternal styles are in the <style> tag within HTML.');
+        }
+        
+        function externalButtonClick() {
+            alert('✅ External CSS Button Clicked!\n\nExternal styles are in a separate .css file!');
+        }
+    </script>
+</body>
+</html>
