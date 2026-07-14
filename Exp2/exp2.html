@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Calculator - ES6 JavaScript Demo</title>
+    <!-- Link to external stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Billing Calculator</h2>
+        <p class="info-text">Demonstrates basic ES6 features: const, var, let, destructuring, and template literals.</p>
+        
+        <!-- Button to trigger the calculation -->
+        <button class="btn-calc" onclick="generateBill()">Generate New Bill</button>
+        
+        <!-- Card placeholder for displaying the generated bill -->
+        <div id="billCard" class="bill-card">
+            <!-- Output will be injected here using Template Literals -->
+        </div>
+
+        <footer>
+            <p>Developed by <strong>Anish Singh</strong></p>
+            <p>PRN: 24070521214</p>
+        </footer>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        function generateBill() {
+            // 1. Demonstrate const (immutable block-scoped variable)
+            const GST = 0.18;
+            
+            // 2. Demonstrate var (function-scoped / globally declared prompt values)
+            var coustomername = prompt("Enter customer name:");
+            if (!coustomername) return; // Exit if cancelled or empty
+            
+            var productname = prompt("Enter product name:");
+            if (!productname) return;
+            
+            var quantityInput = prompt("Enter quantity:");
+            if (quantityInput === null) return;
+            var quantity = Number(quantityInput);
+            
+            var priceInput = prompt("Enter price per unit:");
+            if (priceInput === null) return;
+            var price = Number(priceInput);
+
+            // Validate number inputs
+            if (isNaN(quantity) || quantity <= 0 || isNaN(price) || price <= 0) {
+                alert("Please enter valid positive numbers for quantity and price.");
+                return;
+            }
+
+            // 3. Demonstrate let (mutable block-scoped variable)
+            let total = quantity * price;
+            let getAmount = total * GST;
+            let finalAmount = getAmount + total;
+
+            // 4. Creating the bill object
+            const bill = {
+                coustomer: coustomername, // Spelled as 'coustomer' to match original snippet
+                product: productname,
+                quantity,
+                price,
+                total,
+                getAmount,
+                finalbill: finalAmount
+            };
+
+            // 5. Demonstrate Object Destructuring (with alias and default value fallback)
+            const {
+                coustomer,
+                product,
+                getAmount: gstAmount = total * GST,
+                finalbill
+            } = bill;
+
+            // Get hold of output container
+            const billCard = document.getElementById("billCard");
+            billCard.style.display = "block";
+
+            // 6. Demonstrate Template Literals
+            billCard.innerHTML = `
+                <h3>Your Bill</h3>
+                <div class="bill-row">
+                    <span>Customer Name:</span>
+                    <strong>${coustomer}</strong>
+                </div>
+                <div class="bill-row">
+                    <span>Product Name:</span>
+                    <strong>${product}</strong>
+                </div>
+                <div class="bill-row">
+                    <span>Quantity:</span>
+                    <strong>${quantity}</strong>
+                </div>
+                <div class="bill-row">
+                    <span>Price per Unit:</span>
+                    <strong>${price.toFixed(2)}</strong>
+                </div>
+                <div class="bill-row">
+                    <span>Total Amount:</span>
+                    <strong>${total.toFixed(2)}</strong>
+                </div>
+                <div class="bill-row">
+                    <span>GST (18%):</span>
+                    <strong>${gstAmount.toFixed(2)}</strong>
+                </div>
+                <div class="bill-row total-row">
+                    <span>Final Amount:</span>
+                    <span>${finalbill.toFixed(2)}</span>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

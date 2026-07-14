@@ -1,0 +1,101 @@
+/* Global styles for Exp 2 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+}
+
+h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.info-text {
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin-bottom: 25px;
+}
+
+.btn-calc {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1em;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.btn-calc:hover {
+    background-color: #2980b9;
+}
+
+.btn-calc:active {
+    transform: scale(0.98);
+}
+
+.bill-card {
+    background-color: #fdfefe;
+    border: 2px dashed #bdc3c7;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: left;
+    display: none; /* Hidden until generated */
+}
+
+.bill-card h3 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 8px;
+}
+
+.bill-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.95em;
+}
+
+.bill-row.total-row {
+    border-top: 2px solid #ecf0f1;
+    padding-top: 10px;
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #27ae60;
+}
+
+footer {
+    margin-top: 30px;
+    font-size: 0.85em;
+    color: #95a5a6;
+    border-top: 1px solid #ecf0f1;
+    padding-top: 15px;
+}
