@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>International Institute of Technology - Student Grading Portal</title>
+    <!-- Link to external stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <div class="app-layout">
+            <!-- Left Side: Form and Header -->
+            <div class="form-section">
+                <div class="logo">🏫</div>
+                <h2>International Institute of Technology</h2>
+                <p class="info-text">Student Grading Portal — Form Validation & Control Structures</p>
+                
+                <form id="gradingForm" onsubmit="event.preventDefault(); calculateGrade();">
+                    <!-- Student Name -->
+                    <div class="form-group">
+                        <label for="studentName">Student Name</label>
+                        <input type="text" id="studentName" placeholder="Enter student name (Letters only)">
+                    </div>
+
+                    <!-- Subject Inputs Container -->
+                    <div class="form-group">
+                        <label>Subject Marks (0-100)</label>
+                        <div id="subjectsContainer">
+                            <!-- Dynamic subject rows will load here -->
+                        </div>
+                        <button type="button" class="btn-add" onclick="addSubjectRow('', '')">+ Add Subject</button>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Calculate & Generate Report</button>
+                </form>
+
+                <!-- Error message box -->
+                <div id="errorBox" class="error-box"></div>
+            </div>
+
+            <!-- Right Side: Official collegiate Grade Report (Hidden initially) -->
+            <div id="reportCard" class="report-card">
+                <!-- Dynamic content will be injected here -->
+            </div>
+        </div>
+
+        <footer>
+            <p>Developed by <strong>Anish Singh</strong></p>
+            <p>PRN: 24070521214</p>
+        </footer>
+    </div>
+
+    <script>
+        // Default subjects to prefill
+        const defaultSubjects = ["Mathematics", "Physics", "Chemistry"];
+
+        // Initialize with default subjects
+        window.onload = function() {
+            defaultSubjects.forEach(sub => addSubjectRow(sub, ""));
+        };
+
+        // Add a new subject row to the container
+        function addSubjectRow(name = "", marks = "") {
+            const container = document.getElementById("subjectsContainer");
+            const row = document.createElement("div");
+            row.className = "subject-row";
+            
+            row.innerHTML = `
+                <input type="text" class="subj-name" placeholder="Subject Name" value="${name}">
+                <input type="number" class="subj-marks" placeholder="Marks" min="0" max="100" value="${marks}">
+                <button type="button" class="btn-delete-row" onclick="removeSubjectRow(this)">🗑️</button>
+            `;
+            container.appendChild(row);
+        }
+
+        // Remove a subject row
+        function removeSubjectRow(button) {
+            const row = button.parentElement;
+            const container = document.getElementById("subjectsContainer");
+            
+            if (container.children.length > 1) {
+                row.remove();
+            } else {
+                showError("You must have at least one subject.");
+            }
+        }
+
+        // Helper to get subject-wise grades
+        function getSubjectGrade(marks) {
+            if (marks >= 90) return "A+";
+            if (marks >= 80) return "A";
+            if (marks >= 70) return "B";
+            if (marks >= 60) return "C";
+            if (marks >= 50) return "D";
+            return "F";
+        }
+
+        // Helper to get grade badge style class name
+        function getGradeBadgeClass(grade) {
+            if (grade === "A+") return "grade-aplus";
+            if (grade === "A") return "grade-a";
+            if (grade === "B") return "grade-b";
+            if (grade === "C") return "grade-c";
+            if (grade === "D") return "grade-d";
+            return "grade-fail";
+        }
+
+        function calculateGrade() {
+            // Get DOM elements
+            const name = document.getElementById("studentName").value.trim();
+            const errorBox = document.getElementById("errorBox");
+            const reportCard = document.getElementById("reportCard");
+            const mainContainer = document.getElementById("mainContainer");
+
+            // Reset elements and layout
+            errorBox.style.display = "none";
+            errorBox.innerHTML = "";
+            reportCard.style.display = "none";
+            mainContainer.classList.remove("has-report");
+
+            // Form Validation: Check if empty
+            if (!name) {
+                showError("Please enter the student's name.");
+                return;
+            }
+
+            // Form Validation: No numbers or special characters allowed in Student Name
+            const nameRegex = /^[a-zA-Z\s]+$/;
+            if (!nameRegex.test(name)) {
+                showError("Student name must only contain letters and spaces (no numbers or special characters).");
+                return;
+            }
+
+            // Gather and validate subjects
+            const rows = document.querySelectorAll(".subject-row");
+            const subjectsList = [];
+            let totalMarks = 0;
+            let maxMarks = 0;
+
+            for (let i = 0; i < rows.length; i++) {
+                const nameInput = rows[i].querySelector(".subj-name");
+                const marksInput = rows[i].querySelector(".subj-marks");
+                
+                const sName = nameInput.value.trim();
+                const sMarksStr = marksInput.value;
+
+                if (!sName) {
+                    showError(`Please enter a name for Subject ${i + 1}.`);
+                    nameInput.focus();
+                    return;
+                }
+
+                if (sMarksStr === "") {
+                    showError(`Please enter marks for "${sName}".`);
+                    marksInput.focus();
+                    return;
+                }
+
+                const sMarks = Number(sMarksStr);
+                if (isNaN(sMarks) || sMarks < 0 || sMarks > 100) {
+                    showError(`Marks for "${sName}" must be a number between 0 and 100.`);
+                    marksInput.focus();
+                    return;
+                }
+
+                subjectsList.push({ name: sName, marks: sMarks });
+                totalMarks += sMarks;
+                maxMarks += 100;
+            }
+
+            // Calculations
+            const percentage = (totalMarks / maxMarks) * 100;
+
+            // Grading System with Control Structures
+            let grade = "";
+            let gradeClass = "";
+            let passStatus = "Passed";
+            let statusClass = "pass";
+
+            if (percentage >= 90) {
+                grade = "A+";
+                gradeClass = "grade-aplus";
+            } else if (percentage >= 80) {
+                grade = "A";
+                gradeClass = "grade-a";
+            } else if (percentage >= 70) {
+                grade = "B";
+                gradeClass = "grade-b";
+            } else if (percentage >= 60) {
+                grade = "C";
+                gradeClass = "grade-c";
+            } else if (percentage >= 50) {
+                grade = "D";
+                gradeClass = "grade-d";
+            } else {
+                grade = "Fail";
+                gradeClass = "grade-fail";
+                passStatus = "Failed";
+                statusClass = "fail";
+            }
+
+            // Expand container and display report card
+            mainContainer.classList.add("has-report");
+            reportCard.style.display = "flex";
+
+            // Construct current date
+            const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+            const issueDate = new Date().toLocaleDateString("en-US", dateOptions);
+
+            // Build transcript table rows
+            let tableRows = "";
+            subjectsList.forEach(sub => {
+                const subGrade = getSubjectGrade(sub.marks);
+                tableRows += `
+                    <tr>
+                        <td>${sub.name}</td>
+                        <td style="text-align: center;"><strong>${sub.marks}</strong> / 100</td>
+                        <td style="text-align: center;"><span class="grade-badge ${getGradeBadgeClass(subGrade)}">${subGrade}</span></td>
+                    </tr>
+                `;
+            });
+
+            reportCard.innerHTML = `
+                <h3>International Institute of Technology</h3>
+                <div class="transcript-subtitle">Official Academic Transcript</div>
+                
+                <div class="transcript-meta">
+                    <div><span>Student Name:</span> <strong>${name}</strong></div>
+                    <div><span>Date of Issue:</span> <strong>${issueDate}</strong></div>
+                </div>
+                
+                <table class="transcript-table">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th style="text-align: center;">Marks</th>
+                            <th style="text-align: center;">Grade</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tableRows}
+                    </tbody>
+                </table>
+                
+                <div class="transcript-summary">
+                    <div class="summary-row"><span>Aggregate Total:</span> <strong>${totalMarks} / ${maxMarks}</strong></div>
+                    <div class="summary-row"><span>Final Percentage:</span> <strong>${percentage.toFixed(2)}%</strong></div>
+                    <div class="summary-row"><span>Academic Grade:</span> <span class="grade-badge ${gradeClass}">${grade}</span></div>
+                    <div class="summary-row status-row ${statusClass}"><span>Result Status:</span> <strong>${passStatus}</strong></div>
+                </div>
+
+                <div class="transcript-footer">
+                    <div class="signature-line">
+                        <div class="sig-space">Approved</div>
+                        <span>Registrar (Evaluation)</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function showError(message) {
+            const errorBox = document.getElementById("errorBox");
+            errorBox.style.display = "block";
+            errorBox.innerText = message;
+            // Roll back layout expansion if there was one
+            document.getElementById("mainContainer").classList.remove("has-report");
+        }
+    </script>
+</body>
+</html>
