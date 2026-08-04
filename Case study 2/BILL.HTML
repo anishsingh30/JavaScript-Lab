@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Shopping Website</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        
+        .form-section {
+            margin-bottom: 25px;
+        }
+        
+        .form-section h2 {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .form-group-item {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"],
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+        }
+        
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        input[type="tel"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        input[type="checkbox"],
+        input[type="radio"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .checkbox-item label {
+            margin-bottom: 0;
+            font-weight: normal;
+            font-size: 14px;
+        }
+        
+        .bill-section {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .bill-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        
+        .bill-row.total {
+            font-weight: bold;
+            border-top: 2px solid #333;
+            padding-top: 10px;
+            font-size: 18px;
+            color: #007bff;
+        }
+        
+        .bill-label {
+            color: #555;
+        }
+        
+        .bill-value {
+            color: #333;
+            font-weight: 500;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+        
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-calculate {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .btn-calculate:hover {
+            background-color: #0056b3;
+        }
+        
+        .btn-reset {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-reset:hover {
+            background-color: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Online Shopping Invoice</h1>
+        
+        <form id="shoppingForm">
+            <!-- Customer Information Section -->
+            <div class="form-section">
+                <h2>Customer Information</h2>
+                <div class="form-group">
+                    <div class="form-group-item">
+                        <label for="customerName">Customer Name</label>
+                        <input type="text" id="customerName" name="customerName" required>
+                    </div>
+                    <div class="form-group-item">
+                        <label for="mobileNumber">Mobile Number</label>
+                        <input type="tel" id="mobileNumber" name="mobileNumber" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group-item">
+                        <label for="invoiceNumber">Invoice Number</label>
+                        <input type="text" id="invoiceNumber" name="invoiceNumber" required>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Product Information Section -->
+            <div class="form-section">
+                <h2>Product Information</h2>
+                <div class="form-group">
+                    <div class="form-group-item">
+                        <label for="productName">Product Name</label>
+                        <input type="text" id="productName" name="productName" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group-item">
+                        <label for="quantity">Quantity (in Kg)</label>
+                        <input type="number" id="quantity" name="quantity" step="0.01" required>
+                    </div>
+                    <div class="form-group-item">
+                        <label for="ratePerKg">Rate per Kg (₹)</label>
+                        <input type="number" id="ratePerKg" name="ratePerKg" step="0.01" required>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charges and Discounts Section -->
+            <div class="form-section">
+                <h2>Charges & Discounts</h2>
+                <div class="form-group">
+                    <div class="form-group-item">
+                        <label for="discount">Discount (%)</label>
+                        <input type="number" id="discount" name="discount" step="0.01" value="0" required>
+                    </div>
+                    <div class="form-group-item">
+                        <label for="gst">GST (%)</label>
+                        <input type="number" id="gst" name="gst" step="0.01" value="18" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-group-item">
+                        <label for="packingCharges">Packing Charges (₹)</label>
+                        <input type="number" id="packingCharges" name="packingCharges" step="0.01" value="0" required>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Payment and Membership Section -->
+            <div class="form-section">
+                <h2>Payment & Membership</h2>
+                <div>
+                    <label style="font-weight: bold; margin-bottom: 10px; display: block;">Payment Mode</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="radio" id="cash" name="paymentMode" value="Cash" required>
+                            <label for="cash">Cash</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="card" name="paymentMode" value="Card">
+                            <label for="card">Card</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="radio" id="upi" name="paymentMode" value="UPI">
+                            <label for="upi">UPI</label>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top: 15px;">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="membership" name="membership">
+                        <label for="membership">Membership (Yes/No)</label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bill Section -->
+            <div class="bill-section">
+                <h2 style="margin-bottom: 15px; border: none;">Bill Summary</h2>
+                <div class="bill-row">
+                    <span class="bill-label">Product Cost (Qty × Rate):</span>
+                    <span class="bill-value">₹ <span id="productCost">0.00</span></span>
+                </div>
+                <div class="bill-row">
+                    <span class="bill-label">Discount (<span id="discountPercent">0</span>%):</span>
+                    <span class="bill-value">- ₹ <span id="discountAmount">0.00</span></span>
+                </div>
+                <div class="bill-row">
+                    <span class="bill-label">Subtotal:</span>
+                    <span class="bill-value">₹ <span id="subtotal">0.00</span></span>
+                </div>
+                <div class="bill-row">
+                    <span class="bill-label">GST (<span id="gstPercent">18</span>%):</span>
+                    <span class="bill-value">+ ₹ <span id="gstAmount">0.00</span></span>
+                </div>
+                <div class="bill-row">
+                    <span class="bill-label">Packing Charges:</span>
+                    <span class="bill-value">+ ₹ <span id="packingAmount">0.00</span></span>
+                </div>
+                <div class="bill-row total">
+                    <span class="bill-label">Total Bill Amount:</span>
+                    <span class="bill-value">₹ <span id="totalBill">0.00</span></span>
+                </div>
+            </div>
+            
+            <!-- Buttons -->
+            <div class="button-group">
+                <button type="button" class="btn-calculate" onclick="calculateBill()">Calculate Bill</button>
+                <button type="reset" class="btn-reset">Clear Form</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        function calculateBill() {
+            // Get input values
+            const quantity = parseFloat(document.getElementById('quantity').value) || 0;
+            const ratePerKg = parseFloat(document.getElementById('ratePerKg').value) || 0;
+            const discountPercent = parseFloat(document.getElementById('discount').value) || 0;
+            const gstPercent = parseFloat(document.getElementById('gst').value) || 0;
+            const packingCharges = parseFloat(document.getElementById('packingCharges').value) || 0;
+            
+            // Calculate product cost
+            const productCost = quantity * ratePerKg;
+            
+            // Calculate discount
+            const discountAmount = (productCost * discountPercent) / 100;
+            
+            // Calculate subtotal
+            const subtotal = productCost - discountAmount;
+            
+            // Calculate GST
+            const gstAmount = (subtotal * gstPercent) / 100;
+            
+            // Calculate total bill
+            const totalBill = subtotal + gstAmount + packingCharges;
+            
+            // Display results
+            document.getElementById('productCost').textContent = productCost.toFixed(2);
+            document.getElementById('discountPercent').textContent = discountPercent.toFixed(2);
+            document.getElementById('discountAmount').textContent = discountAmount.toFixed(2);
+            document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('gstPercent').textContent = gstPercent.toFixed(2);
+            document.getElementById('gstAmount').textContent = gstAmount.toFixed(2);
+            document.getElementById('packingAmount').textContent = packingCharges.toFixed(2);
+            document.getElementById('totalBill').textContent = totalBill.toFixed(2);
+        }
+        
+        // Auto-calculate when values change
+        ['quantity', 'ratePerKg', 'discount', 'gst', 'packingCharges'].forEach(id => {
+            document.getElementById(id).addEventListener('input', calculateBill);
+        });
+    </script>
+</body>
+</html>

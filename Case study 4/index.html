@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study 4 - ATM Card PIN Verification (JS Functions, Scope & Closure)</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="app-wrapper">
+        <!-- Header -->
+        <header class="header-bar">
+            <div class="brand-badge">
+                <span>🔒 SecureBank ATM System</span>
+                <span>•</span>
+                <span>Case Study 4</span>
+            </div>
+            <h1>ATM Card PIN Verification Module</h1>
+            <p>Verifying Palindromic PINs using JavaScript Function Declaration, Function Expression, Arrow Functions, Scope & Closures</p>
+        </header>
+
+        <!-- Main Workspace Grid -->
+        <main class="grid-container">
+            <!-- Left Side: ATM Terminal Interface -->
+            <section class="glass-panel">
+                <h2 class="panel-title">
+                    <span>💳 ATM Pin Input Terminal</span>
+                </h2>
+
+                <!-- ATM Terminal Screen -->
+                <div class="atm-screen">
+                    <div class="screen-header">
+                        <span>SYSTEM: SECURE_GATEWAY_V4</span>
+                        <span><span class="online-dot"></span> ENCRYPTED</span>
+                    </div>
+
+                    <!-- Input Box -->
+                    <div class="pin-input-group">
+                        <input type="text" id="pinInput" placeholder="ENTER 4-8 DIGIT PIN" maxlength="8" autocomplete="off" autofocus>
+                        <button type="button" class="toggle-mask-btn" id="toggleMaskBtn">👁️ Show PIN</button>
+                    </div>
+
+                    <!-- Sample Presets -->
+                    <div class="sample-pins-section">
+                        <label>TRY SAMPLE PINS:</label>
+                        <button type="button" class="sample-pin-btn pal" data-pin="1221">1221 (Pal)</button>
+                        <button type="button" class="sample-pin-btn pal" data-pin="4554">4554 (Pal)</button>
+                        <button type="button" class="sample-pin-btn pal" data-pin="9009">9009 (Pal)</button>
+                        <button type="button" class="sample-pin-btn" data-pin="1234">1234 (Std)</button>
+                        <button type="button" class="sample-pin-btn" data-pin="5678">5678 (Std)</button>
+                    </div>
+                </div>
+
+                <!-- Touch Keypad -->
+                <div class="keypad-grid">
+                    <button type="button" class="keypad-btn" data-val="1">1</button>
+                    <button type="button" class="keypad-btn" data-val="2">2</button>
+                    <button type="button" class="keypad-btn" data-val="3">3</button>
+                    <button type="button" class="keypad-btn" data-val="4">4</button>
+                    <button type="button" class="keypad-btn" data-val="5">5</button>
+                    <button type="button" class="keypad-btn" data-val="6">6</button>
+                    <button type="button" class="keypad-btn" data-val="7">7</button>
+                    <button type="button" class="keypad-btn" data-val="8">8</button>
+                    <button type="button" class="keypad-btn" data-val="9">9</button>
+                    <button type="button" class="keypad-btn action-btn del-btn" data-val="DEL">⌫ DEL</button>
+                    <button type="button" class="keypad-btn" data-val="0">0</button>
+                    <button type="button" class="keypad-btn action-btn clear-btn" data-val="CLEAR">CLEAR</button>
+                </div>
+
+                <!-- Primary Action Buttons -->
+                <div class="action-group">
+                    <button type="button" class="btn-primary" id="verifyBtn">VERIFY PIN SYMMETRY</button>
+                    <button type="button" class="btn-secondary" id="clearBtn">RESET</button>
+                </div>
+            </section>
+
+            <!-- Right Side: Security Result & Breakdown -->
+            <section class="glass-panel result-panel">
+                <h2 class="panel-title">
+                    <span>🛡️ Verification & Security Result</span>
+                </h2>
+
+                <!-- Verdict Alert Box -->
+                <div class="verdict-card hidden" id="resultCard">
+                    <div class="badge" id="palindromeBadge">PALINDROMIC SYMMETRY DETECTED</div>
+                    <h3 class="security-title" id="securityTitle">SPECIAL SECURITY ALERT</h3>
+                    <p class="security-message" id="securityMessage">Enter a PIN and click 'Verify PIN' to begin security checks.</p>
+                    <span class="security-code-tag" id="securityCode">SEC-CODE: ---</span>
+
+                    <div style="margin-top: 20px; border-top: 1px dashed #e2e8f0; padding-top: 15px;">
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 6px;">
+                            <span style="color: var(--text-muted);">Entered PIN:</span>
+                            <strong id="origPinDisplay" style="color: #0284c7; font-family: monospace; font-size: 1.1rem;">----</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem; margin-bottom: 6px;">
+                            <span style="color: var(--text-muted);">Reversed PIN:</span>
+                            <strong id="revPinDisplay" style="color: #059669; font-family: monospace; font-size: 1.1rem;">----</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; font-size: 0.9rem;">
+                            <span style="color: var(--text-muted);">Symmetry Verdict:</span>
+                            <strong id="symmetryStatus">Awaiting Check</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Digit Comparison Visualizer -->
+                <div class="digit-visualizer-section">
+                    <h4>Digit Position Matching Visualizer</h4>
+                    <div class="digit-cards-container" id="digitVisualizer">
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Digit matching animation will display here upon verification.</p>
+                    </div>
+                </div>
+
+                <!-- Concepts Inspector Card -->
+                <div class="concepts-card">
+                    <h4 style="font-size: 0.85rem; color: #60a5fa; text-transform: uppercase; margin-bottom: 8px;">
+                        🧠 JavaScript Core Concepts Implemented
+                    </h4>
+                    <div class="concepts-grid">
+                        <div class="concept-box">
+                            <div class="concept-title">1. Function Declaration</div>
+                            <span class="concept-code">function reversePIN(pin) { ... }</span>
+                        </div>
+                        <div class="concept-box">
+                            <div class="concept-title">2. Function Expression</div>
+                            <span class="concept-code">const checkIsPalindrome = function(...)</span>
+                        </div>
+                        <div class="concept-box">
+                            <div class="concept-title">3. Arrow Function</div>
+                            <span class="concept-code">const generateSecurityAlert = (...) =></span>
+                        </div>
+                        <div class="concept-box">
+                            <div class="concept-title">4. Scope & Closure</div>
+                            <span class="concept-code">createATMSessionTracker() Closure</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Closure Dashboard & Statistics -->
+        <section class="stats-dashboard">
+            <div class="stat-card closure-card">
+                <div class="stat-label">Closure Total Attempts</div>
+                <div class="stat-val" id="totalAttempts">0</div>
+            </div>
+            <div class="stat-card closure-card">
+                <div class="stat-label">Palindromes Detected</div>
+                <div class="stat-val" id="palindromeCount" style="color: #34d399;">0</div>
+            </div>
+            <div class="stat-card closure-card">
+                <div class="stat-label">Standard PINs Verified</div>
+                <div class="stat-val" id="nonPalindromeCount" style="color: #60a5fa;">0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Global Scope Counter</div>
+                <div class="stat-val" id="globalTotalCount" style="color: #c084fc;">0</div>
+            </div>
+        </section>
+
+        <!-- Audit History Log -->
+        <section class="glass-panel">
+            <h2 class="panel-title">
+                <span>📋 ATM Session Audit Log (Closure History State)</span>
+            </h2>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Attempt #</th>
+                            <th>PIN Entered</th>
+                            <th>Reversed PIN</th>
+                            <th>Symmetry Status</th>
+                            <th>Security Ticket</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyTableBody">
+                        <!-- Dynamic Rows -->
+                    </tbody>
+                </table>
+                <div class="empty-msg" id="emptyHistoryMsg">
+                    No PIN verifications logged in this session yet. Try entering a PIN above!
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Main JavaScript File -->
+    <script src="script.js"></script>
+</body>
+</html>
