@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Information - SIT Nagpur</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #667eea;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .section {
+            margin-bottom: 25px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+
+        .info-box {
+            background: #f0f5ff;
+            border-left: 4px solid #2e8b57;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: #667eea;
+            min-width: 150px;
+        }
+
+        .info-value {
+            color: #333;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 15px;
+        }
+
+        .btn:hover {
+            background: #764ba2;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="navbar">
+        <a href="case_study_1.html">Home</a>
+        <a href="student_info.html">Student Info</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📋 Student Information</h1>
+            <p>Symbiosis Institute of Technology, Nagpur</p>
+        </div>
+
+        <!-- Personal Information -->
+        <div class="section">
+            <h2>Personal Information</h2>
+            <div class="info-box">
+                <div class="info-row">
+                    <span class="info-label">Name:</span>
+                    <span class="info-value">Anish Singh</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">PRN:</span>
+                    <span class="info-value">24070521214</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value">anish.singh@sitnagpur.edu</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Phone:</span>
+                    <span class="info-value">+91-9876543210</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Academic Information -->
+        <div class="section">
+            <h2>Academic Information</h2>
+            <div class="info-box">
+                <div class="info-row">
+                    <span class="info-label">Department:</span>
+                    <span class="info-value">Computer Science and Engineering</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Year:</span>
+                    <span class="info-value">3rd Year</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">Semester:</span>
+                    <span class="info-value">5th Semester</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">CGPA:</span>
+                    <span class="info-value">8.5/10</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Courses -->
+        <div class="section">
+            <h2>Current Courses</h2>
+            <div class="info-box">
+                <ul>
+                    <li>Data Structures and Algorithms</li>
+                    <li>Database Management Systems</li>
+                    <li>Web Development (HTML, CSS, JavaScript)</li>
+                    <li>Operating Systems</li>
+                    <li>Software Engineering</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <button class="btn" onclick="alert('Welcome to SIT Nagpur\n\nStudent: Anish Singh\nPRN: 24070521214')">Show Welcome Message</button>
+        <a href="case_study_1.html" class="btn" style="background: #2e8b57; margin-left: 10px;">Back to Home</a>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Created by: Anish Singh | PRN: 24070521214</p>
+            <p>File: student_info.html | Location: CaseStudy Folder</p>
+        </div>
+    </div>
+
+    <!-- JavaScript for Additional Functionality -->
+    <script>
+        // Display welcome message when page loads
+        window.onload = function() {
+            console.log('Student Information Page Loaded');
+        };
+    </script>
+</body>
+</html>

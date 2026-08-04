@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palindrome Checker - Functions, Scope & Closures</title>
+    <style>
+        /* Styling for Palindrome Checker - Clean White Premium Design */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', '-apple-system', 'Segoe UI', sans-serif;
+            background: linear-gradient(to bottom, #f8fafc 0%, #f1f5f9 100%);
+            color: #0f172a;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 50px;
+            border-radius: 32px;
+            box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08), 0 0 1px rgba(15, 23, 42, 0.1);
+            max-width: 600px;
+            width: 100%;
+            transition: max-width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Expanded container when results are shown */
+        .container.has-results {
+            max-width: 1250px;
+        }
+
+        .app-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .container.has-results .app-layout {
+            flex-direction: row;
+            gap: 50px;
+            align-items: flex-start;
+        }
+
+        .header {
+            margin-bottom: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+            border-radius: 2px;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(59, 130, 246, 0.15));
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+
+        h2 {
+            color: #0f172a;
+            margin-bottom: 10px;
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 900;
+            letter-spacing: -1px;
+        }
+
+        .info-text {
+            font-size: 0.95em;
+            color: #64748b;
+            text-align: center;
+            line-height: 1.7;
+            font-weight: 500;
+        }
+
+        .form-section {
+            flex: 1;
+            width: 100%;
+            transition: all 0.5s ease;
+        }
+
+        .results-section {
+            flex: 1;
+            width: 100%;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 28px;
+        }
+
+        .form-group label {
+            font-size: 0.9em;
+            font-weight: 700;
+            color: #1e293b;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .form-group input {
+            padding: 16px 20px;
+            font-size: 0.95em;
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
+            width: 100%;
+            font-weight: 500;
+            color: #0f172a;
+        }
+
+        .form-group input::placeholder {
+            color: #cbd5e1;
+        }
+
+        .form-group input:focus {
+            border-color: #3b82f6;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .button-group {
+            display: flex;
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px;
+            font-size: 0.95em;
+            font-weight: 700;
+            border: none;
+            border-radius: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: left 0.3s ease;
+            z-index: 1;
+        }
+
+        .btn-check {
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+            color: white;
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-check:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-clear {
+            background-color: #f1f5f9;
+            color: #1e293b;
+            border: 2px solid #e2e8f0;
+            font-weight: 700;
+        }
+
+        .btn-clear:hover {
+            background-color: #e2e8f0;
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .error-box {
+            background: linear-gradient(135deg, #fee2e2, #fecaca);
+            border: 2px solid #fca5a5;
+            color: #7c2d12;
+            padding: 16px 20px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            display: none;
+            animation: slideDown 0.3s ease;
+            box-shadow: 0 4px 15px rgba(248, 113, 113, 0.1);
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            border: 2px solid #93c5fd;
+            color: #0c2340;
+            padding: 16px 20px;
+            border-radius: 14px;
+            margin-bottom: 20px;
+            font-size: 0.9em;
+            font-weight: 600;
+            display: none;
+            animation: slideDown 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
+        }
+
+        /* Result Cards */
+        .results-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .result-card {
+            border-radius: 18px;
+            padding: 28px;
+            display: none;
+            animation: slideInRight 0.5s ease both;
+            box-shadow: 0 12px 35px rgba(15, 23, 42, 0.08);
+            border: 1px solid #e2e8f0;
+            background: #ffffff;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .result-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #06b6d4);
+        }
+
+        .result-card.prn-result::before {
+            background: linear-gradient(90deg, #8b5cf6, #06b6d4);
+        }
+
+        .result-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 18px 45px rgba(15, 23, 42, 0.12);
+        }
+
+        .result-card.show {
+            display: block;
+        }
+
+        .result-header {
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .result-content {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            font-size: 0.9em;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+
+        .result-row:hover {
+            background: #f1f5f9;
+        }
+
+        .result-row span {
+            color: #64748b;
+            font-weight: 700;
+            font-size: 0.9em;
+        }
+
+        .result-row strong {
+            color: #0f172a;
+            font-weight: 800;
+        }
+
+        .palindrome-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: white;
+            font-weight: 800;
+            font-size: 0.8em;
+            display: inline-block;
+            width: fit-content;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .badge-yes {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+
+        .badge-no {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+        }
+
+        .analysis-section {
+            background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 18px;
+            font-size: 0.85em;
+            color: #475569;
+            line-height: 1.7;
+            border: 1px solid #e2e8f0;
+        }
+
+        .analysis-title {
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-size: 0.8em;
+            letter-spacing: 0.4px;
+        }
+
+        .concept-box {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid #86efac;
+            border-radius: 18px;
+            padding: 24px;
+            margin-top: 28px;
+            font-size: 0.85em;
+            color: #166534;
+            box-shadow: 0 8px 20px rgba(34, 197, 94, 0.08);
+            line-height: 1.8;
+        }
+
+        .concept-title {
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: #15803d;
+            text-transform: uppercase;
+            font-size: 0.95em;
+            letter-spacing: 0.6px;
+        }
+
+        .concept-box p {
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .concept-box strong {
+            color: #059669;
+        }
+
+        footer {
+            margin-top: 50px;
+            font-size: 0.8em;
+            color: #94a3b8;
+            border-top: 2px solid #e2e8f0;
+            padding-top: 25px;
+            text-align: center;
+            width: 100%;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+
+        footer p {
+            margin: 5px 0;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @media (max-width: 950px) {
+            .container.has-results {
+                max-width: 600px;
+            }
+            .container.has-results .app-layout {
+                flex-direction: column;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 25px;
+                border-radius: 24px;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+            }
+
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .button-group {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .btn {
+                padding: 14px;
+            }
+
+            .header::after {
+                width: 60px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <div class="header">
+            <div class="logo">🔄</div>
+            <h2>Palindrome Checker</h2>
+            <p class="info-text">JavaScript Functions, Scope, Closures & Exception Handling</p>
+        </div>
+
+        <div class="app-layout">
+            <!-- Left Side: Form Section -->
+            <div class="form-section" id="formSection">
+                <form id="palindromeForm" onsubmit="event.preventDefault(); handleCheck();">
+                    <!-- Student Name Input -->
+                    <div class="form-group">
+                        <label for="studentName">Student Name</label>
+                        <input type="text" id="studentName" placeholder="Enter your name (e.g., Anish, Racecar)">
+                    </div>
+
+                    <!-- PRN Number Input -->
+                    <div class="form-group">
+                        <label for="prnNumber">PRN Number</label>
+                        <input type="text" id="prnNumber" placeholder="Enter PRN (e.g., 24070521214)">
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-check">Check Palindromes</button>
+                        <button type="button" class="btn btn-clear" onclick="clearAll()">Clear All</button>
+                    </div>
+                </form>
+
+                <!-- Error Box -->
+                <div id="errorBox" class="error-box"></div>
+
+                <!-- Info Box -->
+                <div id="infoBox" class="info-box"></div>
+
+                <!-- Concept Explanation Box -->
+                <div class="concept-box">
+                    <div class="concept-title">📚 JavaScript Concepts Used:</div>
+                    <p><strong>1. Function Types:</strong> Regular functions, arrow functions, and function expressions</p>
+                    <p><strong>2. Scope & Closure:</strong> Private variables captured by inner functions</p>
+                    <p><strong>3. Try-Catch:</strong> Error handling for invalid inputs and edge cases</p>
+                    <p><strong>4. Algorithm:</strong> Reverse string comparison for palindrome detection</p>
+                </div>
+            </div>
+
+            <!-- Right Side: Results Section -->
+            <div class="results-section" id="resultsSection">
+                <div class="results-container">
+                    <!-- Name Result Card -->
+                    <div id="nameResultCard" class="result-card name-result">
+                        <div class="result-header">📝 Name Analysis</div>
+                        <div class="result-content">
+                            <div class="result-row">
+                                <span>Original:</span>
+                                <strong id="nameOriginal"></strong>
+                            </div>
+                            <div class="result-row">
+                                <span>Reversed:</span>
+                                <strong id="nameReversed"></strong>
+                            </div>
+                            <div class="result-row">
+                                <span>Palindrome:</span>
+                                <span id="namePalindromeResult"></span>
+                            </div>
+                        </div>
+                        <div class="analysis-section">
+                            <div class="analysis-title">Analysis:</div>
+                            <div id="nameAnalysis"></div>
+                        </div>
+                    </div>
+
+                    <!-- PRN Result Card -->
+                    <div id="prnResultCard" class="result-card prn-result">
+                        <div class="result-header">🔢 PRN Number Analysis</div>
+                        <div class="result-content">
+                            <div class="result-row">
+                                <span>Original:</span>
+                                <strong id="prnOriginal"></strong>
+                            </div>
+                            <div class="result-row">
+                                <span>Reversed:</span>
+                                <strong id="prnReversed"></strong>
+                            </div>
+                            <div class="result-row">
+                                <span>Palindrome:</span>
+                                <span id="prnPalindromeResult"></span>
+                            </div>
+                        </div>
+                        <div class="analysis-section">
+                            <div class="analysis-title">Analysis:</div>
+                            <div id="prnAnalysis"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Developed by <strong>Anish Singh</strong></p>
+            <p>PRN: 24070521214</p>
+        </footer>
+    </div>
+
+    <script>
+        // ============================================
+        // CLOSURE PATTERN: Creating a private scope
+        // ============================================
+        const PalindromeChecker = (function() {
+            // Private variables (closure scope)
+            let checkCount = 0;
+            let lastCheckTime = null;
+
+            // Regular function: Basic string reversal
+            function reverseString(str) {
+                return str.split('').reverse().join('');
+            }
+
+            // Arrow function: Case-insensitive comparison
+            const normalizeString = (str) => str.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+            // Function expression: Check palindrome
+            const checkPalindrome = function(input) {
+                try {
+                    if (!input || typeof input !== 'string') {
+                        throw new Error('Input must be a non-empty string');
+                    }
+
+                    const normalized = normalizeString(input);
+                    
+                    if (normalized.length === 0) {
+                        throw new Error('Input must contain at least one alphanumeric character');
+                    }
+
+                    const reversed = reverseString(normalized);
+                    const isPalindrome = normalized === reversed;
+
+                    return {
+                        original: input,
+                        normalized: normalized,
+                        reversed: reversed,
+                        isPalindrome: isPalindrome,
+                        length: normalized.length
+                    };
+                } catch (error) {
+                    throw new Error(`Palindrome check failed: ${error.message}`);
+                }
+            };
+
+            // Public API (exposed methods)
+            return {
+                check: function(input) {
+                    try {
+                        checkCount++;
+                        lastCheckTime = new Date();
+                        return checkPalindrome(input);
+                    } catch (error) {
+                        throw error;
+                    }
+                },
+
+                getCheckCount: function() {
+                    return checkCount;
+                },
+
+                getLastCheckTime: function() {
+                    return lastCheckTime;
+                }
+            };
+        })();
+
+        // ============================================
+        // MAIN HANDLER FUNCTION
+        // ============================================
+        function handleCheck() {
+            const name = document.getElementById('studentName').value.trim();
+            const prn = document.getElementById('prnNumber').value.trim();
+            const errorBox = document.getElementById('errorBox');
+            const infoBox = document.getElementById('infoBox');
+            const mainContainer = document.getElementById('mainContainer');
+
+            // Reset display
+            errorBox.style.display = 'none';
+            infoBox.style.display = 'none';
+            document.getElementById('nameResultCard').classList.remove('show');
+            document.getElementById('prnResultCard').classList.remove('show');
+
+            try {
+                // Validation
+                if (!name && !prn) {
+                    throw new Error('Please enter at least a name or PRN number');
+                }
+
+                let hasError = false;
+
+                // Check Name if provided
+                if (name) {
+                    try {
+                        const nameResult = PalindromeChecker.check(name);
+                        displayNameResult(nameResult);
+                    } catch (error) {
+                        showError(error.message);
+                        hasError = true;
+                    }
+                }
+
+                // Check PRN if provided
+                if (prn) {
+                    try {
+                        const prnResult = PalindromeChecker.check(prn);
+                        displayPrnResult(prnResult);
+                    } catch (error) {
+                        showError(error.message);
+                        hasError = true;
+                    }
+                }
+
+                // Show info if checks were successful
+                if (!hasError) {
+                    showInfo(`✓ Analysis complete. Total checks performed: ${PalindromeChecker.getCheckCount()}`);
+                    // Expand container when results are shown
+                    mainContainer.classList.add('has-results');
+                }
+
+            } catch (error) {
+                showError(error.message);
+                mainContainer.classList.remove('has-results');
+            }
+        }
+
+        // ============================================
+        // DISPLAY FUNCTIONS
+        // ============================================
+        function displayNameResult(result) {
+            document.getElementById('nameOriginal').textContent = result.original;
+            document.getElementById('nameReversed').textContent = result.reversed;
+            
+            const badge = result.isPalindrome 
+                ? `<span class="palindrome-badge badge-yes">✓ YES, Palindrome</span>`
+                : `<span class="palindrome-badge badge-no">✗ NO, Not Palindrome</span>`;
+            
+            document.getElementById('namePalindromeResult').innerHTML = badge;
+            
+            const analysis = `Normalized: "${result.normalized}" | Length: ${result.length} | ` +
+                            `Match: ${result.normalized === result.reversed ? 'MATCH ✓' : 'NO MATCH ✗'}`;
+            document.getElementById('nameAnalysis').textContent = analysis;
+            
+            document.getElementById('nameResultCard').classList.add('show');
+        }
+
+        function displayPrnResult(result) {
+            document.getElementById('prnOriginal').textContent = result.original;
+            document.getElementById('prnReversed').textContent = result.reversed;
+            
+            const badge = result.isPalindrome 
+                ? `<span class="palindrome-badge badge-yes">✓ YES, Palindrome</span>`
+                : `<span class="palindrome-badge badge-no">✗ NO, Not Palindrome</span>`;
+            
+            document.getElementById('prnPalindromeResult').innerHTML = badge;
+            
+            const analysis = `Normalized: "${result.normalized}" | Length: ${result.length} | ` +
+                            `Match: ${result.normalized === result.reversed ? 'MATCH ✓' : 'NO MATCH ✗'}`;
+            document.getElementById('prnAnalysis').textContent = analysis;
+            
+            document.getElementById('prnResultCard').classList.add('show');
+        }
+
+        function showError(message) {
+            const errorBox = document.getElementById('errorBox');
+            errorBox.textContent = '❌ ' + message;
+            errorBox.style.display = 'block';
+        }
+
+        function showInfo(message) {
+            const infoBox = document.getElementById('infoBox');
+            infoBox.textContent = message;
+            infoBox.style.display = 'block';
+        }
+
+        function clearAll() {
+            const mainContainer = document.getElementById('mainContainer');
+            document.getElementById('studentName').value = '';
+            document.getElementById('prnNumber').value = '';
+            document.getElementById('errorBox').style.display = 'none';
+            document.getElementById('infoBox').style.display = 'none';
+            document.getElementById('nameResultCard').classList.remove('show');
+            document.getElementById('prnResultCard').classList.remove('show');
+            mainContainer.classList.remove('has-results');
+        }
+    </script>
+</body>
+</html>

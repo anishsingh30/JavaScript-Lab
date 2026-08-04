@@ -1,0 +1,262 @@
+/* Styling for Palindrome Checker - White Decent Theme */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f3f4f6;
+    color: #1f2937;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.container {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    max-width: 600px;
+    width: 100%;
+}
+
+.logo {
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+h2 {
+    color: #111827;
+    margin-bottom: 8px;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: 700;
+}
+
+.info-text {
+    font-size: 0.9em;
+    color: #6b7280;
+    margin-bottom: 25px;
+    text-align: center;
+    line-height: 1.4;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    font-size: 0.85em;
+    font-weight: 600;
+    color: #4b5563;
+    margin-bottom: 4px;
+}
+
+.form-group input {
+    padding: 10px 14px;
+    font-size: 0.95em;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    outline: none;
+    transition: all 0.2s ease;
+    background-color: #f9fafb;
+    width: 100%;
+}
+
+.form-group input:focus {
+    border-color: #3b82f6;
+    background-color: #ffffff;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    flex: 1;
+    padding: 12px;
+    font-size: 0.95em;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-check {
+    background-color: #2563eb;
+    color: white;
+}
+
+.btn-check:hover {
+    background-color: #1d4ed8;
+}
+
+.btn-clear {
+    background-color: #f3f4f6;
+    color: #1f2937;
+    border: 1px solid #d1d5db;
+}
+
+.btn-clear:hover {
+    background-color: #e5e7eb;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.error-box {
+    background-color: #fee2e2;
+    border: 1px solid #fca5a5;
+    color: #b91c1c;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    display: none;
+}
+
+.info-box {
+    background-color: #dbeafe;
+    border: 1px solid #93c5fd;
+    color: #1e40af;
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    display: none;
+}
+
+.results-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.result-card {
+    border: 2px solid #d1d5db;
+    border-radius: 12px;
+    padding: 20px;
+    display: none;
+}
+
+.result-card.name-result {
+    border-left: 4px solid #3b82f6;
+    background-color: #f0f9ff;
+}
+
+.result-card.prn-result {
+    border-left: 4px solid #8b5cf6;
+    background-color: #faf5ff;
+}
+
+.result-card.show {
+    display: block;
+}
+
+.result-header {
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+.result-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-size: 0.85em;
+}
+
+.result-row {
+    display: flex;
+    justify-content: space-between;
+    color: #4b5563;
+}
+
+.result-row strong {
+    color: #111827;
+}
+
+.palindrome-badge {
+    padding: 4px 10px;
+    border-radius: 9999px;
+    color: white;
+    font-weight: bold;
+    font-size: 0.75em;
+    display: inline-block;
+    width: fit-content;
+}
+
+.badge-yes {
+    background-color: #10b981;
+}
+
+.badge-no {
+    background-color: #ef4444;
+}
+
+.analysis-section {
+    background-color: #f9fafb;
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 12px;
+    font-size: 0.8em;
+    color: #6b7280;
+    line-height: 1.5;
+}
+
+.analysis-title {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.concept-box {
+    background-color: #fffbeb;
+    border: 1px solid #fed7aa;
+    border-radius: 8px;
+    padding: 12px;
+    margin-top: 20px;
+    font-size: 0.8em;
+    color: #92400e;
+}
+
+.concept-title {
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: #b45309;
+}
+
+footer {
+    margin-top: 30px;
+    font-size: 0.8em;
+    color: #9ca3af;
+    border-top: 1px solid #f3f4f6;
+    padding-top: 15px;
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .button-group {
+        flex-direction: column;
+    }
+}

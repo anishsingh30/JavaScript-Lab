@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIT Nagpur - Department Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .navbar a:hover {
+            color: #667eea;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 20px;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1em;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h2 {
+            color: #667eea;
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            border-left: 4px solid #667eea;
+            padding-left: 15px;
+        }
+
+        .content {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            line-height: 1.8;
+        }
+
+        .student-info-box {
+            background: #f0f5ff;
+            border-left: 4px solid #2e8b57;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+
+        .student-info-box p {
+            margin: 8px 0;
+            font-weight: 500;
+        }
+
+        .button-group {
+            text-align: center;
+            margin: 25px 0;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            padding: 12px 30px;
+            margin: 8px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: bold;
+            transition: background 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: #2e8b57;
+        }
+
+        .btn-secondary:hover {
+            background: #1f5a3a;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <div class="navbar">
+        <a href="case_study_1.html">Home</a>
+        <a href="student_info.html">Student Info</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🎓 Symbiosis Institute of Technology, Nagpur</h1>
+            <p>Excellence in Engineering Education</p>
+        </div>
+
+        <!-- About Section -->
+        <div class="section">
+            <h2>About Our College</h2>
+            <div class="content">
+                <p>Symbiosis Institute of Technology (SIT), Nagpur is a premier educational institution dedicated to providing quality engineering education. We focus on developing skilled professionals who can contribute to technological advancement and innovation.</p>
+                <ul>
+                    <li>Founded with a mission to excel in technical education</li>
+                    <li>State-of-the-art infrastructure and facilities</li>
+                    <li>Experienced faculty members with industry expertise</li>
+                    <li>Strong industry partnerships and placements</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Departments Section -->
+        <div class="section">
+            <h2>Our Departments</h2>
+            <div class="content">
+                <ul>
+                    <li><strong>Computer Science and Engineering</strong> - Latest technologies and programming</li>
+                    <li><strong>Electrical Engineering</strong> - Power systems and automation</li>
+                    <li><strong>Mechanical Engineering</strong> - Design and manufacturing</li>
+                    <li><strong>Civil Engineering</strong> - Infrastructure and construction</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Student Information -->
+        <div class="section">
+            <h2>Student Details</h2>
+            <div class="student-info-box">
+                <p><strong>Name:</strong> Anish Singh</p>
+                <p><strong>PRN:</strong> 24070521214</p>
+                <p><strong>Department:</strong> Computer Science and Engineering</p>
+                <p><strong>Year:</strong> 2nd Year</p>
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="button-group">
+            <button class="btn" onclick="displayWelcome()">Click for Welcome Message</button>
+            <a href="student_info.html" class="btn btn-secondary">View Full Student Information</a>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>Created by: Anish Singh | PRN: 24070521214</p>
+            <p>File: case_study_1.html | Location: CaseStudy Folder</p>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // Display welcome alert on page load
+        window.onload = function() {
+            alert('Welcome to SIT Nagpur');
+        };
+
+        // Function to display welcome message on button click
+        function displayWelcome() {
+            alert('Welcome to SIT Nagpur\n\nDepartment of Computer Science and Engineering\n\nStudent: Anish Singh\nPRN: 24070521214');
+        }
+    </script>
+</body>
+</html>
