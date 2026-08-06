@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exp 5: Cart Total Calculator & Discount Logic | JS Array Methods</title>
+  <!-- Google Fonts: Playfair Display & Plus Jakarta Sans & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Header Banner -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="brand-badge">
+        <span class="badge-dot"></span> Experiment 5 &bull; Web Development Lab
+      </div>
+      <h1 class="main-title">Cart Total Calculator & Discount Logic</h1>
+      <p class="subtitle">Demonstrating JavaScript <strong>Array Methods</strong> (<code>map</code>, <code>filter</code>, <code>reduce</code>, <code>find</code>, <code>sort</code>, <code>some</code>) & <strong>Object Handling</strong></p>
+    </div>
+  </header>
+
+  <!-- Quick Stats Bar -->
+  <section class="stats-bar">
+    <div class="stats-container">
+      <div class="stat-card stat-blue">
+        <div class="stat-icon"><i class="fa-solid fa-boxes-stacked"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">Catalog Products</span>
+          <span class="stat-value" id="stat-total-products">0</span>
+        </div>
+      </div>
+      <div class="stat-card stat-purple">
+        <div class="stat-icon"><i class="fa-solid fa-cart-shopping"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">Cart Items Count</span>
+          <span class="stat-value" id="stat-cart-count">0</span>
+        </div>
+      </div>
+      <div class="stat-card stat-green">
+        <div class="stat-icon"><i class="fa-solid fa-tags"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">Active Savings</span>
+          <span class="stat-value" id="stat-total-savings">$0.00</span>
+        </div>
+      </div>
+      <div class="stat-card stat-amber">
+        <div class="stat-icon"><i class="fa-solid fa-receipt"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">Grand Total</span>
+          <span class="stat-value" id="stat-grand-total">$0.00</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content Layout -->
+  <div class="app-layout">
+
+    <!-- Left Column: Catalog & Controls -->
+    <main class="catalog-section">
+      <div class="section-card">
+        <div class="catalog-header">
+          <div>
+            <h2 class="section-title"><i class="fa-solid fa-store icon-accent"></i> Product Catalog</h2>
+            <p class="section-desc">Select products to add to your shopping cart</p>
+          </div>
+          <div class="catalog-controls">
+            <!-- Search Input -->
+            <div class="search-box">
+              <i class="fa-solid fa-magnifying-glass search-icon"></i>
+              <input type="text" id="search-input" placeholder="Search catalog..." autocomplete="off">
+            </div>
+            <!-- Sort Dropdown -->
+            <div class="sort-box">
+              <i class="fa-solid fa-arrow-down-short-wide sort-icon"></i>
+              <select id="sort-select">
+                <option value="default">Sort By: Default</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="rating-desc">Highest Rated</option>
+                <option value="name-asc">Name: A to Z</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Chips (Categories) -->
+        <div class="category-chips" id="category-chips">
+          <!-- Dynamically populated via JS Array map -->
+        </div>
+
+        <!-- Product Grid -->
+        <div class="product-grid" id="product-grid">
+          <!-- Products mapped dynamically -->
+        </div>
+      </div>
+    </main>
+
+    <!-- Right Column: Cart, Discounts & Summary -->
+    <aside class="sidebar-section">
+
+      <!-- Cart Items Section -->
+      <div class="section-card cart-card">
+        <div class="cart-header">
+          <h2 class="section-title"><i class="fa-solid fa-basket-shopping icon-accent"></i> Shopping Cart</h2>
+          <button class="btn-text-danger" id="clear-cart-btn" title="Empty Cart">
+            <i class="fa-solid fa-trash-can"></i> Clear
+          </button>
+        </div>
+
+        <!-- Cart Items List -->
+        <div class="cart-items-wrapper" id="cart-items-list">
+          <!-- Dynamic Cart Items via JS Array methods -->
+        </div>
+      </div>
+
+      <!-- Coupon & Discount Console -->
+      <div class="section-card coupon-card">
+        <h3 class="card-subtitle"><i class="fa-solid fa-ticket icon-accent"></i> Promo Codes & Discounts</h3>
+        
+        <!-- Promo Input -->
+        <div class="coupon-form">
+          <input type="text" id="coupon-input" placeholder="Enter coupon (e.g. SAVE10)" uppercase>
+          <button class="btn-primary" id="apply-coupon-btn">Apply</button>
+        </div>
+        <div id="coupon-feedback" class="coupon-feedback"></div>
+
+        <!-- Available Coupons List -->
+        <div class="available-coupons">
+          <span class="coupons-title">Available Offers (Click to apply):</span>
+          <div class="coupons-flex" id="available-coupons-list">
+            <!-- Dynamically populated via Array map -->
+          </div>
+        </div>
+
+        <!-- Tiered Auto Discount Banner -->
+        <div class="auto-discount-banner" id="auto-discount-banner">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span id="auto-discount-text">Add 3+ items for automatic 5% extra volume discount!</span>
+        </div>
+      </div>
+
+      <!-- Order Summary Card -->
+      <div class="section-card summary-card">
+        <h3 class="card-subtitle"><i class="fa-solid fa-calculator icon-accent"></i> Order Cost Summary</h3>
+
+        <div class="summary-rows">
+          <div class="summary-row">
+            <span>Items Subtotal (<span id="summary-items-count">0</span> items)</span>
+            <span class="summary-val" id="summary-subtotal">$0.00</span>
+          </div>
+
+          <div class="summary-row row-discount text-green">
+            <span>Coupon Discount (<span id="summary-coupon-name">None</span>)</span>
+            <span class="summary-val" id="summary-coupon-discount">-$0.00</span>
+          </div>
+
+          <div class="summary-row row-discount text-green">
+            <span>Tiered Bulk Bonus</span>
+            <span class="summary-val" id="summary-tier-discount">-$0.00</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Estimated Tax (8%)</span>
+            <span class="summary-val" id="summary-tax">$0.00</span>
+          </div>
+
+          <div class="summary-row">
+            <span>Shipping & Handling</span>
+            <span class="summary-val" id="summary-shipping">$0.00</span>
+          </div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-row summary-grand-total">
+            <span>Total Amount</span>
+            <span class="grand-price" id="summary-grand-total">$0.00</span>
+          </div>
+
+          <div class="summary-savings-badge" id="summary-savings-badge">
+            <i class="fa-solid fa-piggy-bank"></i> You are saving <strong id="summary-savings-amount">$0.00</strong> on this order!
+          </div>
+        </div>
+
+        <button class="btn-checkout" id="checkout-btn">
+          <i class="fa-solid fa-lock"></i> Proceed to Checkout
+        </button>
+      </div>
+
+    </aside>
+
+  </div>
+
+  <!-- Array Methods & Object Inspector Console Drawer -->
+  <section class="inspector-section">
+    <div class="inspector-card">
+      <div class="inspector-header">
+        <div class="inspector-title">
+          <i class="fa-solid fa-terminal"></i>
+          <span>JS Array Methods & Object Handling Execution Inspector</span>
+          <span class="live-pill">LIVE LOGS</span>
+        </div>
+        <button class="btn-toggle-inspector" id="toggle-inspector-btn">
+          <i class="fa-solid fa-chevron-up" id="inspector-toggle-icon"></i>
+        </button>
+      </div>
+
+      <div class="inspector-body" id="inspector-body">
+        <div class="inspector-grid">
+          <!-- Code snippet column -->
+          <div class="code-block">
+            <div class="code-header"><i class="fa-solid fa-code"></i> Methods Applied in Real-Time</div>
+            <pre><code id="inspector-code">// Performs array operations (reduce, map, filter, find, sort)
+// and object handling (destructuring, Object.entries)
+const calculateCart = (cart, promoCode) => {
+  const subtotal = cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+  const filtered = cart.filter(item => item.quantity > 0);
+  const activePromo = coupons.find(c => c.code === promoCode);
+  return { subtotal, itemCount: cart.reduce((sum, i) => sum + i.quantity, 0) };
+};</code></pre>
+          </div>
+
+          <!-- Live Output column -->
+          <div class="output-block">
+            <div class="code-header"><i class="fa-solid fa-list-check"></i> Output & Object State Snapshot</div>
+            <pre><code id="inspector-output">{
+  "cartLength": 0,
+  "subtotal": 0,
+  "tax": 0,
+  "discount": 0,
+  "grandTotal": 0
+}</code></pre>
+          </div>
+        </div>
+
+        <!-- Array Methods Reference Badges -->
+        <div class="methods-tag-bar">
+          <span class="method-tag tag-reduce">Array.prototype.reduce()</span>
+          <span class="method-tag tag-map">Array.prototype.map()</span>
+          <span class="method-tag tag-filter">Array.prototype.filter()</span>
+          <span class="method-tag tag-find">Array.prototype.find()</span>
+          <span class="method-tag tag-sort">Array.prototype.sort()</span>
+          <span class="method-tag tag-some">Array.prototype.some()</span>
+          <span class="method-tag tag-object">Object.entries() / Object.keys()</span>
+          <span class="method-tag tag-destructuring">Object Destructuring</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="checkout-modal">
+    <div class="modal-card">
+      <div class="modal-icon"><i class="fa-solid fa-circle-check"></i></div>
+      <h2>Order Placed Successfully!</h2>
+      <p>Thank you for testing the Cart Total Calculator.</p>
+      <div class="receipt-box" id="receipt-details">
+        <!-- Dynamically rendered receipt via map() & reduce() -->
+      </div>
+      <button class="btn-primary modal-close-btn" id="modal-close-btn">Continue Shopping</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
