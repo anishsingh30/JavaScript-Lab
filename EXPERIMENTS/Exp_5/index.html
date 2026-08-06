@@ -46,14 +46,14 @@
         <div class="stat-icon"><i class="fa-solid fa-tags"></i></div>
         <div class="stat-info">
           <span class="stat-label">Active Savings</span>
-          <span class="stat-value" id="stat-total-savings">$0.00</span>
+          <span class="stat-value" id="stat-total-savings">₹0.00</span>
         </div>
       </div>
       <div class="stat-card stat-amber">
         <div class="stat-icon"><i class="fa-solid fa-receipt"></i></div>
         <div class="stat-info">
           <span class="stat-label">Grand Total</span>
-          <span class="stat-value" id="stat-grand-total">$0.00</span>
+          <span class="stat-value" id="stat-grand-total">₹0.00</span>
         </div>
       </div>
     </div>
@@ -64,6 +64,58 @@
 
     <!-- Left Column: Catalog & Controls -->
     <main class="catalog-section">
+
+      <!-- Add New Product Form Card -->
+      <div class="section-card add-product-card">
+        <div class="add-product-header">
+          <h2 class="section-title"><i class="fa-solid fa-square-plus icon-accent"></i> Add New Product</h2>
+          <span class="badge-new">Catalog Editor</span>
+        </div>
+        <form id="add-product-form" class="add-product-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="prod-name"><i class="fa-solid fa-tag"></i> Product Name</label>
+              <input type="text" id="prod-name" placeholder="e.g., Wireless Mechanical Keyboard" required>
+            </div>
+            <div class="form-group">
+              <label for="prod-price"><i class="fa-solid fa-indian-rupee-sign"></i> Price (₹)</label>
+              <input type="number" id="prod-price" placeholder="e.g., 1499" min="1" step="0.01" required>
+            </div>
+            <div class="form-group">
+              <label for="prod-category"><i class="fa-solid fa-list"></i> Category</label>
+              <select id="prod-category">
+                <option value="Electronics">Electronics</option>
+                <option value="Accessories">Accessories</option>
+                <option value="Fashion">Fashion</option>
+                <option value="Home">Home</option>
+                <option value="Gadgets">Gadgets</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="prod-icon"><i class="fa-solid fa-icons"></i> Icon / Emoji</label>
+              <select id="prod-icon">
+                <option value="📦">📦 Box</option>
+                <option value="🎧">🎧 Headphones</option>
+                <option value="📱">📱 Phone</option>
+                <option value="💻">💻 Laptop</option>
+                <option value="⌚">⌚ Watch</option>
+                <option value="👟">👟 Shoes</option>
+                <option value="🎮">🎮 Gaming</option>
+                <option value="📷">📷 Camera</option>
+                <option value="☕">☕ Mug</option>
+                <option value="⚡">⚡ Gadget</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn-primary btn-add-product">
+              <i class="fa-solid fa-plus"></i> Add Product
+            </button>
+            <div id="add-product-feedback" class="form-feedback"></div>
+          </div>
+        </form>
+      </div>
+
       <div class="section-card">
         <div class="catalog-header">
           <div>
@@ -153,38 +205,38 @@
         <div class="summary-rows">
           <div class="summary-row">
             <span>Items Subtotal (<span id="summary-items-count">0</span> items)</span>
-            <span class="summary-val" id="summary-subtotal">$0.00</span>
+            <span class="summary-val" id="summary-subtotal">₹0.00</span>
           </div>
 
           <div class="summary-row row-discount text-green">
             <span>Coupon Discount (<span id="summary-coupon-name">None</span>)</span>
-            <span class="summary-val" id="summary-coupon-discount">-$0.00</span>
+            <span class="summary-val" id="summary-coupon-discount">-₹0.00</span>
           </div>
 
           <div class="summary-row row-discount text-green">
             <span>Tiered Bulk Bonus</span>
-            <span class="summary-val" id="summary-tier-discount">-$0.00</span>
+            <span class="summary-val" id="summary-tier-discount">-₹0.00</span>
           </div>
 
           <div class="summary-row">
             <span>Estimated Tax (8%)</span>
-            <span class="summary-val" id="summary-tax">$0.00</span>
+            <span class="summary-val" id="summary-tax">₹0.00</span>
           </div>
 
           <div class="summary-row">
             <span>Shipping & Handling</span>
-            <span class="summary-val" id="summary-shipping">$0.00</span>
+            <span class="summary-val" id="summary-shipping">₹0.00</span>
           </div>
 
           <div class="summary-divider"></div>
 
           <div class="summary-row summary-grand-total">
             <span>Total Amount</span>
-            <span class="grand-price" id="summary-grand-total">$0.00</span>
+            <span class="grand-price" id="summary-grand-total">₹0.00</span>
           </div>
 
           <div class="summary-savings-badge" id="summary-savings-badge">
-            <i class="fa-solid fa-piggy-bank"></i> You are saving <strong id="summary-savings-amount">$0.00</strong> on this order!
+            <i class="fa-solid fa-piggy-bank"></i> You are saving <strong id="summary-savings-amount">₹0.00</strong> on this order!
           </div>
         </div>
 

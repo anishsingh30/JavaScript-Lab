@@ -9,22 +9,22 @@
 
 // Catalog Products Database (Array of Product Objects)
 const PRODUCTS = [
-  { id: 'p1', name: 'Wireless Noise-Canceling Headphones', category: 'Electronics', price: 149.99, oldPrice: 199.99, rating: 4.8, icon: '🎧', stock: 15 },
-  { id: 'p2', name: 'Smart Fitness Watch Series 5', category: 'Electronics', price: 199.50, oldPrice: 249.00, rating: 4.9, icon: '⌚', stock: 8 },
-  { id: 'p3', name: 'Ergonomic Mechanical Keyboard', category: 'Accessories', price: 89.00, oldPrice: 110.00, rating: 4.6, icon: '⌨️', stock: 20 },
-  { id: 'p4', name: 'Ultra-Precision Gaming Mouse', category: 'Accessories', price: 45.99, oldPrice: 59.99, rating: 4.5, icon: '🖱️', stock: 12 },
-  { id: 'p5', name: 'Minimalist Leather Backpack', category: 'Fashion', price: 79.99, oldPrice: 95.00, rating: 4.7, icon: '🎒', stock: 5 },
-  { id: 'p6', name: 'Stainless Steel Insulated Tumbler', category: 'Home', price: 24.50, oldPrice: 32.00, rating: 4.4, icon: '🥤', stock: 25 },
-  { id: 'p7', name: 'Smart Ambient LED Desk Lamp', category: 'Home', price: 54.00, oldPrice: 69.99, rating: 4.6, icon: '💡', stock: 10 },
-  { id: 'p8', name: 'Classic Chronograph Quartz Watch', category: 'Fashion', price: 129.00, oldPrice: 160.00, rating: 4.7, icon: '⌚', stock: 7 }
+  { id: 'p1', name: 'Wireless Noise-Canceling Headphones', category: 'Electronics', price: 1499.00, oldPrice: 1999.00, rating: 4.8, icon: '🎧', stock: 15 },
+  { id: 'p2', name: 'Smart Fitness Watch Series 5', category: 'Electronics', price: 1999.50, oldPrice: 2490.00, rating: 4.9, icon: '⌚', stock: 8 },
+  { id: 'p3', name: 'Ergonomic Mechanical Keyboard', category: 'Accessories', price: 899.00, oldPrice: 1100.00, rating: 4.6, icon: '⌨️', stock: 20 },
+  { id: 'p4', name: 'Ultra-Precision Gaming Mouse', category: 'Accessories', price: 459.99, oldPrice: 599.99, rating: 4.5, icon: '🖱️', stock: 12 },
+  { id: 'p5', name: 'Minimalist Leather Backpack', category: 'Fashion', price: 799.99, oldPrice: 950.00, rating: 4.7, icon: '🎒', stock: 5 },
+  { id: 'p6', name: 'Stainless Steel Insulated Tumbler', category: 'Home', price: 245.00, oldPrice: 320.00, rating: 4.4, icon: '🥤', stock: 25 },
+  { id: 'p7', name: 'Smart Ambient LED Desk Lamp', category: 'Home', price: 540.00, oldPrice: 699.99, rating: 4.6, icon: '💡', stock: 10 },
+  { id: 'p8', name: 'Classic Chronograph Quartz Watch', category: 'Fashion', price: 1290.00, oldPrice: 1600.00, rating: 4.7, icon: '⌚', stock: 7 }
 ];
 
 // Available Promo Codes Database (Array of Coupon Objects)
 const COUPONS = [
   { code: 'SAVE10', type: 'percent', value: 10, minSubtotal: 0, description: '10% off any order' },
-  { code: 'SUPER20', type: 'percent', value: 20, minSubtotal: 100, description: '20% off orders > $100' },
-  { code: 'FLAT50', type: 'flat', value: 50, minSubtotal: 200, description: '$50 flat off orders > $200' },
-  { code: 'FREESHIP', type: 'shipping', value: 15, minSubtotal: 30, description: 'Free shipping ($15 value)' }
+  { code: 'SUPER20', type: 'percent', value: 20, minSubtotal: 1000, description: '20% off orders > ₹1000' },
+  { code: 'FLAT50', type: 'flat', value: 50, minSubtotal: 2000, description: '₹50 flat off orders > ₹2000' },
+  { code: 'FREESHIP', type: 'shipping', value: 150, minSubtotal: 300, description: 'Free shipping (₹150 value)' }
 ];
 
 // Active State Object
@@ -36,7 +36,7 @@ const state = {
   sortBy: 'default',
   appliedCoupon: null,
   taxRate: 0.08, // 8% Tax
-  shippingFee: 15.00
+  shippingFee: 150.00
 };
 
 // ==========================================
@@ -47,6 +47,14 @@ const categoryChips = document.getElementById('category-chips');
 const cartItemsList = document.getElementById('cart-items-list');
 const searchInput = document.getElementById('search-input');
 const sortSelect = document.getElementById('sort-select');
+
+// Add Product Form Elements
+const addProductForm = document.getElementById('add-product-form');
+const prodName = document.getElementById('prod-name');
+const prodPrice = document.getElementById('prod-price');
+const prodCategory = document.getElementById('prod-category');
+const prodIcon = document.getElementById('prod-icon');
+const addProductFeedback = document.getElementById('add-product-feedback');
 
 // Stats Elements
 const statTotalProducts = document.getElementById('stat-total-products');
@@ -251,8 +259,8 @@ function renderProductGrid() {
         </div>
         <div class="product-footer">
           <div class="product-price-box">
-            <span class="product-price">$${price.toFixed(2)}</span>
-            ${oldPrice ? `<span class="product-old-price">$${oldPrice.toFixed(2)}</span>` : ''}
+            <span class="product-price">₹${price.toFixed(2)}</span>
+            ${oldPrice ? `<span class="product-old-price">₹${oldPrice.toFixed(2)}</span>` : ''}
           </div>
           <button class="btn-add-cart" onclick="addToCart('${id}')">
             <i class="fa-solid fa-cart-plus"></i> Add
@@ -291,7 +299,7 @@ function renderCartItems() {
           <div class="cart-item-icon">${icon}</div>
           <div class="cart-item-details">
             <span class="cart-item-name">${name}</span>
-            <span class="cart-item-unit-price">$${price.toFixed(2)} each</span>
+            <span class="cart-item-unit-price">₹${price.toFixed(2)} each</span>
           </div>
         </div>
 
@@ -301,7 +309,7 @@ function renderCartItems() {
           <button class="btn-qty" onclick="updateQuantity('${id}', ${quantity + 1})">+</button>
         </div>
 
-        <div class="cart-item-total">$${itemTotal.toFixed(2)}</div>
+        <div class="cart-item-total">₹${itemTotal.toFixed(2)}</div>
 
         <button class="btn-remove-item" onclick="removeFromCart('${id}')" title="Remove Item">
           <i class="fa-solid fa-xmark"></i>
@@ -317,7 +325,7 @@ function renderCartItems() {
 function renderAvailableCoupons() {
   availableCouponsList.innerHTML = COUPONS.map(c => `
     <span class="coupon-pill" onclick="applyCouponCode('${c.code}')" title="${c.description}">
-      <i class="fa-solid fa-tag"></i> ${c.code} (${c.type === 'percent' ? c.value + '%' : '$' + c.value})
+      <i class="fa-solid fa-tag"></i> ${c.code} (${c.type === 'percent' ? c.value + '%' : '₹' + c.value})
     </span>
   `).join('');
 }
@@ -330,38 +338,38 @@ function updateSummaryUI() {
 
   // Stats Bar updates
   statCartCount.textContent = totals.totalItemCount;
-  statTotalSavings.textContent = `$${totals.totalSavings.toFixed(2)}`;
-  statGrandTotal.textContent = `$${totals.grandTotal.toFixed(2)}`;
+  statTotalSavings.textContent = `₹${totals.totalSavings.toFixed(2)}`;
+  statGrandTotal.textContent = `₹${totals.grandTotal.toFixed(2)}`;
 
   // Summary Card updates
   summaryItemsCount.textContent = totals.totalItemCount;
-  summarySubtotal.textContent = `$${totals.subtotal.toFixed(2)}`;
+  summarySubtotal.textContent = `₹${totals.subtotal.toFixed(2)}`;
 
   if (state.appliedCoupon) {
     summaryCouponName.textContent = state.appliedCoupon.code;
     summaryCouponDiscount.textContent = totals.couponDiscountAmount > 0 
-      ? `-$${totals.couponDiscountAmount.toFixed(2)}` 
-      : (state.appliedCoupon.type === 'shipping' ? 'Free Shipping' : '-$0.00');
+      ? `-₹${totals.couponDiscountAmount.toFixed(2)}` 
+      : (state.appliedCoupon.type === 'shipping' ? 'Free Shipping' : '-₹0.00');
   } else {
     summaryCouponName.textContent = 'None';
-    summaryCouponDiscount.textContent = '-$0.00';
+    summaryCouponDiscount.textContent = '-₹0.00';
   }
 
   summaryTierDiscount.textContent = totals.tierDiscountAmount > 0 
-    ? `-$${totals.tierDiscountAmount.toFixed(2)} (5% Auto)` 
-    : '-$0.00';
+    ? `-₹${totals.tierDiscountAmount.toFixed(2)} (5% Auto)` 
+    : '-₹0.00';
 
-  summaryTax.textContent = `$${totals.taxAmount.toFixed(2)}`;
+  summaryTax.textContent = `₹${totals.taxAmount.toFixed(2)}`;
   summaryShipping.textContent = totals.effectiveShipping === 0 
-    ? (state.cart.length > 0 && state.appliedCoupon?.type === 'shipping' ? 'FREE' : '$0.00')
-    : `$${totals.effectiveShipping.toFixed(2)}`;
+    ? (state.cart.length > 0 && state.appliedCoupon?.type === 'shipping' ? 'FREE' : '₹0.00')
+    : `₹${totals.effectiveShipping.toFixed(2)}`;
 
-  summaryGrandTotal.textContent = `$${totals.grandTotal.toFixed(2)}`;
+  summaryGrandTotal.textContent = `₹${totals.grandTotal.toFixed(2)}`;
 
   // Savings Badge visibility
   if (totals.totalSavings > 0) {
     summarySavingsBadge.style.display = 'block';
-    summarySavingsAmount.textContent = `$${totals.totalSavings.toFixed(2)}`;
+    summarySavingsAmount.textContent = `₹${totals.totalSavings.toFixed(2)}`;
   } else {
     summarySavingsBadge.style.display = 'none';
   }
@@ -422,8 +430,57 @@ const calculateCart = (cart) => {
 }
 
 // ==========================================
-// 5. CART ACTIONS & MUTATIONS
+// 5. CART & CATALOG MUTATIONS
 // ==========================================
+
+/**
+ * Add a New Custom Product to the Catalog
+ */
+function handleAddProduct(e) {
+  e.preventDefault();
+
+  const name = prodName.value.trim();
+  const price = parseFloat(prodPrice.value);
+  const category = prodCategory.value;
+  const icon = prodIcon.value || '📦';
+
+  if (!name || isNaN(price) || price <= 0) {
+    addProductFeedback.className = 'form-feedback error';
+    addProductFeedback.textContent = 'Please enter a valid product name and positive price!';
+    return;
+  }
+
+  // Create new product object (Demonstrating Object creation & Array pushing)
+  const newProduct = {
+    id: 'p_' + Date.now(),
+    name: name,
+    category: category,
+    price: price,
+    oldPrice: Math.round(price * 1.25 * 100) / 100, // ~25% higher list price for demonstration tag
+    rating: 5.0,
+    icon: icon,
+    stock: 20
+  };
+
+  // Mutate state using Array unshift to place new product at top
+  state.products.unshift(newProduct);
+
+  // Update UI components
+  renderCategoryChips();
+  renderProductGrid();
+
+  // Reset form inputs
+  prodName.value = '';
+  prodPrice.value = '';
+  
+  // Display success feedback
+  addProductFeedback.className = 'form-feedback success';
+  addProductFeedback.textContent = `Product "${name}" added to catalog successfully!`;
+
+  setTimeout(() => {
+    addProductFeedback.textContent = '';
+  }, 4000);
+}
 
 /**
  * Add Product to Cart using Array.prototype.find() and Object cloning
@@ -512,7 +569,7 @@ function applyCouponCode(codeToApply) {
 
   if (totals.subtotal < coupon.minSubtotal) {
     couponFeedback.className = 'coupon-feedback error';
-    couponFeedback.textContent = `Coupon "${code}" requires minimum subtotal of $${coupon.minSubtotal}.`;
+    couponFeedback.textContent = `Coupon "${code}" requires minimum subtotal of ₹${coupon.minSubtotal}.`;
     return;
   }
 
@@ -539,7 +596,7 @@ function handleCheckout() {
   const itemsReceiptHtml = state.cart.map(item => `
     <div class="receipt-line">
       <span>${item.name} (x${item.quantity})</span>
-      <span>$${(item.price * item.quantity).toFixed(2)}</span>
+      <span>₹${(item.price * item.quantity).toFixed(2)}</span>
     </div>
   `).join('');
 
@@ -547,12 +604,12 @@ function handleCheckout() {
     <div style="font-weight: 700; margin-bottom: 8px; color: #4f46e5; border-bottom: 1px solid #cbd5e1; padding-bottom: 4px;">Order Breakdown:</div>
     ${itemsReceiptHtml}
     <div style="border-top: 1px dashed #cbd5e1; margin: 8px 0; padding-top: 8px;">
-      <div class="receipt-line"><span>Subtotal:</span><span>$${totals.subtotal.toFixed(2)}</span></div>
-      ${totals.couponDiscountAmount > 0 ? `<div class="receipt-line" style="color:#059669"><span>Coupon Savings:</span><span>-$${totals.couponDiscountAmount.toFixed(2)}</span></div>` : ''}
-      ${totals.tierDiscountAmount > 0 ? `<div class="receipt-line" style="color:#059669"><span>Volume Bonus:</span><span>-$${totals.tierDiscountAmount.toFixed(2)}</span></div>` : ''}
-      <div class="receipt-line"><span>Tax (8%):</span><span>$${totals.taxAmount.toFixed(2)}</span></div>
-      <div class="receipt-line"><span>Shipping:</span><span>${totals.effectiveShipping === 0 ? 'FREE' : '$' + totals.effectiveShipping.toFixed(2)}</span></div>
-      <div class="receipt-line" style="font-weight: 700; font-size: 1.05rem; margin-top: 6px;"><span>Paid Total:</span><span style="color:#4f46e5">$${totals.grandTotal.toFixed(2)}</span></div>
+      <div class="receipt-line"><span>Subtotal:</span><span>₹${totals.subtotal.toFixed(2)}</span></div>
+      ${totals.couponDiscountAmount > 0 ? `<div class="receipt-line" style="color:#059669"><span>Coupon Savings:</span><span>-₹${totals.couponDiscountAmount.toFixed(2)}</span></div>` : ''}
+      ${totals.tierDiscountAmount > 0 ? `<div class="receipt-line" style="color:#059669"><span>Volume Bonus:</span><span>-₹${totals.tierDiscountAmount.toFixed(2)}</span></div>` : ''}
+      <div class="receipt-line"><span>Tax (8%):</span><span>₹${totals.taxAmount.toFixed(2)}</span></div>
+      <div class="receipt-line"><span>Shipping:</span><span>${totals.effectiveShipping === 0 ? 'FREE' : '₹' + totals.effectiveShipping.toFixed(2)}</span></div>
+      <div class="receipt-line" style="font-weight: 700; font-size: 1.05rem; margin-top: 6px;"><span>Paid Total:</span><span style="color:#4f46e5">₹${totals.grandTotal.toFixed(2)}</span></div>
     </div>
   `;
 
@@ -563,6 +620,11 @@ function handleCheckout() {
 // 6. EVENT LISTENERS SETUP
 // ==========================================
 function setupEventListeners() {
+  // Add Product Form Submit
+  if (addProductForm) {
+    addProductForm.addEventListener('submit', handleAddProduct);
+  }
+
   // Category Chips Filter
   categoryChips.addEventListener('click', (e) => {
     if (e.target.classList.contains('chip-btn')) {
