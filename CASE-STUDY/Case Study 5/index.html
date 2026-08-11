@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Case Study 5 - JavaScript Arrays & Loops Playground</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- Top Header Card -->
+        <header class="header-card">
+            <div class="badge-tag">
+                <span>⚡ Case Study 5</span>
+                <span>•</span>
+                <span>JavaScript Lab</span>
+            </div>
+            <h1>To Study the Functioning of Arrays and Loops in JavaScript</h1>
+            <p class="subtitle">An interactive visual environment for experimenting with Array mutations, higher-order functions, iteration loops, and finding Minimum & Maximum values.</p>
+
+            <div class="req-grid">
+                <div class="req-box">
+                    <strong>a) Array Manipulation</strong>
+                    <span>Operations: <code>push</code>, <code>pop</code>, <code>shift</code>, <code>unshift</code>, <code>splice</code>, <code>slice</code></span>
+                </div>
+                <div class="req-box">
+                    <strong>b) Array Iteration & Methods</strong>
+                    <span>Methods: <code>map()</code>, <code>filter()</code>, <code>reduce()</code>, <code>forEach()</code></span>
+                </div>
+                <div class="req-box">
+                    <strong>🎯 Case Study Task</strong>
+                    <span>Create an array of numbers and find the maximum and minimum value.</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Case Study: Array Visualizer & Min/Max Finder -->
+        <section class="glass-card">
+            <div class="card-header">
+                <div class="card-title">
+                    <span class="icon">📊</span>
+                    <span>Array Min & Max Finder</span>
+                </div>
+                <div class="controls-row">
+                    <button id="presetDefaultBtn" class="btn btn-sm btn-cyan">Slide Preset [25, 10, 45, 5, 30, 15]</button>
+                    <button id="presetRandomBtn" class="btn btn-sm btn-outline">🎲 Random Array</button>
+                    <button id="presetAscBtn" class="btn btn-sm btn-outline">⬆️ Ascending</button>
+                    <button id="presetDescBtn" class="btn btn-sm btn-outline">⬇️ Descending</button>
+                </div>
+            </div>
+
+            <!-- Dynamic Stats Summary Grid -->
+            <div class="stats-summary-grid">
+                <div class="stat-card min-card">
+                    <div class="stat-icon">📉</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Minimum Value</div>
+                        <div id="statMinVal" class="stat-val">5</div>
+                    </div>
+                </div>
+                <div class="stat-card max-card">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Maximum Value</div>
+                        <div id="statMaxVal" class="stat-val">45</div>
+                    </div>
+                </div>
+                <div class="stat-card count-card">
+                    <div class="stat-icon">🔢</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Total Elements</div>
+                        <div id="statCountVal" class="stat-val">6</div>
+                    </div>
+                </div>
+                <div class="stat-card sum-card">
+                    <div class="stat-icon">➕</div>
+                    <div class="stat-info">
+                        <div class="stat-label">Sum of Array</div>
+                        <div id="statSumVal" class="stat-val">130</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Array Visual Container -->
+            <div class="array-display-wrapper">
+                <div id="arrayPillsContainer" class="array-pills-container">
+                    <!-- Pills dynamically rendered by script.js -->
+                </div>
+            </div>
+
+            <!-- Controls Row for Adding / Managing Elements -->
+            <div class="controls-row">
+                <input type="number" id="addNumInput" class="input-field" placeholder="Enter a number" style="width: 160px;">
+                <button id="pushBtn" class="btn btn-primary">➕ Push (Add End)</button>
+                <button id="unshiftBtn" class="btn btn-emerald">⬅️ Unshift (Add Start)</button>
+                <button id="popBtn" class="btn btn-amber">❌ Pop (Remove End)</button>
+                <button id="shiftBtn" class="btn btn-rose">➡️ Shift (Remove Start)</button>
+                <button id="clearBtn" class="btn btn-outline">🗑️ Clear</button>
+            </div>
+
+            <!-- Step-by-Step Loop Animator Controls -->
+            <div class="controls-row" style="margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                <button id="animateMinMaxBtn" class="btn btn-cyan" style="width: 100%; justify-content: center; font-size: 1rem;">
+                    ▶️ Run Step-by-Step Loop Animation (Min & Max Detection)
+                </button>
+            </div>
+
+            <!-- Step-by-Step Status Banner -->
+            <div id="animatorStatus" class="animator-status" style="display: none;">
+                <div>
+                    <strong>Status:</strong> <span id="animStepText">Ready</span>
+                </div>
+                <div>
+                    <code>currentMin: <span id="animMinText" style="color: var(--accent-emerald);">?</span></code> | 
+                    <code>currentMax: <span id="animMaxText" style="color: var(--accent-rose);">?</span></code>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Two Column Grid for Requirement A & B -->
+        <div class="section-grid">
+
+            <!-- Requirement A: Array Manipulation -->
+            <section class="glass-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="icon">🛠️</span>
+                        <span>a) Array Manipulation Playground</span>
+                    </div>
+                </div>
+
+                <div class="methods-grid">
+                    <!-- Splice Box -->
+                    <div class="method-box">
+                        <h4>
+                            <span>splice()</span>
+                            <span class="btn-sm btn-outline">Mutates</span>
+                        </h4>
+                        <p>Modify contents by removing or replacing existing elements and/or adding new elements in place.</p>
+                        <div class="controls-row">
+                            <input type="number" id="spliceIdx" class="input-field" placeholder="Index" style="width: 70px;" value="1">
+                            <input type="number" id="spliceCount" class="input-field" placeholder="Delete" style="width: 70px;" value="1">
+                            <input type="number" id="spliceVal" class="input-field" placeholder="New Val" style="width: 90px;" value="99">
+                        </div>
+                        <button id="executeSpliceBtn" class="btn btn-sm btn-primary">Execute splice()</button>
+                    </div>
+
+                    <!-- Slice Box -->
+                    <div class="method-box">
+                        <h4>
+                            <span>slice()</span>
+                            <span class="btn-sm btn-outline">Non-Mutating</span>
+                        </h4>
+                        <p>Returns a shallow copy of a portion of an array into a new array object selected from start to end.</p>
+                        <div class="controls-row">
+                            <input type="number" id="sliceStart" class="input-field" placeholder="Start" style="width: 80px;" value="1">
+                            <input type="number" id="sliceEnd" class="input-field" placeholder="End" style="width: 80px;" value="4">
+                        </div>
+                        <button id="executeSliceBtn" class="btn btn-sm btn-cyan">Execute slice()</button>
+                    </div>
+                </div>
+
+                <div id="sliceResultBox" class="result-preview-box" style="display: none;">
+                    <label>Sliced Array Result Preview:</label>
+                    <div id="sliceResultVal" class="result-val">[ ]</div>
+                </div>
+            </section>
+
+            <!-- Requirement B: Array Methods -->
+            <section class="glass-card">
+                <div class="card-header">
+                    <div class="card-title">
+                        <span class="icon">⚙️</span>
+                        <span>b) Array Methods (map, filter, reduce, forEach)</span>
+                    </div>
+                </div>
+
+                <div class="controls-row" style="margin-bottom: 1rem;">
+                    <button id="btnMap" class="btn btn-sm btn-primary">map(x => x * 2)</button>
+                    <button id="btnFilter" class="btn btn-sm btn-emerald">filter(x => x > 20)</button>
+                    <button id="btnReduce" class="btn btn-sm btn-amber">reduce(Sum)</button>
+                    <button id="btnForEach" class="btn btn-sm btn-cyan">forEach(Log Details)</button>
+                </div>
+
+                <!-- Interactive Higher Order Method Customizer -->
+                <div style="background: rgba(15, 23, 42, 0.6); padding: 1rem; border-radius: var(--radius-md); border: 1px solid var(--border-color);">
+                    <div class="controls-row">
+                        <label style="font-size: 0.85rem; color: var(--text-muted);">Custom Map Formula:</label>
+                        <input type="text" id="mapCustomExpr" class="input-field" value="x * 10" style="flex: 1; min-width: 140px;">
+                        <button id="applyCustomMapBtn" class="btn btn-sm btn-primary">Run map()</button>
+                    </div>
+                    <div class="controls-row" style="margin-top: 0.5rem;">
+                        <label style="font-size: 0.85rem; color: var(--text-muted);">Custom Filter Condition:</label>
+                        <input type="text" id="filterCustomExpr" class="input-field" value="x % 2 === 0" style="flex: 1; min-width: 140px;">
+                        <button id="applyCustomFilterBtn" class="btn btn-sm btn-emerald">Run filter()</button>
+                    </div>
+                </div>
+
+                <div id="methodResultBox" class="result-preview-box" style="margin-top: 1rem;">
+                    <label id="methodResultLabel">Method Result Output:</label>
+                    <div id="methodResultVal" class="result-val">Click any method button above to view transformed output</div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Live Code Generator & Execution Console -->
+        <section class="glass-card">
+            <div class="card-header">
+                <div class="card-title">
+                    <span class="icon">💻</span>
+                    <span>Live JavaScript Code Snippet & Execution Terminal</span>
+                </div>
+                <button id="clearConsoleBtn" class="btn btn-sm btn-outline">Clear Console</button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1rem;">
+                <!-- Code Snippet Display -->
+                <div>
+                    <label style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.4rem; display: block;">Generated JavaScript Code:</label>
+                    <pre class="code-block" id="generatedCodeBlock"><code id="codeContent">// JavaScript Code Output will appear here...
+const numbers = [25, 10, 45, 5, 30, 15];
+const maxVal = Math.max(...numbers);
+const minVal = Math.min(...numbers);
+console.log(`Max: ${maxVal}, Min: ${minVal}`);</code></pre>
+                </div>
+
+                <!-- Console Terminal Log -->
+                <div>
+                    <label style="font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.4rem; display: block;">Execution Output Log:</label>
+                    <div id="consoleTerminal" class="console-panel">
+                        <!-- Log lines added dynamically -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p><strong>Case Study 5: Arrays and Loops in JavaScript</strong> • Created for Web Application Lab</p>
+        </footer>
+
+    </div>
+
+    <!-- Script file -->
+    <script src="script.js"></script>
+</body>
+</html>
