@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exp 6: String Functions & Regex Processing Studio</title>
+  <meta name="description" content="Experiment 6: Web page utilizing JavaScript String Functions and Regular Expressions for email validation, data extraction, text analysis, and regex testing with a clean white background theme.">
+  <!-- Google Fonts: Plus Jakarta Sans & Fira Code -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="light-theme">
+
+  <!-- Top Header Banner -->
+  <header class="main-header">
+    <div class="header-container">
+      <div class="brand-badge">
+        <span class="badge-dot"></span> Experiment 6 &bull; Web Development Lab &bull; Developer: <strong>ANISH SINGH</strong> (PRN: 24070521214)
+      </div>
+      <h1 class="main-title"><i class="fa-solid fa-code icon-gradient"></i> String Functions & Regex Studio</h1>
+      <p class="subtitle">Interactive suite for <strong>Email Validation</strong>, <strong>Unstructured Data Extraction</strong>, <strong>Text Analytics</strong> & <strong>Regex Parsing</strong></p>
+    </div>
+  </header>
+
+  <!-- Quick Stats Counter Bar -->
+  <section class="stats-bar">
+    <div class="stats-container">
+      <div class="stat-card stat-indigo">
+        <div class="stat-icon"><i class="fa-solid fa-file-word"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">Words Analyzed</span>
+          <span class="stat-value" id="stat-words-count">0</span>
+        </div>
+      </div>
+      <div class="stat-card stat-teal">
+        <div class="stat-icon"><i class="fa-solid fa-filter"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">Entities Extracted</span>
+          <span class="stat-value" id="stat-entities-count">0</span>
+        </div>
+      </div>
+      <div class="stat-card stat-amber">
+        <div class="stat-icon"><i class="fa-solid fa-envelope-circle-check"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">Email Integrity</span>
+          <span class="stat-value" id="stat-email-status">Idle</span>
+        </div>
+      </div>
+      <div class="stat-card stat-rose">
+        <div class="stat-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+        <div class="stat-info">
+          <span class="stat-label">Transformations</span>
+          <span class="stat-value" id="stat-transforms-count">0</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation Tab Switcher -->
+  <div class="tabs-nav-container">
+    <nav class="tabs-nav" aria-label="Main Navigation">
+      <button class="tab-btn active" data-tab="tab-email" id="tab-btn-email">
+        <i class="fa-solid fa-envelope"></i> 1. Email Validator
+      </button>
+      <button class="tab-btn" data-tab="tab-extractor" id="tab-btn-extractor">
+        <i class="fa-solid fa-cubes"></i> 2. Data Extraction
+      </button>
+      <button class="tab-btn" data-tab="tab-string-funcs" id="tab-btn-string-funcs">
+        <i class="fa-solid fa-code"></i> 3. String Functions
+      </button>
+      <button class="tab-btn" data-tab="tab-analytics" id="tab-btn-analytics">
+        <i class="fa-solid fa-chart-pie"></i> 4. Text Analysis (Mail Check)
+      </button>
+      <button class="tab-btn" data-tab="tab-regex" id="tab-btn-regex">
+        <i class="fa-solid fa-terminal"></i> 5. Regex Tester
+      </button>
+    </nav>
+  </div>
+
+  <!-- App Main Content Container -->
+  <main class="app-container">
+
+    <!-- ==================== TAB 1: EMAIL VALIDATION ==================== -->
+    <section class="tab-content active" id="tab-email">
+      <div class="grid-2col">
+        <!-- Left: Input & Controls -->
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h2><i class="fa-solid fa-at icon-indigo"></i> Email Address Inspector</h2>
+            <span class="badge badge-light">Regex + String API</span>
+          </div>
+          <div class="card-body">
+            <p class="card-desc">Enter an email address to validate its syntax, parse sub-components with string functions, check domain integrity, and detect potential typos.</p>
+
+            <div class="form-group">
+              <label for="email-input"><i class="fa-solid fa-keyboard"></i> Test Email Address</label>
+              <div class="input-with-actions">
+                <input type="email" id="email-input" placeholder="e.g. alex.smith24@university.edu.in" autocomplete="off">
+                <button type="button" class="btn-clear" id="email-clear-btn" title="Clear input"><i class="fa-solid fa-xmark"></i></button>
+              </div>
+            </div>
+
+            <!-- Preset Email Buttons -->
+            <div class="preset-group">
+              <span class="preset-label"><i class="fa-solid fa-bolt"></i> Preset Examples:</span>
+              <div class="preset-buttons">
+                <button class="btn-preset" data-email="anish.singh2407@gmail.com">Valid Gmail</button>
+                <button class="btn-preset" data-email="student.cs@subdomain.oxford.ac.uk">Academic (.ac.uk)</button>
+                <button class="btn-preset" data-email="john.doe@gnail.com">Typo (gnail.com)</button>
+                <button class="btn-preset" data-email="test-user@mailinator.com">Disposable Email</button>
+                <button class="btn-preset" data-email="invalid..email@domain">Invalid Syntax</button>
+              </div>
+            </div>
+
+            <!-- Email Token Visualizer Card -->
+            <div class="token-card" id="token-card">
+              <h3><i class="fa-solid fa-puzzle-piece icon-teal"></i> String Token Breakdown</h3>
+              <p class="token-desc">Parsed via <code>String.prototype.split()</code>, <code>indexOf()</code>, and <code>slice()</code>:</p>
+              <div class="token-display" id="token-display">
+                <span class="token-pill token-username" id="token-username" title="Local Username">username</span>
+                <span class="token-pill token-at">@</span>
+                <span class="token-pill token-domain" id="token-domain" title="Domain Name">domain</span>
+                <span class="token-pill token-dot">.</span>
+                <span class="token-pill token-tld" id="token-tld" title="Top Level Domain">tld</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Real-time Validation Results -->
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h2><i class="fa-solid fa-clipboard-check icon-emerald"></i> Validation Diagnostics</h2>
+            <div id="email-overall-badge" class="badge badge-neutral">Awaiting Input</div>
+          </div>
+          <div class="card-body">
+            <!-- Typo Alert Banner -->
+            <div class="typo-alert hidden" id="typo-alert">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+              <div>
+                <strong>Possible Typo Detected!</strong>
+                <p>Did you mean <span id="typo-suggestion" class="typo-fix">user@gmail.com</span>?</p>
+              </div>
+              <button class="btn-sm btn-outline" id="apply-typo-btn">Apply Fix</button>
+            </div>
+
+            <!-- Validation Checklist -->
+            <div class="checklist">
+              <div class="check-item" id="chk-syntax">
+                <div class="check-icon"><i class="fa-solid fa-circle-question"></i></div>
+                <div class="check-info">
+                  <strong>RFC 5322 Regex Syntax Check</strong>
+                  <span>Matches standard email pattern <code>/^[^\s@]+@[^\s@]+\.[^\s@]+$/</code></span>
+                </div>
+              </div>
+
+              <div class="check-item" id="chk-length">
+                <div class="check-icon"><i class="fa-solid fa-circle-question"></i></div>
+                <div class="check-info">
+                  <strong>Username & Total Length Check</strong>
+                  <span>String length between 6 and 254 characters (`String.length`)</span>
+                </div>
+              </div>
+
+              <div class="check-item" id="chk-domain">
+                <div class="check-icon"><i class="fa-solid fa-circle-question"></i></div>
+                <div class="check-info">
+                  <strong>Domain Structure & Host Verification</strong>
+                  <span>Valid hostname format using <code>indexOf('@')</code> & <code>includes('.')</code></span>
+                </div>
+              </div>
+
+              <div class="check-item" id="chk-tld">
+                <div class="check-icon"><i class="fa-solid fa-circle-question"></i></div>
+                <div class="check-info">
+                  <strong>Top Level Domain (TLD) Extension</strong>
+                  <span>Extension length &ge; 2 chars via <code>endsWith()</code> / <code>slice()</code></span>
+                </div>
+              </div>
+
+              <div class="check-item" id="chk-disposable">
+                <div class="check-icon"><i class="fa-solid fa-circle-question"></i></div>
+                <div class="check-info">
+                  <strong>Disposable Provider Check</strong>
+                  <span>Filters temporary domains (mailinator, 10minutemail, etc.)</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Code Execution Snippet Display -->
+            <div class="code-box-wrapper">
+              <div class="code-box-header">
+                <span><i class="fa-solid fa-code"></i> Applied JS Logic</span>
+                <button class="btn-copy-code" id="copy-email-code-btn"><i class="fa-regular fa-copy"></i> Copy Code</button>
+              </div>
+              <pre class="code-block"><code id="email-code-snippet">// Live JavaScript evaluation
+const email = "user@domain.com";
+const isRegexValid = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email.trim());
+const atIndex = email.indexOf('@');
+const domain = email.slice(atIndex + 1);</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: DATA EXTRACTION HUB ==================== -->
+    <section class="tab-content" id="tab-extractor">
+      <div class="card shadow-sm">
+        <div class="card-header">
+          <h2><i class="fa-solid fa-wand-magic-sparkles icon-teal"></i> Unstructured Data Extractor</h2>
+          <span class="badge badge-light">Regex Group Matcher</span>
+        </div>
+        <div class="card-body">
+          <p class="card-desc">Paste raw unstructured text, server logs, customer emails, or business documents below. Use string functions and regex rules to instantly extract emails, phone numbers, URLs, dates, prices, and custom patterns.</p>
+
+          <!-- Input Text Area & Controls -->
+          <div class="form-group">
+            <div class="textarea-header">
+              <label for="extractor-input"><i class="fa-solid fa-align-left"></i> Raw Unstructured Input Text</label>
+              <div class="textarea-actions">
+                <button class="btn-sm btn-ghost" id="preset-log-btn"><i class="fa-solid fa-server"></i> Server Log Preset</button>
+                <button class="btn-sm btn-ghost" id="preset-contact-btn"><i class="fa-solid fa-address-card"></i> Contact Preset</button>
+                <button class="btn-sm btn-ghost" id="preset-invoice-btn"><i class="fa-solid fa-receipt"></i> Invoice Preset</button>
+                <button class="btn-sm btn-danger" id="clear-extractor-btn"><i class="fa-solid fa-trash-can"></i> Clear</button>
+              </div>
+            </div>
+            <textarea id="extractor-input" rows="7" placeholder="Paste unstructured text containing emails, phone numbers, links, dates, and amounts..."></textarea>
+          </div>
+
+          <!-- Extraction Filter Tabs & Actions -->
+          <div class="extractor-toolbar">
+            <div class="filter-pills" id="filter-pills">
+              <button class="filter-pill active" data-filter="all"><i class="fa-solid fa-border-all"></i> All Entities (<span id="cnt-all">0</span>)</button>
+              <button class="filter-pill" data-filter="email"><i class="fa-solid fa-envelope"></i> Emails (<span id="cnt-email">0</span>)</button>
+              <button class="filter-pill" data-filter="phone"><i class="fa-solid fa-phone"></i> Phones (<span id="cnt-phone">0</span>)</button>
+              <button class="filter-pill" data-filter="url"><i class="fa-solid fa-link"></i> URLs (<span id="cnt-url">0</span>)</button>
+              <button class="filter-pill" data-filter="date"><i class="fa-solid fa-calendar-days"></i> Dates (<span id="cnt-date">0</span>)</button>
+              <button class="filter-pill" data-filter="money"><i class="fa-solid fa-indian-rupee-sign"></i> Amounts (<span id="cnt-money">0</span>)</button>
+              <button class="filter-pill" data-filter="tag"><i class="fa-solid fa-hashtag"></i> Tags/Mentions (<span id="cnt-tag">0</span>)</button>
+            </div>
+
+            <div class="export-actions">
+              <button class="btn-sm btn-secondary" id="export-json-btn"><i class="fa-solid fa-file-code"></i> Export JSON</button>
+              <button class="btn-sm btn-secondary" id="export-csv-btn"><i class="fa-solid fa-file-csv"></i> Export CSV</button>
+              <button class="btn-sm btn-primary" id="copy-extracted-btn"><i class="fa-solid fa-copy"></i> Copy Extracted</button>
+            </div>
+          </div>
+
+          <!-- Extracted Cards Output Display Grid -->
+          <div class="results-grid" id="extracted-results-grid">
+            <!-- Dynamic items rendered by JavaScript -->
+            <div class="empty-state">
+              <i class="fa-solid fa-magnifying-glass icon-faded"></i>
+              <p>No entities extracted yet. Type or paste text above or click a preset sample button.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 3: STRING FUNCTIONS & MANIPULATION ==================== -->
+    <section class="tab-content" id="tab-string-funcs">
+      <div class="grid-2col">
+        <!-- Left: String Method Interactive Runner & Transformers -->
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h2><i class="fa-solid fa-code icon-indigo"></i> JavaScript String Method Studio</h2>
+            <span class="badge badge-light">String.prototype API</span>
+          </div>
+          <div class="card-body">
+            <p class="card-desc">Test native JavaScript string methods interactively. Select a method to see live code execution and immediate string output.</p>
+
+            <div class="form-group">
+              <label for="str-func-input"><i class="fa-solid fa-pen"></i> Input Target String</label>
+              <input type="text" id="str-func-input" value="  JavaScript Web Development Studio 2026!  " placeholder="Type input string here...">
+            </div>
+
+            <!-- Interactive Method Operations -->
+            <div class="method-tester-box card-subtle" style="background: var(--bg-subtle); padding: 1.25rem; border-radius: var(--radius-md); margin-bottom: 1.5rem;">
+              <h3 style="font-size: 1rem; margin-bottom: 0.75rem;"><i class="fa-solid fa-gears icon-indigo"></i> Execute String Method</h3>
+              
+              <div class="form-group" style="margin-bottom: 0.75rem;">
+                <label for="string-method-select" style="font-size: 0.85rem; font-weight: 600;">Choose Function:</label>
+                <select id="string-method-select" class="form-select" style="width: 100%; padding: 0.5rem; border-radius: var(--radius-sm); border: 1px solid var(--border-medium);">
+                  <option value="toUpperCase">toUpperCase() - Convert to upper case</option>
+                  <option value="toLowerCase">toLowerCase() - Convert to lower case</option>
+                  <option value="trim">trim() - Strip leading & trailing whitespace</option>
+                  <option value="slice">slice(start, end) - Extract string section</option>
+                  <option value="substring">substring(from, to) - Extract characters between indexes</option>
+                  <option value="split">split(separator) - Split string into array</option>
+                  <option value="includes">includes(searchStr) - Check if string contains query</option>
+                  <option value="indexOf">indexOf(searchStr) - Find first index of substring</option>
+                  <option value="replace">replace(search, replacement) - Replace first occurrence</option>
+                  <option value="replaceAll">replaceAll(search, replacement) - Replace all occurrences</option>
+                  <option value="padStart">padStart(targetLength, padString) - Pad at start</option>
+                  <option value="concat">concat(str2) - Join two strings</option>
+                  <option value="charAt">charAt(index) - Character at specific position</option>
+                  <option value="startsWith">startsWith(searchStr) - Check starting text</option>
+                  <option value="endsWith">endsWith(searchStr) - Check ending text</option>
+                </select>
+              </div>
+
+              <!-- Parameter Inputs Area -->
+              <div id="method-params-container" class="grid-2col" style="gap: 0.5rem; margin-bottom: 0.75rem;">
+                <input type="text" id="method-param-1" placeholder="Param 1 (e.g. 2 or 'Web')" class="input-sm" style="padding: 0.4rem 0.6rem; border-radius: 4px; border: 1px solid var(--border-medium);">
+                <input type="text" id="method-param-2" placeholder="Param 2 (e.g. 10 or 'App')" class="input-sm" style="padding: 0.4rem 0.6rem; border-radius: 4px; border: 1px solid var(--border-medium);">
+              </div>
+
+              <!-- Output Result Display -->
+              <div class="result-display-box" style="background: #0f172a; color: #f8fafc; padding: 1rem; border-radius: var(--radius-sm); font-family: var(--font-mono);">
+                <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 0.25rem;">Live Code Expression:</div>
+                <div id="method-code-expression" style="color: #38bdf8; margin-bottom: 0.5rem; font-weight: 500;">str.toUpperCase()</div>
+                <div style="font-size: 0.75rem; color: #94a3b8; margin-bottom: 0.25rem;">Evaluated Result:</div>
+                <div id="method-output-result" style="color: #4ade80; font-weight: 600; word-break: break-all;">"JAVASCRIPT WEB DEVELOPMENT STUDIO 2026!"</div>
+              </div>
+            </div>
+
+            <!-- Case & Format Quick Buttons -->
+            <div class="transform-section">
+              <h3 class="transform-title"><i class="fa-solid fa-wand-magic"></i> Quick Format Transformers</h3>
+              <div class="transform-grid">
+                <button class="btn-transform" data-transform="uppercase">UPPERCASE</button>
+                <button class="btn-transform" data-transform="lowercase">lowercase</button>
+                <button class="btn-transform" data-transform="titlecase">Title Case</button>
+                <button class="btn-transform" data-transform="camelcase">camelCase</button>
+                <button class="btn-transform" data-transform="snakecase">snake_case</button>
+                <button class="btn-transform" data-transform="kebabcase">kebab-case</button>
+                <button class="btn-transform" data-transform="reverse">Reverse Text</button>
+                <button class="btn-transform" data-transform="strip">Trim Extra Spaces</button>
+                <button class="btn-transform" data-transform="base64enc">Base64 Encode</button>
+                <button class="btn-transform" data-transform="base64dec">Base64 Decode</button>
+                <button class="btn-transform" data-transform="urlenc">URL Encode</button>
+                <button class="btn-transform" data-transform="urldec">URL Decode</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Find & Replace Tool -->
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h2><i class="fa-solid fa-magnifying-glass-arrow-right icon-amber"></i> Find & Replace Tool</h2>
+            <span class="badge badge-amber">String & Regex Replace</span>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="str-func-text-area"><i class="fa-solid fa-file-text"></i> Working Text Area</label>
+              <textarea id="str-func-text-area" rows="6" placeholder="Enter text to test Find & Replace or String functions..."></textarea>
+            </div>
+
+            <div class="find-replace-card">
+              <div class="find-replace-grid">
+                <div class="form-group">
+                  <input type="text" id="find-query" placeholder="Find string or pattern...">
+                </div>
+                <div class="form-group">
+                  <input type="text" id="replace-query" placeholder="Replace with string...">
+                </div>
+              </div>
+              <div class="find-options">
+                <label class="checkbox-label"><input type="checkbox" id="find-case-sens"> Case Sensitive</label>
+                <label class="checkbox-label"><input type="checkbox" id="find-is-regex"> Regex Mode</label>
+                <span class="matches-count-badge" id="matches-count-badge">0 matches found</span>
+                <button class="btn-sm btn-primary" id="btn-do-replace"><i class="fa-solid fa-repeat"></i> Replace All</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: TEXT ANALYSIS & MAIL DETECTION ==================== -->
+    <section class="tab-content" id="tab-analytics">
+      <div class="grid-layout-analytics">
+        
+        <!-- Left: Input Area & Mail Detection Result Panel -->
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h2><i class="fa-solid fa-chart-line icon-indigo"></i> Text Input & Content Inspector</h2>
+            <span class="badge badge-indigo">Mail & Entity Analyzer</span>
+          </div>
+          <div class="card-body">
+            <div class="form-group">
+              <label for="analytics-text"><i class="fa-solid fa-paragraph"></i> Target Text Content for Analysis</label>
+              <textarea id="analytics-text" rows="7" placeholder="Type or paste text to analyze Mail presence (Email addresses), phone numbers, URLs, word count, character stats, and readability..."></textarea>
+            </div>
+
+            <!-- Preset Sample Buttons for Mail Presence Test -->
+            <div class="preset-group" style="margin-bottom: 1.25rem;">
+              <span class="preset-label"><i class="fa-solid fa-bolt"></i> Test Mail Presences:</span>
+              <div class="preset-buttons">
+                <button type="button" class="btn-preset" id="preset-mail-yes"><i class="fa-solid fa-envelope-circle-check"></i> Sample WITH Mail</button>
+                <button type="button" class="btn-preset" id="preset-mail-no"><i class="fa-solid fa-envelope-open"></i> Sample WITHOUT Mail</button>
+              </div>
+            </div>
+
+            <!-- ================= PRIMARY FEATURE: MAIL PRESENCE DETECTOR ================= -->
+            <div class="mail-detector-card" style="border: 2px solid var(--border-medium); border-radius: var(--radius-md); padding: 1.25rem; background: #f8fafc; margin-bottom: 1.5rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <h3 style="font-size: 1.05rem; margin: 0; font-weight: 700; color: var(--text-main);">
+                  <i class="fa-solid fa-envelope-circle-check icon-indigo"></i> Mail Presence Status
+                </h3>
+                <span class="badge badge-light" style="font-size: 0.75rem;">Email Address Detector</span>
+              </div>
+
+              <!-- Main Mail Presence Banner -->
+              <div id="mail-presence-banner" class="mail-presence-banner mail-none" style="padding: 1rem; border-radius: var(--radius-sm); font-size: 1rem; font-weight: 600; display: flex; align-items: center; gap: 0.75rem; transition: all 0.3s ease;">
+                <i class="fa-solid fa-circle-xmark" id="mail-presence-icon" style="font-size: 1.5rem; color: #ef4444;"></i>
+                <div>
+                  <div id="mail-presence-status-title" style="font-size: 1.05rem; font-weight: 700;">MAIL DETECTED: NO</div>
+                  <div id="mail-presence-status-desc" style="font-size: 0.85rem; opacity: 0.85; font-weight: 400;">No email address found in the analyzed text.</div>
+                </div>
+              </div>
+
+              <!-- Detected Emails List Container -->
+              <div id="mail-detected-container" style="margin-top: 1rem; display: none;">
+                <label style="font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); font-weight: 700;">Detected Mail Addresses:</label>
+                <div id="mail-detected-list" style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.4rem;">
+                  <!-- Dynamic email pills -->
+                </div>
+              </div>
+            </div>
+
+            <!-- Other Entity Presences Overview Grid -->
+            <div class="entity-presence-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;">
+              <div class="presence-box" style="background: var(--bg-subtle); padding: 0.75rem; border-radius: var(--radius-sm); text-align: center;">
+                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;"><i class="fa-solid fa-phone"></i> Phone Numbers</div>
+                <div id="presence-phone" style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-top: 0.25rem;">NO</div>
+              </div>
+              <div class="presence-box" style="background: var(--bg-subtle); padding: 0.75rem; border-radius: var(--radius-sm); text-align: center;">
+                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;"><i class="fa-solid fa-link"></i> Web Links / URLs</div>
+                <div id="presence-url" style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-top: 0.25rem;">NO</div>
+              </div>
+              <div class="presence-box" style="background: var(--bg-subtle); padding: 0.75rem; border-radius: var(--radius-sm); text-align: center;">
+                <div style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600;"><i class="fa-solid fa-hashtag"></i> Tags & Mentions</div>
+                <div id="presence-tag" style="font-size: 1rem; font-weight: 700; color: var(--text-main); margin-top: 0.25rem;">NO</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Right: Statistical Dashboard & Keyword Frequency -->
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h2><i class="fa-solid fa-chart-column icon-emerald"></i> Comprehensive Text Metrics</h2>
+            <span class="badge badge-emerald" id="readability-badge">Flesch: 0 (Fair)</span>
+          </div>
+          <div class="card-body">
+            
+            <!-- Key Metrics Grid -->
+            <div class="metrics-grid">
+              <div class="metric-box">
+                <span class="metric-val" id="metric-words">0</span>
+                <span class="metric-lbl">Total Words</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-val" id="metric-chars">0</span>
+                <span class="metric-lbl">Chars (w/ spaces)</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-val" id="metric-nospaces">0</span>
+                <span class="metric-lbl">Chars (no spaces)</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-val" id="metric-sentences">0</span>
+                <span class="metric-lbl">Sentences</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-val" id="metric-paragraphs">0</span>
+                <span class="metric-lbl">Paragraphs</span>
+              </div>
+              <div class="metric-box">
+                <span class="metric-val" id="metric-readtime">0 min</span>
+                <span class="metric-lbl">Reading Time</span>
+              </div>
+            </div>
+
+            <!-- Character Set Breakdown Bars -->
+            <div class="char-breakdown">
+              <h3><i class="fa-solid fa-font icon-indigo"></i> Character Set Distribution</h3>
+              <div class="char-bar-container">
+                <div class="char-bar uppercase-bar" id="bar-uppercase" style="width: 0%;" title="Uppercase Letters"></div>
+                <div class="char-bar lowercase-bar" id="bar-lowercase" style="width: 0%;" title="Lowercase Letters"></div>
+                <div class="char-bar digit-bar" id="bar-digit" style="width: 0%;" title="Numeric Digits"></div>
+                <div class="char-bar symbol-bar" id="bar-symbol" style="width: 0%;" title="Punctuation & Symbols"></div>
+                <div class="char-bar space-bar" id="bar-space" style="width: 0%;" title="Spaces & Newlines"></div>
+              </div>
+              <div class="char-legend">
+                <span><span class="legend-dot bg-indigo"></span> Uppercase (<b id="cnt-uppercase">0</b>)</span>
+                <span><span class="legend-dot bg-teal"></span> Lowercase (<b id="cnt-lowercase">0</b>)</span>
+                <span><span class="legend-dot bg-amber"></span> Digits (<b id="cnt-digit">0</b>)</span>
+                <span><span class="legend-dot bg-rose"></span> Symbols (<b id="cnt-symbol">0</b>)</span>
+                <span><span class="legend-dot bg-slate"></span> Spaces (<b id="cnt-space">0</b>)</span>
+              </div>
+            </div>
+
+            <!-- Keyword Frequency Table -->
+            <div class="keywords-wrapper">
+              <h3><i class="fa-solid fa-list-ol icon-teal"></i> Top Keyword Frequencies</h3>
+              <div class="keywords-list" id="keywords-list">
+                <p class="text-faded">Enter text to calculate keyword density.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 4: REGEX TESTER & CHEATSHEET ==================== -->
+    <section class="tab-content" id="tab-regex">
+      <div class="grid-2col">
+        <!-- Left: Live Custom Regex Tester -->
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h2><i class="fa-solid fa-vial icon-indigo"></i> Live Custom Regex Tester</h2>
+            <span class="badge badge-light">RegExp Engine</span>
+          </div>
+          <div class="card-body">
+            <!-- Pattern & Flags Input -->
+            <div class="form-group">
+              <label for="regex-pattern-input"><i class="fa-solid fa-terminal"></i> Regular Expression Pattern</label>
+              <div class="regex-input-box">
+                <span class="regex-slash">/</span>
+                <input type="text" id="regex-pattern-input" value="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" placeholder="e.g. \b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b">
+                <span class="regex-slash">/</span>
+                <input type="text" id="regex-flags-input" value="g" placeholder="gim" style="width: 60px; text-align: center;">
+              </div>
+            </div>
+
+            <!-- Test String Area -->
+            <div class="form-group">
+              <label for="regex-test-text"><i class="fa-solid fa-file-lines"></i> Test Corpus Text</label>
+              <textarea id="regex-test-text" rows="5" placeholder="Enter text to evaluate regex matches in real-time...">Contact us at support@example.com or sales@company.org. Emergency phone: 123-456-7890. Visit https://example.com today!</textarea>
+            </div>
+
+            <!-- Match Results Output -->
+            <div class="regex-matches-output">
+              <div class="matches-header">
+                <h3><i class="fa-solid fa-bullseye icon-emerald"></i> Matches Found (<span id="regex-match-count">0</span>)</h3>
+                <span class="regex-status-badge" id="regex-error-badge">Valid Pattern</span>
+              </div>
+              <div class="matches-highlight-box" id="regex-highlight-box">
+                <!-- Highlighted text output will render here -->
+              </div>
+              <div class="matches-details-list" id="regex-groups-list">
+                <!-- Detailed match list rendered here -->
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Interactive Regex Cheatsheet & Library -->
+        <div class="card shadow-sm">
+          <div class="card-header">
+            <h2><i class="fa-solid fa-book-bookmark icon-amber"></i> Regex Cheatsheet & Library</h2>
+            <span class="badge badge-light">Click to Test</span>
+          </div>
+          <div class="card-body">
+            <p class="card-desc">Click any preset pattern below to populate the live tester and experiment with regex tokens:</p>
+
+            <div class="cheatsheet-table-container">
+              <table class="cheatsheet-table">
+                <thead>
+                  <tr>
+                    <th>Target Pattern</th>
+                    <th>Regex Syntax</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Email Address</strong></td>
+                    <td><code>[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}</code></td>
+                    <td><button class="btn-use-pattern" data-pattern="[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}" data-flags="g">Test</button></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Phone (Intl / US)</strong></td>
+                    <td><code>\+?\d{1,4}[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{3,4}[-.\s]?\d{4}</code></td>
+                    <td><button class="btn-use-pattern" data-pattern="\+?\d{1,4}[-.\s]?\(?\d{1,3}\)?[-.\s]?\d{3,4}[-.\s]?\d{4}" data-flags="g">Test</button></td>
+                  </tr>
+                  <tr>
+                    <td><strong>HTTP / HTTPS URLs</strong></td>
+                    <td><code>https?:\/\/[^\s"'>]+</code></td>
+                    <td><button class="btn-use-pattern" data-pattern="https?:\/\/[^\s&quot;'>]+" data-flags="g">Test</button></td>
+                  </tr>
+                  <tr>
+                    <td><strong>IPv4 Address</strong></td>
+                    <td><code>\b(?:\d{1,3}\.){3}\d{1,3}\b</code></td>
+                    <td><button class="btn-use-pattern" data-pattern="\b(?:\d{1,3}\.){3}\d{1,3}\b" data-flags="g">Test</button></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Hashtags & Mentions</strong></td>
+                    <td><code>[#@]\w+</code></td>
+                    <td><button class="btn-use-pattern" data-pattern="[#@]\w+" data-flags="g">Test</button></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Date (YYYY-MM-DD / DD-MM-YYYY)</strong></td>
+                    <td><code>\b\d{2,4}[/-]\d{1,2}[/-]\d{2,4}\b</code></td>
+                    <td><button class="btn-use-pattern" data-pattern="\b\d{2,4}[/-]\d{1,2}[/-]\d{2,4}\b" data-flags="g">Test</button></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Currency Amounts</strong></td>
+                    <td><code>[₹$€£]\s*\d+(?:,\d{3})*(?:\.\d{2})?</code></td>
+                    <td><button class="btn-use-pattern" data-pattern="[₹$€£]\s*\d+(?:,\d{3})*(?:\.\d{2})?" data-flags="g">Test</button></td>
+                  </tr>
+                  <tr>
+                    <td><strong>HTML Tags</strong></td>
+                    <td><code><\/?[a-z][a-z0-9]*\b[^>]*></code></td>
+                    <td><button class="btn-use-pattern" data-pattern="<\/?[a-z][a-z0-9]*\b[^>]*>" data-flags="g">Test</button></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Words Starting with Capital</strong></td>
+                    <td><code>\b[A-Z][a-z]+\b</code></td>
+                    <td><button class="btn-use-pattern" data-pattern="\b[A-Z][a-z]+\b" data-flags="g">Test</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Regex Metacharacter Token Quick Legend -->
+            <div class="token-legend-grid">
+              <div class="token-item"><code>\d</code> Digit [0-9]</div>
+              <div class="token-item"><code>\w</code> Word char [a-zA-Z0-9_]</div>
+              <div class="token-item"><code>\s</code> Whitespace</div>
+              <div class="token-item"><code>^</code> Start of string</div>
+              <div class="token-item"><code>$</code> End of string</div>
+              <div class="token-item"><code>+</code> 1 or more</div>
+              <div class="token-item"><code>*</code> 0 or more</div>
+              <div class="token-item"><code>?</code> Optional (0 or 1)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-container">
+      <p>&copy; 2026 Experiment 6 &bull; String Functions & Regex Processing Studio. Developed by <strong>ANISH SINGH</strong> &bull; PRN: <strong>24070521214</strong></p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
