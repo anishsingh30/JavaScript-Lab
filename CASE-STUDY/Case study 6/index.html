@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study 6 - Vowel Checker & String Operations</title>
+  <meta name="description" content="Case Study 6: Simple String Reverser, Paragraph Vowel Counter & String Operations by Anish Singh.">
+  
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div class="main-wrapper">
+    <!-- Header -->
+    <header class="header">
+      <div class="badge">Case Study 6 &bull; Developer: <strong>ANISH SINGH</strong> (PRN: <strong>24070521214</strong>)</div>
+      <h1>String Operations & Vowel Counter</h1>
+      <p class="subtitle">A simple web app to count vowels in a paragraph, reverse strings, and test JavaScript string methods.</p>
+    </header>
+
+    <!-- Task 1 & Task 2 Main Grid -->
+    <div class="content-grid">
+
+      <!-- SECTION 1: VOWEL COUNTER (Task 2) -->
+      <section class="card">
+        <div class="card-header">
+          <h2>1. Paragraph Vowel Counter</h2>
+          <span class="tag">Task 2</span>
+        </div>
+        <div class="card-body">
+          <label for="paragraph-input" class="form-label">Enter Paragraph Text:</label>
+          <textarea id="paragraph-input" rows="4" placeholder="Type or paste your paragraph here to count vowels..."></textarea>
+          
+          <!-- Sample Preset Buttons -->
+          <div class="preset-row">
+            <span class="preset-title">Sample Text:</span>
+            <button type="button" class="btn-preset" id="preset-1">Sample 1</button>
+            <button type="button" class="btn-preset" id="preset-2">Sample 2</button>
+            <button type="button" class="btn-clear" id="clear-text">Clear</button>
+          </div>
+
+          <!-- Total Count Badge -->
+          <div class="total-vowels-box">
+            <span>Total Vowels Found:</span>
+            <strong id="total-vowels-count">0</strong>
+          </div>
+
+          <!-- Individual Vowels (A, E, I, O, U) -->
+          <div class="vowel-pills-grid">
+            <div class="v-pill v-a">
+              <span class="v-letter">A / a</span>
+              <strong id="count-a">0</strong>
+            </div>
+            <div class="v-pill v-e">
+              <span class="v-letter">E / e</span>
+              <strong id="count-e">0</strong>
+            </div>
+            <div class="v-pill v-i">
+              <span class="v-letter">I / i</span>
+              <strong id="count-i">0</strong>
+            </div>
+            <div class="v-pill v-o">
+              <span class="v-letter">O / o</span>
+              <strong id="count-o">0</strong>
+            </div>
+            <div class="v-pill v-u">
+              <span class="v-letter">U / u</span>
+              <strong id="count-u">0</strong>
+            </div>
+          </div>
+
+          <!-- Highlighted Display -->
+          <div class="output-box">
+            <div class="output-label">Vowel Highlighted View:</div>
+            <div id="highlighted-output" class="output-content">Text will appear here with highlighted vowels...</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: STRING REVERSER (Task 1) -->
+      <section class="card">
+        <div class="card-header">
+          <h2>2. String Reverser & Palindrome</h2>
+          <span class="tag">Task 1</span>
+        </div>
+        <div class="card-body">
+          <label for="reverser-input" class="form-label">Enter String to Reverse:</label>
+          <input type="text" id="reverser-input" value="Anish Singh" placeholder="Type text here...">
+
+          <div class="btn-group">
+            <button type="button" class="btn-action active" id="btn-rev-char">Reverse Characters</button>
+            <button type="button" class="btn-action" id="btn-rev-word">Reverse Words</button>
+          </div>
+
+          <!-- Reversed Result -->
+          <div class="result-box">
+            <span class="res-label">Reversed Result:</span>
+            <div id="reverser-result" class="res-text">hgnis hsina</div>
+          </div>
+
+          <!-- Palindrome Badge -->
+          <div id="palindrome-status" class="pal-status not-pal">
+            <span>Palindrome Status:</span> <strong id="pal-text">Not a Palindrome</strong>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- SECTION 3: STRING METHODS (substring, indexOf, split, replace) -->
+    <section class="card full-width">
+      <div class="card-header">
+        <h2>3. String Method Operations (substring, indexOf, split, replace)</h2>
+        <span class="tag">Section 6 (a & b)</span>
+      </div>
+      <div class="card-body">
+        <div class="methods-grid">
+          
+          <div class="form-group">
+            <label for="method-input" class="form-label">Target Text:</label>
+            <input type="text" id="method-input" value="JavaScript Web Development">
+          </div>
+
+          <div class="form-group">
+            <label for="method-select" class="form-label">Select Method:</label>
+            <select id="method-select" class="form-select">
+              <option value="substring">substring(start, end)</option>
+              <option value="indexOf">indexOf(searchString)</option>
+              <option value="split">split(separator)</option>
+              <option value="replace">replace(search, replacement)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="param-1" id="label-param-1" class="form-label">Param 1 (Start / Search):</label>
+            <input type="text" id="param-1" value="0">
+          </div>
+
+          <div class="form-group">
+            <label for="param-2" id="label-param-2" class="form-label">Param 2 (End / Replace):</label>
+            <input type="text" id="param-2" value="10">
+          </div>
+
+        </div>
+
+        <div class="eval-result-box">
+          <div class="eval-code">Expression: <code id="eval-code-text">str.substring(0, 10)</code></div>
+          <div class="eval-output">Output: <strong id="eval-output-text">"JavaScript"</strong></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>Case Study 6 &bull; Designed for Anish Singh (PRN: 24070521214) &bull; Pure White Theme</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
