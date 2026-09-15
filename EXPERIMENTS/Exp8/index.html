@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiment 8 - Gym Admission Form with Live Input Checks</title>
+  <meta name="description" content="Experiment 8: Access and validate form fields using events in JavaScript. Live gym admission form validation.">
+  
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Theme Toggle Button -->
+  <button type="button" id="themeToggleBtn" title="Toggle Light / Dark Theme" style="position: fixed; top: 16px; right: 16px; z-index: 9999; display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; cursor: pointer; border: 1px solid #444; background: #1a1a1a; color: #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.3);">
+    <span id="themeToggleIcon">🌙</span>
+    <span id="themeToggleLabel">Dark Mode</span>
+  </button>
+
+  <!-- Main Container -->
+  <div class="app-container">
+    
+    <!-- Top Header -->
+    <header class="app-header">
+      <div class="student-badge">
+        <span class="badge-dot"></span>
+        Experiment 8 &bull; Developer: <strong>ANISH SINGH</strong> (PRN: <strong>24070521214</strong>)
+      </div>
+      <h1 class="app-title">Classic Gym Admission Portal</h1>
+      <p class="app-subtitle">Accessing & Validating Form Fields Using JavaScript Events (<code>input</code>, <code>change</code>, <code>submit</code>)</p>
+    </header>
+
+    <!-- Content Grid Layout -->
+    <main class="main-layout">
+      
+      <!-- Left Section: Admission Form -->
+      <section class="form-section-card">
+        <div class="card-header">
+          <div class="header-icon">🏋️‍♂️</div>
+          <div>
+            <h2>Gym Admission Form</h2>
+            <p>Please enter your details below. Live checks validate your input in real time.</p>
+          </div>
+        </div>
+
+        <!-- Form Completion Progress Bar -->
+        <div class="progress-container">
+          <div class="progress-label">
+            <span>Form Completion Status</span>
+            <span id="progress-percent">0%</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-bar" id="progress-bar"></div>
+          </div>
+        </div>
+
+        <!-- Admission Form -->
+        <form id="gymAdmissionForm" novalidate>
+          
+          <!-- Full Name -->
+          <div class="form-group" id="group-fullName">
+            <label for="fullName">
+              Full Name <span class="required">*</span>
+            </label>
+            <div class="input-wrapper">
+              <input 
+                type="text" 
+                id="fullName" 
+                placeholder="e.g. Anish Singh"
+                autocomplete="name"
+              >
+              <span class="status-icon" id="icon-fullName"></span>
+            </div>
+            <small class="feedback-msg" id="msg-fullName">Full name must contain at least 3 letters.</small>
+          </div>
+
+          <!-- Email Address -->
+          <div class="form-group" id="group-email">
+            <label for="email">
+              Email Address <span class="required">*</span>
+            </label>
+            <div class="input-wrapper">
+              <input 
+                type="email" 
+                id="email" 
+                placeholder="e.g. anish.singh@example.com"
+                autocomplete="email"
+              >
+              <span class="status-icon" id="icon-email"></span>
+            </div>
+            <small class="feedback-msg" id="msg-email">Enter a valid email address (e.g., name@domain.com).</small>
+          </div>
+
+          <!-- Mobile Number -->
+          <div class="form-group" id="group-mobile">
+            <label for="mobile">
+              Mobile Number <span class="required">*</span>
+            </label>
+            <div class="input-wrapper">
+              <input 
+                type="tel" 
+                id="mobile" 
+                placeholder="10-digit mobile number"
+                maxlength="10"
+                autocomplete="tel"
+              >
+              <span class="status-icon" id="icon-mobile"></span>
+            </div>
+            <small class="feedback-msg" id="msg-mobile">Must be exactly 10 numeric digits.</small>
+          </div>
+
+          <!-- Age -->
+          <div class="form-group" id="group-age">
+            <label for="age">
+              Age <span class="required">*</span>
+            </label>
+            <div class="input-wrapper">
+              <input 
+                type="number" 
+                id="age" 
+                placeholder="Enter your age (14 - 90)"
+                min="14" 
+                max="90"
+              >
+              <span class="status-icon" id="icon-age"></span>
+            </div>
+            <small class="feedback-msg" id="msg-age">Age must be between 14 and 90 years.</small>
+          </div>
+
+          <!-- Membership Plan -->
+          <div class="form-group" id="group-plan">
+            <label for="plan">
+              Membership Plan <span class="required">*</span>
+            </label>
+            <div class="input-wrapper">
+              <select id="plan">
+                <option value="" disabled selected>Select Plan</option>
+                <option value="Basic Monthly">Basic Monthly - ₹1,499 / mo</option>
+                <option value="Quarterly Fitness">Quarterly Fitness - ₹3,999 / 3 mos</option>
+                <option value="Pro Semi-Annual">Pro Semi-Annual - ₹6,999 / 6 mos</option>
+                <option value="Elite Annual VIP">Elite Annual VIP - ₹11,999 / yr</option>
+              </select>
+              <span class="status-icon" id="icon-plan"></span>
+            </div>
+            <small class="feedback-msg" id="msg-plan">Please select a membership plan.</small>
+          </div>
+
+          <!-- Preferred Time Slot -->
+          <div class="form-group" id="group-slot">
+            <label for="slot">
+              Preferred Time Slot
+            </label>
+            <div class="input-wrapper">
+              <select id="slot">
+                <option value="Morning (6:00 AM - 9:00 AM)">Morning (6:00 AM - 9:00 AM)</option>
+                <option value="Midday (10:00 AM - 1:00 PM)">Midday (10:00 AM - 1:00 PM)</option>
+                <option value="Evening (4:00 PM - 7:00 PM)" selected>Evening (4:00 PM - 7:00 PM)</option>
+                <option value="Night (7:30 PM - 10:00 PM)">Night (7:30 PM - 10:00 PM)</option>
+              </select>
+              <span class="status-icon"></span>
+            </div>
+            <small class="feedback-msg" id="msg-slot">Slot selected.</small>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <button type="submit" id="submitBtn" class="btn btn-primary">
+              <span class="btn-text">Submit Admission</span>
+              <span class="btn-arrow">&rarr;</span>
+            </button>
+            <button type="button" id="resetBtn" class="btn btn-secondary">
+              Reset Form
+            </button>
+          </div>
+
+        </form>
+      </section>
+
+      <!-- Right Section: Live Preview & Tech Details -->
+      <aside class="side-panel">
+        
+        <!-- Live Pass Preview Card -->
+        <div class="preview-card">
+          <div class="preview-header">
+            <div class="preview-brand">
+              <span class="gym-logo">💪</span>
+              <div>
+                <h3>PULSE FITNESS CLUB</h3>
+                <small>Official Member Pass Preview</small>
+              </div>
+            </div>
+            <span class="status-pill status-draft" id="preview-status">Drafting</span>
+          </div>
+
+          <div class="preview-body">
+            <div class="preview-row">
+              <span class="preview-label">Member Name</span>
+              <span class="preview-value" id="preview-name">-- Not Provided --</span>
+            </div>
+            <div class="preview-row">
+              <span class="preview-label">Email</span>
+              <span class="preview-value" id="preview-email">--</span>
+            </div>
+            <div class="preview-row">
+              <span class="preview-label">Contact</span>
+              <span class="preview-value" id="preview-phone">--</span>
+            </div>
+            <div class="preview-row split-2">
+              <div>
+                <span class="preview-label">Age</span>
+                <span class="preview-value" id="preview-age">--</span>
+              </div>
+              <div>
+                <span class="preview-label">Time Slot</span>
+                <span class="preview-value" id="preview-slot">Evening</span>
+              </div>
+            </div>
+            <div class="preview-plan-box">
+              <span class="preview-label">Selected Membership</span>
+              <div class="preview-plan-title" id="preview-plan">Select a plan</div>
+            </div>
+          </div>
+
+          <div class="preview-footer">
+            <small>Live sync enabled • Updates on keypress & selection</small>
+          </div>
+        </div>
+
+        <!-- JS Events Specification Box -->
+        <div class="tech-spec-card">
+          <h3><span class="icon">⚡</span> Event Handling Reference</h3>
+          <ul class="spec-list">
+            <li>
+              <code>document.getElementById()</code>
+              <p>Used to select input elements, labels, and feedback containers.</p>
+            </li>
+            <li>
+              <code>.value</code>
+              <p>Extracts user input strings to run validation checks.</p>
+            </li>
+            <li>
+              <code>addEventListener()</code>
+              <p>Attaches live event listeners to form inputs & controls.</p>
+            </li>
+            <li>
+              <code>input</code> event
+              <p>Triggers real-time checks on <code>fullName</code>, <code>email</code>, <code>mobile</code>, <code>age</code> as user types.</p>
+            </li>
+            <li>
+              <code>change</code> event
+              <p>Triggers instant validation when <code>plan</code> dropdown changes.</p>
+            </li>
+            <li>
+              <code>submit</code> event
+              <p>Validates all fields on form submit, prevents default submission if invalid.</p>
+            </li>
+          </ul>
+        </div>
+
+      </aside>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+      <p>Experiment 8: Form Validation & Events &bull; Developer: <strong>ANISH SINGH (PRN: 24070521214)</strong></p>
+    </footer>
+
+  </div>
+
+  <!-- Admission Confirmation Modal -->
+  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal-card">
+      <div class="modal-icon">🎉</div>
+      <h2>Admission Successful!</h2>
+      <p>Your gym membership registration has been processed successfully.</p>
+      
+      <div class="receipt-box" id="receiptBox">
+        <div class="receipt-row">
+          <span>Registration ID:</span>
+          <strong id="receipt-id">PFC-2026-8492</strong>
+        </div>
+        <div class="receipt-row">
+          <span>Applicant Name:</span>
+          <strong id="receipt-name">-</strong>
+        </div>
+        <div class="receipt-row">
+          <span>Email Address:</span>
+          <strong id="receipt-email">-</strong>
+        </div>
+        <div class="receipt-row">
+          <span>Mobile Number:</span>
+          <strong id="receipt-mobile">-</strong>
+        </div>
+        <div class="receipt-row">
+          <span>Age:</span>
+          <strong id="receipt-age">-</strong>
+        </div>
+        <div class="receipt-row">
+          <span>Membership Plan:</span>
+          <strong id="receipt-plan">-</strong>
+        </div>
+        <div class="receipt-row">
+          <span>Time Slot:</span>
+          <strong id="receipt-slot">-</strong>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-primary" id="closeModalBtn">Done & Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <!-- Theme Toggle Functionality -->
+  <script>
+    (function() {
+      const THEME_KEY = 'student_app_theme';
+      const btn = document.getElementById('themeToggleBtn');
+      const icon = document.getElementById('themeToggleIcon');
+      const label = document.getElementById('themeToggleLabel');
+
+      function applyTheme(theme) {
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem(THEME_KEY, theme);
+        if (theme === 'dark') {
+          if (icon) icon.textContent = '🌙';
+          if (label) label.textContent = 'Dark Mode';
+          if (btn) { btn.style.background = '#1a1a1a'; btn.style.color = '#fff'; btn.style.borderColor = '#444'; }
+        } else {
+          if (icon) icon.textContent = '☀️';
+          if (label) label.textContent = 'Light Mode';
+          if (btn) { btn.style.background = '#fff'; btn.style.color = '#111'; btn.style.borderColor = '#ccc'; }
+        }
+      }
+
+      const current = localStorage.getItem(THEME_KEY) || 'light';
+      applyTheme(current);
+
+      if (btn) {
+        btn.addEventListener('click', function() {
+          const active = document.documentElement.getAttribute('data-theme') || 'light';
+          applyTheme(active === 'dark' ? 'light' : 'dark');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

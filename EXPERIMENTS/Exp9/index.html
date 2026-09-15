@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Theme Settings - localStorage & sessionStorage</title>
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Ambient Animated Background Lights -->
+  <div class="bg-orb orb-1"></div>
+  <div class="bg-orb orb-2"></div>
+
+  <!-- Main Container -->
+  <div class="container">
+    
+    <!-- Theme Settings Card -->
+    <main class="theme-card" id="themeCard">
+      
+      <!-- Student & Experiment Info Header Badge -->
+      <div class="student-header-badge">
+        <span class="badge-pill">
+          <span class="pill-dot"></span>
+          <strong>Experiment 9</strong> &bull; Developed by <strong>Anish Singh</strong> &bull; PRN: <strong>24070521214</strong>
+        </span>
+      </div>
+
+      <!-- Top Badge / Mode Indicator -->
+      <div class="badge-container">
+        <span class="theme-badge" id="themeBadge">
+          <span class="badge-dot"></span>
+          <span id="badgeText">White Theme Active</span>
+        </span>
+      </div>
+
+      <div class="title-group">
+        <h1 class="card-title">Theme Settings</h1>
+      </div>
+
+      <p class="card-subtitle">Select and persist your theme preference using HTML5 Web Storage.</p>
+      
+      <!-- Form Controls -->
+      <div class="control-group">
+        <label for="themeSelect" class="form-label">Select your preferred theme:</label>
+        <div class="custom-select-wrapper">
+          <select id="themeSelect" aria-label="Select theme">
+            <option value="light" selected>Light</option>
+            <option value="dark">Dark</option>
+          </select>
+          <div class="select-arrow">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons Row -->
+      <div class="button-row">
+        <button type="button" id="saveLocalStorageBtn" class="btn btn-local" title="Save persistently across sessions">
+          <svg class="btn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+            <polyline points="7 3 7 8 15 8"></polyline>
+          </svg>
+          <span>Save using localStorage</span>
+        </button>
+
+        <button type="button" id="saveSessionStorageBtn" class="btn btn-session" title="Save for current browser tab only">
+          <svg class="btn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>Save using sessionStorage</span>
+        </button>
+      </div>
+
+      <!-- Secondary Button -->
+      <div class="button-single">
+        <button type="button" id="clearPreferencesBtn" class="btn btn-clear">
+          <svg class="btn-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          <span>Clear Preferences</span>
+        </button>
+      </div>
+
+      <!-- Status Notification Display -->
+      <div class="status-box" id="statusBox">
+        <span class="status-indicator-icon" id="statusIcon">✨</span>
+        <p id="statusMessage" class="status-text">Theme loaded (Default White Theme).</p>
+      </div>
+
+    </main>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

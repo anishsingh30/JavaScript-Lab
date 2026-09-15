@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Experiment 10 - Fetch JSON & jQuery $.getJSON Table Renderer</title>
+  <meta name="description" content="Experiment 10: Load and display JSON data using native fetch() and jQuery $.getJSON(); render results dynamically in an interactive table.">
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+
+  <!-- Main Application Wrapper -->
+  <div class="app-container">
+
+    <!-- Top Navigation Bar -->
+    <header class="top-nav">
+      <div class="student-badge">
+        <span class="badge-dot"></span>
+        <span>Experiment 10 &bull; Developer: <strong>ANISH SINGH</strong> (PRN: <strong>24070521214</strong>)</span>
+      </div>
+
+      <button type="button" id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light or Dark Mode" aria-label="Toggle theme">
+        <span id="themeToggleIcon">☀️</span>
+        <span id="themeToggleLabel">Light Mode</span>
+      </button>
+    </header>
+
+    <!-- Hero Header -->
+    <section class="hero-header">
+      <h1 class="hero-title">JSON Data Loader & Table Renderer</h1>
+      <p class="hero-subtitle">
+        Asynchronous data fetching demonstrated with native ES6 fetch() API and jQuery $.getJSON(), dynamically rendered into an interactive data table.
+      </p>
+    </section>
+
+    <!-- Control & Action Panel -->
+    <section class="glass-card control-panel">
+      <div class="panel-row-top">
+        
+        <!-- Fetch Triggers -->
+        <div class="fetch-actions-group">
+          <!-- Button 1: Native fetch() -->
+          <button type="button" id="btnFetchNative" class="btn btn-fetch" title="Fetch JSON using JavaScript window.fetch()">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polyline>
+            </svg>
+            <span>Load via Native fetch()</span>
+            <span class="btn-tag">ES6</span>
+          </button>
+
+          <!-- Button 2: jQuery $.getJSON() -->
+          <button type="button" id="btnFetchJQuery" class="btn btn-jquery" title="Fetch JSON using jQuery $.getJSON() shorthand">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+            <span>Load via jQuery $.getJSON()</span>
+            <span class="btn-tag">jQuery</span>
+          </button>
+
+          <!-- Reset / Clear Button -->
+          <button type="button" id="btnClearData" class="btn btn-clear" title="Clear current table rows">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"></polyline>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+            </svg>
+            <span>Clear Table</span>
+          </button>
+
+          <!-- Export CSV Button -->
+          <button type="button" id="btnExportCSV" class="btn btn-export" title="Export rendered table data to CSV file">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+            <span>Export CSV</span>
+          </button>
+        </div>
+
+        <!-- Data Source Switcher -->
+        <div class="source-picker">
+          <label for="dataSourceSelect">Data Source:</label>
+          <select id="dataSourceSelect" class="custom-select" aria-label="Select data source">
+            <option value="local" selected>Local dataset (data.json)</option>
+            <option value="remote">Remote API (JSONPlaceholder Users)</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Live Benchmark & Status Cards -->
+      <div class="stats-grid">
+        <div class="stat-item">
+          <span class="stat-label">Active API Method</span>
+          <span class="stat-value" id="statMethod">&mdash;</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Execution Latency</span>
+          <span class="stat-value" id="statDuration">&mdash;</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Records Count</span>
+          <span class="stat-value" id="statRecords">0 items</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Request Status</span>
+          <span class="stat-value success-color" id="statStatus">Awaiting Request</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Table Section Card -->
+    <section class="glass-card">
+      
+      <!-- Table Search and Filter Toolbar -->
+      <div class="table-toolbar">
+        
+        <!-- Live Search Input -->
+        <div class="search-box-wrapper">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="tableSearchInput" class="search-input" placeholder="Search by name, roll no, department, or skill..." aria-label="Search records">
+        </div>
+
+        <!-- Filter Dropdowns -->
+        <div class="filter-actions">
+          <select id="departmentFilter" class="custom-select" aria-label="Filter by department">
+            <option value="all">All Departments</option>
+            <option value="Computer Science & Engineering">CSE</option>
+            <option value="Information Technology">IT</option>
+            <option value="Artificial Intelligence & ML">AI & ML</option>
+            <option value="Electronics & Telecomm">E&TC</option>
+          </select>
+
+          <select id="statusFilter" class="custom-select" aria-label="Filter by status">
+            <option value="all">All Statuses</option>
+            <option value="Dean's List">Dean's List</option>
+            <option value="Honor Roll">Honor Roll</option>
+            <option value="Active">Active</option>
+            <option value="Review">Review</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Responsive Table Container -->
+      <div class="table-responsive-wrapper">
+        
+        <!-- Table Element -->
+        <table class="dynamic-table" id="dataTable">
+          <thead id="tableHeader">
+            <tr>
+              <th class="sortable" data-sort="id">ID <span class="sort-indicator" id="sort-id">&#9650;&#9660;</span></th>
+              <th class="sortable" data-sort="name">Student Details <span class="sort-indicator" id="sort-name">&#9650;&#9660;</span></th>
+              <th class="sortable" data-sort="rollNo">Roll No <span class="sort-indicator" id="sort-rollNo">&#9650;&#9660;</span></th>
+              <th class="sortable" data-sort="department">Department <span class="sort-indicator" id="sort-department">&#9650;&#9660;</span></th>
+              <th class="sortable" data-sort="cgpa">CGPA <span class="sort-indicator" id="sort-cgpa">&#9650;&#9660;</span></th>
+              <th class="sortable" data-sort="attendance">Attendance <span class="sort-indicator" id="sort-attendance">&#9650;&#9660;</span></th>
+              <th>Status</th>
+              <th>Skills / Tech Stack</th>
+              <th style="text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody">
+            <!-- Dynamic rows injected here -->
+          </tbody>
+        </table>
+
+        <!-- Empty State Message -->
+        <div class="table-empty-state" id="emptyState">
+          <svg class="empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <h3 class="empty-title">No JSON Data Loaded Yet</h3>
+          <p class="empty-description">
+            Choose a data source above and click either <strong>Load via Native fetch()</strong> or <strong>Load via jQuery $.getJSON()</strong> to asynchronously retrieve and dynamically render records into the table.
+          </p>
+          <div class="empty-actions-hint">
+            <button type="button" class="btn btn-fetch" onclick="document.getElementById('btnFetchNative').click()">Try fetch()</button>
+            <button type="button" class="btn btn-jquery" onclick="document.getElementById('btnFetchJQuery').click()">Try $.getJSON()</button>
+          </div>
+        </div>
+
+        <!-- Shimmer Skeleton Loading State -->
+        <div class="table-loading-shimmer" id="loadingShimmer" style="display: none;">
+          <div class="shimmer-row"></div>
+          <div class="shimmer-row"></div>
+          <div class="shimmer-row"></div>
+          <div class="shimmer-row"></div>
+          <div class="shimmer-row"></div>
+        </div>
+
+      </div>
+
+      <!-- Table Footer Summary -->
+      <div class="table-footer">
+        <span id="recordCountSummary">Showing 0 records</span>
+        <span>Built with ES6 Dynamic DOM Generation &bull; Experiment 10</span>
+      </div>
+
+    </section>
+
+  </div>
+
+  <!-- Record Details Modal -->
+  <div class="modal-backdrop" id="recordModal" aria-hidden="true">
+    <div class="modal-content" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Student Record Details</h3>
+        <button type="button" class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-details-grid" id="modalDetailsGrid">
+        <!-- Injected via JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- jQuery Library (Local file with CDN fallback for 100% offline & lab evaluation support) -->
+  <script src="jquery-3.7.1.min.js"></script>
+  <script>if (typeof jQuery === 'undefined') { document.write('<script src="https://code.jquery.com/jquery-3.7.1.min.js"><\/script>'); }</script>
+  <!-- Application Logic -->
+  <script src="script.js"></script>
+</body>
+</html>
