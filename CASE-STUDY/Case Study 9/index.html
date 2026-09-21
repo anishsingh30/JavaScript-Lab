@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study 9 - Student Task Management & Practical 1–8 Suite</title>
+  <meta name="description" content="Case Study 9: Combined Student Task Management Web Application with Practical 1-8 tabs and persistent Light and Dark themes.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top App Navigation & Header -->
+  <header class="app-topbar">
+    <div class="topbar-brand">
+      <div class="brand-icon">🎓</div>
+      <div class="brand-text">
+        <h1>Student Task Management & Lab Suite</h1>
+        <span class="brand-sub">Case Study 9 • Practicals 1–8 • Developed by <strong>ANISH SINGH</strong> (PRN: <strong>24070521214</strong>)</span>
+      </div>
+    </div>
+
+    <!-- Universal Theme Toggle -->
+    <div class="topbar-controls">
+      <button type="button" id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Light / Dark Theme">
+        <span class="theme-icon" id="themeIcon">🌙</span>
+        <span class="theme-label" id="themeLabel">Dark Mode</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Collapsible Practicals Navigation Menu -->
+  <nav class="collapsible-nav-wrapper">
+    <!-- Menu Control Bar with Current Active Tag and Toggle Button -->
+    <div class="menu-control-bar">
+      <div class="menu-info">
+        <span class="menu-icon-indicator">📂</span>
+        <span class="menu-heading">Practicals Menu:</span>
+        <span class="current-practical-tag" id="currentPracticalTag">Practical 1: Student & College Info</span>
+      </div>
+      <button type="button" id="toggleMenuBtn" class="toggle-menu-btn" aria-expanded="true" title="Click to Collapse or Expand Menu">
+        <span id="menuToggleIcon" class="menu-toggle-arrow">▲</span>
+        <span id="menuToggleText">Collapse Menu</span>
+      </button>
+    </div>
+
+    <!-- Collapsible Menu Body with 1 to 8 Items -->
+    <div class="collapsible-menu-body expanded" id="collapsibleMenuBody">
+      <div class="tabs-grid" id="tabsNav" role="tablist">
+        <button class="tab-btn active" data-tab="tab-1" role="tab" aria-selected="true" data-name="Practical 1: Student & College Info">
+          <span class="btn-num">1</span>
+          <span class="btn-details">
+            <strong>Practical 1</strong>
+            <small>Student & College Info</small>
+          </span>
+        </button>
+        <button class="tab-btn" data-tab="tab-2" role="tab" aria-selected="false" data-name="Practical 2: Shopping Invoice & Bill">
+          <span class="btn-num">2</span>
+          <span class="btn-details">
+            <strong>Practical 2</strong>
+            <small>Invoice & Bill</small>
+          </span>
+        </button>
+        <button class="tab-btn" data-tab="tab-3" role="tab" aria-selected="false" data-name="Practical 3: Scholarship Eligibility">
+          <span class="btn-num">3</span>
+          <span class="btn-details">
+            <strong>Practical 3</strong>
+            <small>Scholarship Checker</small>
+          </span>
+        </button>
+        <button class="tab-btn" data-tab="tab-4" role="tab" aria-selected="false" data-name="Practical 4: ATM PIN Palindrome">
+          <span class="btn-num">4</span>
+          <span class="btn-details">
+            <strong>Practical 4</strong>
+            <small>ATM PIN Palindrome</small>
+          </span>
+        </button>
+        <button class="tab-btn" data-tab="tab-5" role="tab" aria-selected="false" data-name="Practical 5: Arrays & Min/Max Visualizer">
+          <span class="btn-num">5</span>
+          <span class="btn-details">
+            <strong>Practical 5</strong>
+            <small>Arrays & Min/Max</small>
+          </span>
+        </button>
+        <button class="tab-btn" data-tab="tab-6" role="tab" aria-selected="false" data-name="Practical 6: Vowel Scanner & Strings">
+          <span class="btn-num">6</span>
+          <span class="btn-details">
+            <strong>Practical 6</strong>
+            <small>Vowels & Strings</small>
+          </span>
+        </button>
+        <button class="tab-btn" data-tab="tab-7" role="tab" aria-selected="false" data-name="Practical 7: Student Task Management">
+          <span class="btn-num">7</span>
+          <span class="btn-details">
+            <strong>Practical 7</strong>
+            <small>Task Management</small>
+          </span>
+        </button>
+        <button class="tab-btn" data-tab="tab-8" role="tab" aria-selected="false" data-name="Practical 8: Admission Form Validation">
+          <span class="btn-num">8</span>
+          <span class="btn-details">
+            <strong>Practical 8</strong>
+            <small>Form Validation</small>
+          </span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Main Tabs Content Container -->
+  <main class="tabs-container">
+
+    <!-- ============================================================= -->
+    <!-- TAB 1: PRACTICAL 1 - STUDENT & COLLEGE INFO                  -->
+    <!-- ============================================================= -->
+    <section class="tab-pane active" id="tab-1" role="tabpanel">
+      <div class="practical-card cs1-container">
+        <div class="practical-header text-center">
+          <span class="badge-tag">Practical 1</span>
+          <h2>🎓 Symbiosis Institute of Technology, Nagpur</h2>
+          <p class="practical-desc">Excellence in Engineering Education</p>
+        </div>
+
+        <!-- About Section -->
+        <div class="cs1-section">
+          <h3>About Our College</h3>
+          <div class="cs1-content">
+            <p>Symbiosis Institute of Technology (SIT), Nagpur is a premier educational institution dedicated to providing quality engineering education. We focus on developing skilled professionals who can contribute to technological advancement and innovation.</p>
+            <ul>
+              <li>Founded with a mission to excel in technical education</li>
+              <li>State-of-the-art infrastructure and facilities</li>
+              <li>Experienced faculty members with industry expertise</li>
+              <li>Strong industry partnerships and placements</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Departments Section -->
+        <div class="cs1-section">
+          <h3>Our Departments</h3>
+          <div class="cs1-content">
+            <ul class="dept-list">
+              <li><strong>Computer Science and Engineering</strong> - Latest technologies and programming</li>
+              <li><strong>Electrical Engineering</strong> - Power systems and automation</li>
+              <li><strong>Mechanical Engineering</strong> - Design and manufacturing</li>
+              <li><strong>Civil Engineering</strong> - Infrastructure and construction</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Student Information -->
+        <div class="cs1-section">
+          <h3>Student Details</h3>
+          <div class="student-info-box">
+            <p><strong>Name:</strong> Anish Singh</p>
+            <p><strong>PRN:</strong> 24070521214</p>
+            <p><strong>Department:</strong> Computer Science and Engineering</p>
+            <p><strong>Year:</strong> 2nd Year</p>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="cs1-button-group">
+          <button class="btn btn-primary" onclick="cs1DisplayWelcome()">Click for Welcome Message</button>
+          <button class="btn btn-secondary" onclick="cs1ShowFullDetails()">View Full Student Information</button>
+        </div>
+
+        <div id="cs1-full-info" class="student-info-box hidden" style="margin-top: 20px;">
+          <h4 style="margin-bottom: 10px; color: var(--text-primary);">Student Profile Details</h4>
+          <p><strong>Institution:</strong> Symbiosis Institute of Technology (SIT), Nagpur</p>
+          <p><strong>Program:</strong> B.Tech - Computer Science and Engineering</p>
+          <p><strong>Semester:</strong> 4th Semester / 2nd Year</p>
+          <p><strong>Course:</strong> Advanced JavaScript & Web Technologies</p>
+          <p><strong>Status:</strong> Active Student</p>
+        </div>
+
+        <div class="cs1-footer">
+          <p>Created by: Anish Singh | PRN: 24070521214</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- TAB 2: PRACTICAL 2 - ONLINE SHOPPING INVOICE CALCULATOR      -->
+    <!-- ============================================================= -->
+    <section class="tab-pane" id="tab-2" role="tabpanel">
+      <div class="practical-card cs2-container">
+        <div class="practical-header">
+          <span class="badge-tag">Practical 2</span>
+          <h2>Online Shopping Invoice Calculator</h2>
+          <p class="practical-desc">Enter customer and product information to calculate dynamic billing with discounts and taxes.</p>
+        </div>
+
+        <form id="shoppingForm">
+          <!-- Customer Information -->
+          <div class="form-section">
+            <h3 class="section-title">Customer Information</h3>
+            <div class="form-row">
+              <div class="form-group-item">
+                <label for="customerName">Customer Name</label>
+                <input type="text" id="customerName" value="Anish Singh" required>
+              </div>
+              <div class="form-group-item">
+                <label for="mobileNumber">Mobile Number</label>
+                <input type="tel" id="mobileNumber" value="9876543210" required>
+              </div>
+              <div class="form-group-item">
+                <label for="invoiceNumber">Invoice Number</label>
+                <input type="text" id="invoiceNumber" value="INV-2026-001" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Product Information -->
+          <div class="form-section">
+            <h3 class="section-title">Product Information</h3>
+            <div class="form-row">
+              <div class="form-group-item" style="flex: 2;">
+                <label for="productName">Product Name</label>
+                <input type="text" id="productName" value="Premium Basmati Rice" required>
+              </div>
+              <div class="form-group-item">
+                <label for="quantity">Quantity (in Kg)</label>
+                <input type="number" id="quantity" step="0.01" value="5" required>
+              </div>
+              <div class="form-group-item">
+                <label for="ratePerKg">Rate per Kg (₹)</label>
+                <input type="number" id="ratePerKg" step="0.01" value="120" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Charges & Discounts -->
+          <div class="form-section">
+            <h3 class="section-title">Charges & Discounts</h3>
+            <div class="form-row">
+              <div class="form-group-item">
+                <label for="discount">Discount (%)</label>
+                <input type="number" id="discount" step="0.01" value="10" required>
+              </div>
+              <div class="form-group-item">
+                <label for="gst">GST (%)</label>
+                <input type="number" id="gst" step="0.01" value="18" required>
+              </div>
+              <div class="form-group-item">
+                <label for="packingCharges">Packing Charges (₹)</label>
+                <input type="number" id="packingCharges" step="0.01" value="25" required>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment Mode -->
+          <div class="form-section">
+            <h3 class="section-title">Payment & Membership</h3>
+            <div class="checkbox-group">
+              <label class="radio-label"><input type="radio" name="paymentMode" value="Cash"> Cash</label>
+              <label class="radio-label"><input type="radio" name="paymentMode" value="Card"> Card</label>
+              <label class="radio-label"><input type="radio" name="paymentMode" value="UPI" checked> UPI</label>
+              <label class="checkbox-label" style="margin-left: 20px;"><input type="checkbox" id="membership" checked> SIT Privilege Member</label>
+            </div>
+          </div>
+
+          <!-- Bill Summary -->
+          <div class="bill-section">
+            <h3 class="bill-summary-title">Bill Summary</h3>
+            <div class="bill-row">
+              <span class="bill-label">Product Cost (Qty × Rate):</span>
+              <span class="bill-value">₹ <span id="productCost">0.00</span></span>
+            </div>
+            <div class="bill-row">
+              <span class="bill-label">Discount (<span id="discountPercent">0</span>%):</span>
+              <span class="bill-value text-success">- ₹ <span id="discountAmount">0.00</span></span>
+            </div>
+            <div class="bill-row">
+              <span class="bill-label">Subtotal:</span>
+              <span class="bill-value">₹ <span id="subtotal">0.00</span></span>
+            </div>
+            <div class="bill-row">
+              <span class="bill-label">GST (<span id="gstPercent">18</span>%):</span>
+              <span class="bill-value">+ ₹ <span id="gstAmount">0.00</span></span>
+            </div>
+            <div class="bill-row">
+              <span class="bill-label">Packing Charges:</span>
+              <span class="bill-value">+ ₹ <span id="packingAmount">0.00</span></span>
+            </div>
+            <div class="bill-row total">
+              <span class="bill-label">Total Bill Amount:</span>
+              <span class="bill-value total-val">₹ <span id="totalBill">0.00</span></span>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="form-btn-group">
+            <button type="button" class="btn btn-primary" onclick="cs2CalculateBill()">Calculate Bill</button>
+            <button type="button" class="btn btn-secondary" onclick="cs2ResetBill()">Clear Form</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- TAB 3: PRACTICAL 3 - SCHOLARSHIP ELIGIBILITY CHECKER         -->
+    <!-- ============================================================= -->
+    <section class="tab-pane" id="tab-3" role="tabpanel">
+      <div class="practical-card cs3-container" style="max-width: 650px; margin: 0 auto;">
+        <div class="practical-header text-center">
+          <span class="badge-tag">Practical 3</span>
+          <h2>Scholarship Eligibility Checker</h2>
+          <p class="practical-desc">Evaluate student marks and determine scholarship tiers using conditional control structures.</p>
+        </div>
+
+        <div class="cs3-form">
+          <div class="form-group-item" style="margin-bottom: 20px;">
+            <label for="marks" style="font-size: 1.05rem; font-weight: 600; display: block; margin-bottom: 8px;">Enter Student Marks (0 - 100):</label>
+            <input type="number" id="marks" min="0" max="100" placeholder="e.g. 88" class="large-input">
+          </div>
+
+          <div class="preset-row" style="margin-bottom: 15px;">
+            <span style="font-size: 0.85rem; color: var(--text-muted);">Quick test marks:</span>
+            <button type="button" class="btn-chip" onclick="cs3SetMarks(96)">96 (Platinum)</button>
+            <button type="button" class="btn-chip" onclick="cs3SetMarks(88)">88 (Gold)</button>
+            <button type="button" class="btn-chip" onclick="cs3SetMarks(76)">76 (Silver)</button>
+            <button type="button" class="btn-chip" onclick="cs3SetMarks(62)">62 (Bronze)</button>
+            <button type="button" class="btn-chip" onclick="cs3SetMarks(42)">42 (Not Eligible)</button>
+          </div>
+
+          <button type="button" class="btn btn-primary btn-block" onclick="cs3CheckScholarship()">Check Eligibility</button>
+
+          <div id="cs3-result" class="cs3-result-card hidden"></div>
+
+          <!-- Scholarship Criteria Reference -->
+          <div class="criteria-table-box">
+            <h4>Scholarship Evaluation Criteria</h4>
+            <table class="criteria-table">
+              <thead>
+                <tr>
+                  <th>Marks Range</th>
+                  <th>Award Tier</th>
+                  <th>Scholarship Grant</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>95 – 100</td>
+                  <td><span class="tier-badge platinum">Platinum</span></td>
+                  <td>100% Tuition Waiver</td>
+                </tr>
+                <tr>
+                  <td>85 – 94</td>
+                  <td><span class="tier-badge gold">Gold</span></td>
+                  <td>75% Tuition Waiver</td>
+                </tr>
+                <tr>
+                  <td>70 – 84</td>
+                  <td><span class="tier-badge silver">Silver</span></td>
+                  <td>50% Tuition Waiver</td>
+                </tr>
+                <tr>
+                  <td>50 – 69</td>
+                  <td><span class="tier-badge bronze">Bronze</span></td>
+                  <td>25% Tuition Waiver</td>
+                </tr>
+                <tr>
+                  <td>Below 50</td>
+                  <td><span class="tier-badge not-eligible">Not Eligible</span></td>
+                  <td>Nil</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- TAB 4: PRACTICAL 4 - ATM CARD PIN VERIFICATION              -->
+    <!-- ============================================================= -->
+    <section class="tab-pane" id="tab-4" role="tabpanel">
+      <div class="practical-card cs4-container">
+        <div class="practical-header">
+          <span class="badge-tag">Practical 4</span>
+          <h2>ATM Card PIN Verification Module</h2>
+          <p class="practical-desc">Verifying Palindromic PINs using JavaScript Functions, Scope & Closures with interactive touch keypad.</p>
+        </div>
+
+        <div class="cs4-grid">
+          <!-- Left: Keypad & Terminal -->
+          <div class="atm-terminal-box">
+            <div class="atm-screen">
+              <div class="screen-header">
+                <span>SYSTEM: SECURE_GATEWAY_V4</span>
+                <span class="online-status">● ENCRYPTED</span>
+              </div>
+              <div class="pin-display-group">
+                <input type="text" id="pinInput" placeholder="ENTER 4-8 DIGIT PIN" maxlength="8" autocomplete="off">
+                <button type="button" class="btn-toggle-mask" id="toggleMaskBtn">👁️ Show PIN</button>
+              </div>
+              <div class="sample-pins">
+                <span>Sample PINs:</span>
+                <button type="button" class="btn-chip" onclick="cs4SetPIN('1221')">1221 (Pal)</button>
+                <button type="button" class="btn-chip" onclick="cs4SetPIN('4554')">4554 (Pal)</button>
+                <button type="button" class="btn-chip" onclick="cs4SetPIN('9009')">9009 (Pal)</button>
+                <button type="button" class="btn-chip" onclick="cs4SetPIN('1234')">1234 (Std)</button>
+              </div>
+            </div>
+
+            <!-- Touch Keypad -->
+            <div class="atm-keypad">
+              <button type="button" class="key-btn" onclick="cs4TypeKey('1')">1</button>
+              <button type="button" class="key-btn" onclick="cs4TypeKey('2')">2</button>
+              <button type="button" class="key-btn" onclick="cs4TypeKey('3')">3</button>
+              <button type="button" class="key-btn" onclick="cs4TypeKey('4')">4</button>
+              <button type="button" class="key-btn" onclick="cs4TypeKey('5')">5</button>
+              <button type="button" class="key-btn" onclick="cs4TypeKey('6')">6</button>
+              <button type="button" class="key-btn" onclick="cs4TypeKey('7')">7</button>
+              <button type="button" class="key-btn" onclick="cs4TypeKey('8')">8</button>
+              <button type="button" class="key-btn" onclick="cs4TypeKey('9')">9</button>
+              <button type="button" class="key-btn action-del" onclick="cs4DeleteKey()">⌫ DEL</button>
+              <button type="button" class="key-btn" onclick="cs4TypeKey('0')">0</button>
+              <button type="button" class="key-btn action-clear" onclick="cs4ClearPIN()">CLEAR</button>
+            </div>
+
+            <div class="atm-actions">
+              <button type="button" class="btn btn-primary" id="verifyBtn" onclick="cs4VerifyPIN()">VERIFY PIN SYMMETRY</button>
+              <button type="button" class="btn btn-secondary" onclick="cs4ClearPIN()">RESET</button>
+            </div>
+          </div>
+
+          <!-- Right: Security Verdict & Stats -->
+          <div class="atm-result-box">
+            <h3 class="panel-subtitle">Verification & Security Verdict</h3>
+
+            <div id="cs4-result-card" class="atm-verdict-card">
+              <div class="verdict-status-badge" id="cs4-badge">READY FOR INPUT</div>
+              <h4 id="cs4-title" style="margin: 10px 0 6px 0; font-size: 1.15rem;">Enter PIN to begin check</h4>
+              <p id="cs4-message" style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 15px;">Input your PIN on the keypad and click 'Verify PIN Symmetry'.</p>
+              
+              <div class="pin-compare-box">
+                <div class="pin-compare-row">
+                  <span>Entered PIN:</span>
+                  <strong id="cs4-orig-pin">----</strong>
+                </div>
+                <div class="pin-compare-row">
+                  <span>Reversed PIN:</span>
+                  <strong id="cs4-rev-pin">----</strong>
+                </div>
+                <div class="pin-compare-row">
+                  <span>Symmetry Verdict:</span>
+                  <strong id="cs4-verdict-text">Waiting</strong>
+                </div>
+              </div>
+
+              <!-- Session Tracker (Closure in action) -->
+              <div class="session-stats-box">
+                <h5>Session Verification Tracker (Closure)</h5>
+                <div class="stat-mini-grid">
+                  <div class="stat-mini">
+                    <span class="stat-mini-num" id="cs4-stat-total">0</span>
+                    <span class="stat-mini-lbl">Total Checks</span>
+                  </div>
+                  <div class="stat-mini">
+                    <span class="stat-mini-num text-success" id="cs4-stat-pal">0</span>
+                    <span class="stat-mini-lbl">Palindromes</span>
+                  </div>
+                  <div class="stat-mini">
+                    <span class="stat-mini-num" id="cs4-stat-std">0</span>
+                    <span class="stat-mini-lbl">Standard</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- TAB 5: PRACTICAL 5 - ARRAYS & MIN/MAX FINDER                 -->
+    <!-- ============================================================= -->
+    <section class="tab-pane" id="tab-5" role="tabpanel">
+      <div class="practical-card cs5-container">
+        <div class="practical-header">
+          <span class="badge-tag">Practical 5</span>
+          <h2>JavaScript Arrays & Loops Playground</h2>
+          <p class="practical-desc">Interactive visual environment for array mutations, higher-order methods, and finding Min & Max values.</p>
+        </div>
+
+        <!-- Presets Row -->
+        <div class="cs5-presets-row">
+          <button type="button" class="btn-chip" onclick="cs5LoadPreset([25, 10, 45, 5, 30, 15])">Slide Preset [25, 10, 45, 5, 30, 15]</button>
+          <button type="button" class="btn-chip" onclick="cs5Randomize()">🎲 Random Array</button>
+          <button type="button" class="btn-chip" onclick="cs5SortAsc()">⬆️ Sort Ascending</button>
+          <button type="button" class="btn-chip" onclick="cs5SortDesc()">⬇️ Sort Descending</button>
+        </div>
+
+        <!-- Summary Stats Grid -->
+        <div class="stats-summary-grid">
+          <div class="stat-card min-card">
+            <div class="stat-icon">📉</div>
+            <div class="stat-info">
+              <div class="stat-label">Minimum Value</div>
+              <div id="statMinVal" class="stat-val">5</div>
+            </div>
+          </div>
+          <div class="stat-card max-card">
+            <div class="stat-icon">📈</div>
+            <div class="stat-info">
+              <div class="stat-label">Maximum Value</div>
+              <div id="statMaxVal" class="stat-val">45</div>
+            </div>
+          </div>
+          <div class="stat-card count-card">
+            <div class="stat-icon">🔢</div>
+            <div class="stat-info">
+              <div class="stat-label">Total Elements</div>
+              <div id="statCountVal" class="stat-val">6</div>
+            </div>
+          </div>
+          <div class="stat-card sum-card">
+            <div class="stat-icon">➕</div>
+            <div class="stat-info">
+              <div class="stat-label">Sum of Elements</div>
+              <div id="statSumVal" class="stat-val">130</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Array Display -->
+        <div class="array-display-box">
+          <label class="box-label">Current Array Visualizer:</label>
+          <div id="arrayPillsContainer" class="array-pills-container">
+            <!-- Pills rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Array Manipulation Controls -->
+        <div class="array-controls-grid">
+          <div class="control-box">
+            <h4>Push / Unshift Elements</h4>
+            <div class="inline-input-group">
+              <input type="number" id="cs5AddInput" placeholder="Number" style="width: 100px;">
+              <button type="button" class="btn btn-sm btn-primary" onclick="cs5Push()">push()</button>
+              <button type="button" class="btn btn-sm btn-secondary" onclick="cs5Unshift()">unshift()</button>
+            </div>
+          </div>
+
+          <div class="control-box">
+            <h4>Pop / Shift Elements</h4>
+            <div class="btn-row">
+              <button type="button" class="btn btn-sm btn-danger" onclick="cs5Pop()">pop()</button>
+              <button type="button" class="btn btn-sm btn-danger" onclick="cs5Shift()">shift()</button>
+              <button type="button" class="btn btn-sm btn-secondary" onclick="cs5Reset()">Reset</button>
+            </div>
+          </div>
+
+          <div class="control-box">
+            <h4>Higher-Order Methods</h4>
+            <div class="btn-row">
+              <button type="button" class="btn btn-sm btn-chip" onclick="cs5MapDouble()">map(x * 2)</button>
+              <button type="button" class="btn btn-sm btn-chip" onclick="cs5FilterEvens()">filter(even)</button>
+              <button type="button" class="btn btn-sm btn-chip" onclick="cs5ReduceSum()">reduce(sum)</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="cs5-method-output" class="cs5-output-banner hidden"></div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- TAB 6: PRACTICAL 6 - VOWEL COUNTER & STRING REVERSER         -->
+    <!-- ============================================================= -->
+    <section class="tab-pane" id="tab-6" role="tabpanel">
+      <div class="practical-card cs6-container">
+        <div class="practical-header">
+          <span class="badge-tag">Practical 6</span>
+          <h2>String Operations & Vowel Counter</h2>
+          <p class="practical-desc">Scan paragraphs to count individual and total vowels with live highlighting, and reverse strings.</p>
+        </div>
+
+        <div class="cs6-grid">
+          <!-- Section 1: Vowel Counter -->
+          <div class="cs6-panel">
+            <h3 class="panel-subtitle">1. Paragraph Vowel Counter</h3>
+            <label for="paragraph-input" class="form-label">Enter Paragraph Text:</label>
+            <textarea id="paragraph-input" rows="4" placeholder="Type or paste text here to scan vowels...">Symbiosis Institute of Technology Nagpur provides world class education in Computer Science and Engineering.</textarea>
+
+            <div class="preset-row" style="margin: 10px 0;">
+              <span style="font-size: 0.85rem; color: var(--text-muted);">Presets:</span>
+              <button type="button" class="btn-chip" onclick="cs6SetSample(1)">Sample 1</button>
+              <button type="button" class="btn-chip" onclick="cs6SetSample(2)">Sample 2</button>
+              <button type="button" class="btn-chip" onclick="cs6ClearText()">Clear</button>
+            </div>
+
+            <div class="total-vowels-banner">
+              <span>Total Vowels Found:</span>
+              <strong id="total-vowels-count">0</strong>
+            </div>
+
+            <!-- Vowel breakdown -->
+            <div class="vowel-grid">
+              <div class="v-card v-a"><span class="v-lbl">A / a</span><strong id="count-a">0</strong></div>
+              <div class="v-card v-e"><span class="v-lbl">E / e</span><strong id="count-e">0</strong></div>
+              <div class="v-card v-i"><span class="v-lbl">I / i</span><strong id="count-i">0</strong></div>
+              <div class="v-card v-o"><span class="v-lbl">O / o</span><strong id="count-o">0</strong></div>
+              <div class="v-card v-u"><span class="v-lbl">U / u</span><strong id="count-u">0</strong></div>
+            </div>
+
+            <div class="vowel-preview-box">
+              <span class="box-label">Live Vowel Highlighting:</span>
+              <div id="highlighted-output" class="vowel-highlight-text"></div>
+            </div>
+          </div>
+
+          <!-- Section 2: String Reverser -->
+          <div class="cs6-panel">
+            <h3 class="panel-subtitle">2. String Reverser & Palindrome Check</h3>
+            <label for="reverser-input" class="form-label">Enter String:</label>
+            <input type="text" id="reverser-input" value="Anish Singh" placeholder="Type text here..." class="large-input">
+
+            <div class="btn-row" style="margin: 15px 0;">
+              <button type="button" class="btn btn-primary" id="btn-rev-char" onclick="cs6Reverse('char')">Reverse Characters</button>
+              <button type="button" class="btn btn-secondary" id="btn-rev-word" onclick="cs6Reverse('word')">Reverse Words</button>
+            </div>
+
+            <div class="reverser-result-card">
+              <div class="rev-row">
+                <span class="rev-lbl">Reversed Result:</span>
+                <strong id="reversed-output" class="rev-val">--</strong>
+              </div>
+              <div class="rev-row">
+                <span class="rev-lbl">Length:</span>
+                <span id="str-length-val">0</span> characters
+              </div>
+              <div class="rev-row">
+                <span class="rev-lbl">Palindrome Status:</span>
+                <span id="palindrome-verdict" class="tier-badge not-eligible">Not a Palindrome</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- TAB 7: PRACTICAL 7 - STUDENT TASK MANAGEMENT                 -->
+    <!-- ============================================================= -->
+    <section class="tab-pane" id="tab-7" role="tabpanel">
+      <div class="practical-card">
+        <div class="practical-header">
+          <div class="practical-badge">
+            <span class="badge-tag">Practical 7</span>
+            <span class="badge-sub">DOM Traversal, Task Operations & Persistent Storage</span>
+          </div>
+          <h2>Student Task Management Web Application</h2>
+          <p class="practical-desc">Create, prioritize, filter, search, and manage student tasks with persistent storage and DOM operations.</p>
+        </div>
+
+        <!-- Task Input Form -->
+        <form id="todo-form" class="todo-form">
+          <div class="todo-input-group">
+            <input 
+              type="text" 
+              id="task-input" 
+              class="task-input" 
+              placeholder="What needs to be done today? (e.g. Complete JavaScript Lab Report)" 
+              autocomplete="off"
+              required
+            >
+            <div class="todo-selects">
+              <select id="category-select" class="form-select" title="Category">
+                <option value="Study" selected>Study</option>
+                <option value="Personal">Personal</option>
+                <option value="Work">Work</option>
+                <option value="General">General</option>
+              </select>
+              <select id="priority-select" class="form-select" title="Priority">
+                <option value="High">High Priority</option>
+                <option value="Medium" selected>Medium Priority</option>
+                <option value="Low">Low Priority</option>
+              </select>
+              <button type="submit" id="add-btn" class="btn btn-primary">
+                <span>➕ Add Task</span>
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <!-- Search & Filter Controls -->
+        <div class="utility-bar">
+          <div class="search-box">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search-input" placeholder="Search tasks..." class="search-input">
+          </div>
+
+          <div class="filter-tabs" id="filter-tabs">
+            <button type="button" class="filter-btn active" data-filter="all">All</button>
+            <button type="button" class="filter-btn" data-filter="active">Active</button>
+            <button type="button" class="filter-btn" data-filter="completed">Completed</button>
+          </div>
+        </div>
+
+        <!-- Task List -->
+        <div class="task-list-wrapper">
+          <ul id="task-list" class="task-list">
+            <!-- Dynamic task items injected via JS -->
+          </ul>
+
+          <!-- Empty State -->
+          <div id="empty-state" class="empty-state hidden">
+            <div class="empty-icon">📝</div>
+            <p class="empty-title">No tasks found</p>
+            <p class="empty-subtitle">Add a new task above or adjust your search / filters</p>
+          </div>
+        </div>
+
+        <!-- Footer Stats -->
+        <div class="card-footer-bar">
+          <div class="task-counts">
+            <span id="items-left-count" class="count-badge">0 tasks left</span>
+            <span class="count-divider">•</span>
+            <span id="items-completed-count" class="count-badge completed">0 completed</span>
+          </div>
+          <button type="button" id="clear-completed-btn" class="btn-text-danger">Clear Completed</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================= -->
+    <!-- TAB 8: PRACTICAL 8 - ADMISSION FORM VALIDATION               -->
+    <!-- ============================================================= -->
+    <section class="tab-pane" id="tab-8" role="tabpanel">
+      <div class="practical-card cs8-container">
+        <div class="practical-header">
+          <span class="badge-tag">Practical 8</span>
+          <h2>Admission & Registration Form with Live Input Validation</h2>
+          <p class="practical-desc">Accessing and validating form fields in real time using JavaScript DOM events (<code>input</code>, <code>change</code>, <code>submit</code>).</p>
+        </div>
+
+        <div class="cs8-grid">
+          <!-- Form Section -->
+          <div class="cs8-form-col">
+            <!-- Progress Bar -->
+            <div class="progress-wrap">
+              <div class="progress-label-row">
+                <span>Form Completion Status</span>
+                <strong id="cs8-progress-percent">0%</strong>
+              </div>
+              <div class="progress-track">
+                <div id="cs8-progress-bar" class="progress-fill" style="width: 0%;"></div>
+              </div>
+            </div>
+
+            <form id="admissionForm" novalidate onsubmit="cs8HandleSubmit(event)">
+              <!-- Full Name -->
+              <div class="form-group" id="grp-name">
+                <label for="cs8-name">Full Name <span class="required">*</span></label>
+                <div class="input-icon-wrap">
+                  <input type="text" id="cs8-name" placeholder="e.g. Anish Singh" required>
+                  <span class="val-icon" id="icon-name"></span>
+                </div>
+                <small class="help-msg" id="msg-name">Name must contain at least 3 alphabetic letters.</small>
+              </div>
+
+              <!-- Email -->
+              <div class="form-group" id="grp-email">
+                <label for="cs8-email">Email Address <span class="required">*</span></label>
+                <div class="input-icon-wrap">
+                  <input type="email" id="cs8-email" placeholder="e.g. anish.singh@example.com" required>
+                  <span class="val-icon" id="icon-email"></span>
+                </div>
+                <small class="help-msg" id="msg-email">Enter a valid email (e.g. user@domain.com).</small>
+              </div>
+
+              <!-- Mobile -->
+              <div class="form-group" id="grp-mobile">
+                <label for="cs8-mobile">Mobile Number <span class="required">*</span></label>
+                <div class="input-icon-wrap">
+                  <input type="tel" id="cs8-mobile" placeholder="e.g. 9876543210" maxlength="10" required>
+                  <span class="val-icon" id="icon-mobile"></span>
+                </div>
+                <small class="help-msg" id="msg-mobile">Enter a valid 10-digit Indian mobile number.</small>
+              </div>
+
+              <!-- Age & Slot -->
+              <div class="form-row">
+                <div class="form-group-item" id="grp-age">
+                  <label for="cs8-age">Age <span class="required">*</span></label>
+                  <input type="number" id="cs8-age" placeholder="e.g. 20" min="16" max="80" required>
+                  <small class="help-msg" id="msg-age">Age must be between 16 and 80.</small>
+                </div>
+                <div class="form-group-item" id="grp-slot">
+                  <label for="cs8-slot">Preferred Slot</label>
+                  <select id="cs8-slot">
+                    <option value="Morning (06:00 - 09:00 AM)" selected>Morning (06:00 - 09:00 AM)</option>
+                    <option value="Afternoon (12:00 - 03:00 PM)">Afternoon (12:00 - 03:00 PM)</option>
+                    <option value="Evening (05:00 - 08:00 PM)">Evening (05:00 - 08:00 PM)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Membership Plan -->
+              <div class="form-group" id="grp-plan">
+                <label for="cs8-plan">Membership Plan</label>
+                <select id="cs8-plan">
+                  <option value="Student Special (Quarterly - ₹2,999)" selected>Student Special (Quarterly - ₹2,999)</option>
+                  <option value="Standard Monthly (₹1,499)">Standard Monthly (₹1,499)</option>
+                  <option value="Annual Premium (₹9,999)">Annual Premium (₹9,999)</option>
+                </select>
+              </div>
+
+              <!-- Action buttons -->
+              <div class="btn-row" style="margin-top: 25px;">
+                <button type="submit" class="btn btn-primary">Submit Registration</button>
+                <button type="button" class="btn btn-secondary" onclick="cs8ResetForm()">Reset Form</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Live ID Card Preview -->
+          <div class="cs8-preview-col">
+            <h3 class="panel-subtitle">Live Member Pass Preview</h3>
+            <div class="id-card">
+              <div class="id-card-header">
+                <div class="id-brand">🏋️‍♂️ SIT FITNESS PASS</div>
+                <span class="id-status-badge">ACTIVE PASS</span>
+              </div>
+              <div class="id-avatar">👤</div>
+              <h4 id="prev-name" class="id-name">Your Full Name</h4>
+              <p id="prev-email" class="id-email">email@example.com</p>
+              
+              <div class="id-details-grid">
+                <div class="id-field">
+                  <span class="id-lbl">Phone:</span>
+                  <strong id="prev-phone">----------</strong>
+                </div>
+                <div class="id-field">
+                  <span class="id-lbl">Age:</span>
+                  <strong id="prev-age">-- yrs</strong>
+                </div>
+                <div class="id-field">
+                  <span class="id-lbl">Slot:</span>
+                  <strong id="prev-slot">Morning</strong>
+                </div>
+                <div class="id-field">
+                  <span class="id-lbl">Plan:</span>
+                  <strong id="prev-plan">Student Special</strong>
+                </div>
+              </div>
+
+              <div class="id-barcode">|||||| |||| ||||| ||||||| |||</div>
+            </div>
+
+            <div id="cs8-submit-alert" class="cs8-alert hidden"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Global Footer -->
+  <footer class="app-footer">
+    <p>Symbiosis Institute of Technology, Nagpur • Advanced JavaScript Lab Course</p>
+    <p>Student: <strong>Anish Singh</strong> | PRN: <strong>24070521214</strong> | Case Study 9</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

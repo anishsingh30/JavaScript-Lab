@@ -1,0 +1,130 @@
+[
+  {
+    "studentName": "Anish Singh",
+    "prn": "24070521214",
+    "department": "Computer Science",
+    "year": "2nd Year",
+    "eventName": "Hackathon 2026",
+    "registrationStatus": "Registered"
+  },
+  {
+    "studentName": "Aarav Sharma",
+    "prn": "24070521001",
+    "department": "Information Technology",
+    "year": "3rd Year",
+    "eventName": "CodeSprint 2026",
+    "registrationStatus": "Registered"
+  },
+  {
+    "studentName": "Priya Patel",
+    "prn": "24070521015",
+    "department": "Artificial Intelligence",
+    "year": "2nd Year",
+    "eventName": "AI Symposium",
+    "registrationStatus": "Pending"
+  },
+  {
+    "studentName": "Rohan Kulkarni",
+    "prn": "24070521042",
+    "department": "Electronics & Telecom",
+    "year": "4th Year",
+    "eventName": "RoboWars Championship",
+    "registrationStatus": "Registered"
+  },
+  {
+    "studentName": "Sneha Iyer",
+    "prn": "24070521088",
+    "department": "Computer Science",
+    "year": "1st Year",
+    "eventName": "WebFest Hackathon",
+    "registrationStatus": "Cancelled"
+  },
+  {
+    "studentName": "Vikram Verma",
+    "prn": "24070521102",
+    "department": "Data Science",
+    "year": "3rd Year",
+    "eventName": "Datathon Challenge",
+    "registrationStatus": "Registered"
+  },
+  {
+    "studentName": "Ananya Joshi",
+    "prn": "24070521134",
+    "department": "Information Technology",
+    "year": "2nd Year",
+    "eventName": "CyberSecurity CTF",
+    "registrationStatus": "Pending"
+  },
+  {
+    "studentName": "Rahul Deshmukh",
+    "prn": "24070521156",
+    "department": "Mechanical Engineering",
+    "year": "4th Year",
+    "eventName": "CAD Designathon",
+    "registrationStatus": "Registered"
+  },
+  {
+    "studentName": "Pooja Nair",
+    "prn": "24070521178",
+    "department": "Artificial Intelligence",
+    "year": "3rd Year",
+    "eventName": "AI Symposium",
+    "registrationStatus": "Registered"
+  },
+  {
+    "studentName": "Aditya Mehta",
+    "prn": "24070521199",
+    "department": "Computer Science",
+    "year": "2nd Year",
+    "eventName": "Hackathon 2026",
+    "registrationStatus": "Cancelled"
+  },
+  {
+    "studentName": "Neha Gupta",
+    "prn": "24070521223",
+    "department": "Data Science",
+    "year": "1st Year",
+    "eventName": "CodeSprint 2026",
+    "registrationStatus": "Registered"
+  },
+  {
+    "studentName": "Siddharth Rao",
+    "prn": "24070521245",
+    "department": "Electronics & Telecom",
+    "year": "3rd Year",
+    "eventName": "RoboWars Championship",
+    "registrationStatus": "Pending"
+  },
+  {
+    "studentName": "Tanvi Shah",
+    "prn": "24070521267",
+    "department": "Information Technology",
+    "year": "4th Year",
+    "eventName": "WebFest Hackathon",
+    "registrationStatus": "Registered"
+  },
+  {
+    "studentName": "Harsh Vardhan",
+    "prn": "24070521289",
+    "department": "Computer Science",
+    "year": "3rd Year",
+    "eventName": "CyberSecurity CTF",
+    "registrationStatus": "Registered"
+  },
+  {
+    "studentName": "Ishita Sen",
+    "prn": "24070521301",
+    "department": "Artificial Intelligence",
+    "year": "2nd Year",
+    "eventName": "Datathon Challenge",
+    "registrationStatus": "Cancelled"
+  },
+  {
+    "studentName": "Karan Malhotra",
+    "prn": "24070521315",
+    "department": "Mechanical Engineering",
+    "year": "1st Year",
+    "eventName": "CAD Designathon",
+    "registrationStatus": "Pending"
+  }
+]

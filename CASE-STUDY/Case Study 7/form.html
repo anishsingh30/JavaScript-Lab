@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case Study 7 - Event Handling & Form Validation</title>
+  <meta name="description" content="Case Study 7: JavaScript Event Handling, dynamic DOM generation, and comprehensive form validation." />
+
+  <!-- Google Font: Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --primary-focus: rgba(59, 130, 246, 0.2);
+      --bg-page: #f1f5f9;
+      --card-bg: #ffffff;
+      --card-border: #e2e8f0;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --danger: #ef4444;
+      --danger-bg: #fef2f2;
+      --danger-border: #fca5a5;
+      --success: #10b981;
+      --success-bg: #ecfdf5;
+      --success-border: #6ee7b7;
+      --input-border: #cbd5e1;
+      --input-bg: #ffffff;
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      padding: 32px 16px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Student / Meta Header Badge */
+    .student-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: #ffffff;
+      border: 1px solid var(--card-border);
+      border-radius: 9999px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--primary);
+    }
+
+    .form-wrapper {
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      width: 100%;
+      max-width: 520px;
+      padding: 28px 32px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .form-header {
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .form-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .form-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .mandatory-note {
+      color: var(--danger);
+      font-size: 0.82rem;
+      font-weight: 500;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Alert Banners */
+    .status-alert {
+      display: none;
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 18px;
+    }
+
+    .status-alert.danger {
+      background: var(--danger-bg);
+      color: var(--danger);
+      border: 1px solid var(--danger-border);
+    }
+
+    .status-alert.success {
+      background: var(--success-bg);
+      color: var(--success);
+      border: 1px solid var(--success-border);
+    }
+
+    /* Form Fields */
+    .form-group {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .form-group label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .input-wrapper input[type="text"],
+    .input-wrapper input[type="password"] {
+      width: 100%;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      font-family: inherit;
+      color: var(--text-main);
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: var(--radius-sm);
+      outline: none;
+      transition: all 0.2s ease-in-out;
+    }
+
+    /* Interactive Event Highlight: Focus / Blur states */
+    .input-wrapper input:focus,
+    .dob-group select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-focus);
+      background-color: #f8faff;
+    }
+
+    .input-wrapper input.input-error,
+    .dob-group select.input-error {
+      border-color: var(--danger) !important;
+      background-color: #fffbfa !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15) !important;
+    }
+
+    .required-star {
+      color: var(--danger);
+      margin-left: 6px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+
+    /* Birthday Date Selectors */
+    .dob-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dob-group select {
+      flex: 1;
+      padding: 8px 10px;
+      font-size: 0.88rem;
+      font-family: inherit;
+      color: var(--text-main);
+      background: var(--input-bg);
+      border: 1px solid var(--input-border);
+      border-radius: var(--radius-sm);
+      outline: none;
+      cursor: pointer;
+      transition: all 0.2s ease-in-out;
+    }
+
+    /* Error Message Labels */
+    .field-error {
+      grid-column: 2 / -1;
+      font-size: 0.8rem;
+      color: var(--danger);
+      margin-top: -8px;
+      margin-bottom: 10px;
+      display: none;
+      font-weight: 500;
+    }
+
+    /* Terms & Conditions */
+    .terms-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 18px;
+      margin-bottom: 22px;
+      padding-left: 120px;
+      font-size: 0.88rem;
+      color: #334155;
+    }
+
+    .terms-row input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+
+    .terms-row label {
+      cursor: pointer;
+    }
+
+    /* Submit Button */
+    .button-row {
+      padding-left: 120px;
+    }
+
+    .btn-submit {
+      padding: 9px 24px;
+      background-color: var(--primary);
+      color: #ffffff;
+      font-size: 0.92rem;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(59, 130, 246, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    @media (max-width: 540px) {
+      .form-wrapper {
+        padding: 22px 18px;
+      }
+      .form-group {
+        grid-template-columns: 1fr;
+        gap: 6px;
+      }
+      .terms-row, .button-row {
+        padding-left: 0;
+      }
+      .btn-submit {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Student Attribution Badge -->
+  <div class="student-badge">
+    <span class="badge-dot"></span>
+    <span>Case Study 7 &bull; Student: <strong>ANISH SINGH</strong> (PRN: <strong>24070521214</strong>)</span>
+  </div>
+
+  <div class="form-wrapper">
+    <div class="form-header">
+      <h1 class="form-title">Member Registration</h1>
+      <p class="form-subtitle">Fill in your information below to create your account.</p>
+    </div>
+
+    <!-- Notification Alert -->
+    <div id="statusAlert" class="status-alert"></div>
+
+    <div class="mandatory-note">
+      <span>*</span> Indicates required field
+    </div>
+
+    <form id="registrationForm" novalidate>
+      <!-- Firstname -->
+      <div class="form-group">
+        <label for="firstname">Firstname:</label>
+        <div class="input-wrapper">
+          <input type="text" id="firstname" name="firstname" placeholder="John" autocomplete="given-name" />
+          <span class="required-star">*</span>
+        </div>
+      </div>
+
+      <!-- Lastname -->
+      <div class="form-group">
+        <label for="lastname">Lastname:</label>
+        <div class="input-wrapper">
+          <input type="text" id="lastname" name="lastname" placeholder="Doe" autocomplete="family-name" />
+          <span class="required-star">*</span>
+        </div>
+      </div>
+
+      <!-- Birthday -->
+      <div class="form-group">
+        <label>Birthday:</label>
+        <div class="dob-group">
+          <select id="dobDay" aria-label="Day of Birth">
+            <option value="">Day</option>
+          </select>
+          <select id="dobMonth" aria-label="Month of Birth">
+            <option value="">Month</option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+          </select>
+          <select id="dobYear" aria-label="Year of Birth">
+            <option value="">Year</option>
+          </select>
+          <span class="required-star">*</span>
+        </div>
+      </div>
+
+      <!-- Username -->
+      <div class="form-group">
+        <label for="username">Username:</label>
+        <div class="input-wrapper">
+          <input type="text" id="username" name="username" placeholder="johndoe24" autocomplete="username" />
+          <span class="required-star">*</span>
+        </div>
+      </div>
+
+      <!-- E-mail -->
+      <div class="form-group">
+        <label for="email">E-mail:</label>
+        <div class="input-wrapper">
+          <input type="text" id="email" name="email" placeholder="john.doe@example.com" autocomplete="email" />
+          <span class="required-star">*</span>
+        </div>
+      </div>
+      <div class="field-error" id="emailError">Please enter a valid email address (e.g., name@domain.com).</div>
+
+      <!-- Website -->
+      <div class="form-group">
+        <label for="website">Website:</label>
+        <div class="input-wrapper">
+          <input type="text" id="website" name="website" placeholder="https://example.com" />
+          <span class="required-star">*</span>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <div class="input-wrapper">
+          <input type="password" id="password" name="password" placeholder="••••••••" autocomplete="new-password" />
+          <span class="required-star">*</span>
+        </div>
+      </div>
+
+      <!-- Re-password -->
+      <div class="form-group">
+        <label for="repassword">Re-password:</label>
+        <div class="input-wrapper">
+          <input type="password" id="repassword" name="repassword" placeholder="••••••••" autocomplete="new-password" />
+          <span class="required-star">*</span>
+        </div>
+      </div>
+      <div class="field-error" id="passwordError">Passwords do not match!</div>
+
+      <!-- Terms & Conditions -->
+      <div class="terms-row">
+        <input type="checkbox" id="terms" name="terms" />
+        <label for="terms">I agree to the terms &amp; conditions.</label>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="button-row">
+        <button type="submit" class="btn-submit">Sign up</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // =========================================================================
+    // 1. Dynamic DOM Population (Birthday Selectors)
+    // =========================================================================
+    const daySelect = document.getElementById('dobDay');
+    const yearSelect = document.getElementById('dobYear');
+
+    // Populate Days 1 to 31
+    for (let day = 1; day <= 31; day++) {
+      const option = document.createElement('option');
+      option.value = day;
+      option.textContent = day < 10 ? `0${day}` : day;
+      daySelect.appendChild(option);
+    }
+
+    // Populate Years (Current Year down 100 years)
+    const currentYear = new Date().getFullYear();
+    for (let year = currentYear; year >= currentYear - 100; year--) {
+      const option = document.createElement('option');
+      option.value = year;
+      option.textContent = year;
+      yearSelect.appendChild(option);
+    }
+
+    // =========================================================================
+    // 2. Elements & Interactive Event Listeners
+    // =========================================================================
+    const regForm = document.getElementById('registrationForm');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const repasswordInput = document.getElementById('repassword');
+    const termsCheck = document.getElementById('terms');
+    const statusAlert = document.getElementById('statusAlert');
+
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
+
+    // Interactive 'focus' & 'blur' event handling for all interactive inputs
+    const formControls = regForm.querySelectorAll('input[type="text"], input[type="password"], select');
+    formControls.forEach(ctrl => {
+      ctrl.addEventListener('focus', () => {
+        // Remove error border on active focus if user begins correcting
+        if (ctrl.classList.contains('input-error')) {
+          ctrl.classList.remove('input-error');
+        }
+      });
+      ctrl.addEventListener('blur', () => {
+        // Quick trim check
+        if (ctrl.tagName === 'INPUT' && ctrl.value.trim() !== '') {
+          ctrl.classList.remove('input-error');
+        }
+      });
+    });
+
+    // Real-time password verification on 'input' & 'change'
+    function verifyPasswordMatch() {
+      if (repasswordInput.value.length > 0 && passwordInput.value !== repasswordInput.value) {
+        passwordError.style.display = 'block';
+        repasswordInput.classList.add('input-error');
+        return false;
+      } else {
+        passwordError.style.display = 'none';
+        repasswordInput.classList.remove('input-error');
+        return true;
+      }
+    }
+
+    passwordInput.addEventListener('input', () => {
+      if (repasswordInput.value.length > 0) verifyPasswordMatch();
+    });
+    repasswordInput.addEventListener('input', verifyPasswordMatch);
+    repasswordInput.addEventListener('change', verifyPasswordMatch);
+
+    // Live email validation on change
+    emailInput.addEventListener('input', () => {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (emailInput.value.trim() !== '' && !emailRegex.test(emailInput.value.trim())) {
+        emailError.style.display = 'block';
+      } else {
+        emailError.style.display = 'none';
+      }
+    });
+
+    // Helper: Show banner message
+    function showAlert(message, type = 'danger') {
+      statusAlert.textContent = message;
+      statusAlert.className = `status-alert ${type}`;
+      statusAlert.style.display = 'block';
+      statusAlert.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function hideAlert() {
+      statusAlert.style.display = 'none';
+    }
+
+    // =========================================================================
+    // 3. Form Submit Validation Pipeline
+    // =========================================================================
+    regForm.addEventListener('submit', function (event) {
+      event.preventDefault();
+      hideAlert();
+
+      let isValid = true;
+
+      // a) Required Fields Check
+      const requiredInputs = [
+        document.getElementById('firstname'),
+        document.getElementById('lastname'),
+        document.getElementById('username'),
+        emailInput,
+        document.getElementById('website'),
+        passwordInput,
+        repasswordInput,
+        daySelect,
+        document.getElementById('dobMonth'),
+        yearSelect
+      ];
+
+      let missingFields = 0;
+      requiredInputs.forEach(input => {
+        if (!input.value || input.value.trim() === '') {
+          input.classList.add('input-error');
+          missingFields++;
+          isValid = false;
+        } else {
+          input.classList.remove('input-error');
+        }
+      });
+
+      if (missingFields > 0) {
+        showAlert('Please complete all mandatory fields highlighted in red.', 'danger');
+        alert('Please fill out all mandatory fields highlighted in red.');
+        return;
+      }
+
+      // b) Email Pattern Regex Check
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(emailInput.value.trim())) {
+        emailError.style.display = 'block';
+        emailInput.classList.add('input-error');
+        showAlert('Please provide a valid email address.', 'danger');
+        return;
+      } else {
+        emailError.style.display = 'none';
+        emailInput.classList.remove('input-error');
+      }
+
+      // c) Password Match Check
+      if (passwordInput.value !== repasswordInput.value) {
+        passwordError.style.display = 'block';
+        repasswordInput.classList.add('input-error');
+        showAlert('Passwords do not match. Please recheck.', 'danger');
+        return;
+      } else {
+        passwordError.style.display = 'none';
+        repasswordInput.classList.remove('input-error');
+      }
+
+      // d) Terms Agreement Check
+      if (!termsCheck.checked) {
+        showAlert('You must agree to the terms and conditions to proceed.', 'danger');
+        alert('You must agree to the terms and conditions to sign up.');
+        return;
+      }
+
+      // e) Success Handling
+      if (isValid) {
+        showAlert('Registration successful! Welcome aboard.', 'success');
+        alert('Form submitted successfully!');
+        regForm.reset();
+
+        // Clean any active borders
+        requiredInputs.forEach(input => input.classList.remove('input-error'));
+      }
+    });
+  </script>
+</body>
+</html>

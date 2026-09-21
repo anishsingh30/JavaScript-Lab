@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study 10 - Campus Event Registration System</title>
+  <meta name="description" content="Campus Event Registration System developed using HTML, CSS, JavaScript, and jQuery with fetch() and $.getJSON() data loading.">
+
+  <!-- Google Fonts: Inter & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Theme Toggle Button -->
+  <button type="button" id="themeToggleBtn" title="Toggle Light / Dark Theme" aria-label="Toggle Theme">
+    <span id="themeToggleIcon">🌙</span>
+    <span id="themeToggleLabel">Dark Theme</span>
+  </button>
+
+  <div class="app-container">
+    <!-- Header Section -->
+    <header class="page-header">
+      <div class="developer-badge">
+        <span class="pulse-dot"></span>
+        <span>Case Study 10 &bull; Developer: <strong>ANISH SINGH</strong> (PRN: <strong>24070521214</strong>)</span>
+      </div>
+      <h1 class="main-title">Campus Event Registration System</h1>
+      <p class="subtitle">
+        Asynchronously fetch and dynamically display student campus event registration records using 
+        <strong>Native JavaScript <code>fetch()</code></strong> and <strong>jQuery <code>$.getJSON()</code></strong>.
+      </p>
+    </header>
+
+    <!-- Main Control Panel Card -->
+    <section class="card control-card">
+      <div class="card-header">
+        <div class="header-title-group">
+          <h2>Data Loading & Controls</h2>
+          <span class="info-pill" id="currentMethodBadge">Ready to load</span>
+        </div>
+      </div>
+
+      <div class="card-body">
+        <!-- Top Row: Load Buttons and Method Chooser -->
+        <div class="actions-toolbar">
+          <div class="method-selector-group">
+            <span class="toolbar-label">Active Fetching Technology:</span>
+            <div class="radio-pill-group">
+              <label class="radio-pill active" id="label-fetch">
+                <input type="radio" name="loadMethod" value="fetch" checked id="methodFetchRadio">
+                <span class="icon">⚡</span>
+                <span class="text">JavaScript <code>fetch()</code></span>
+              </label>
+              <label class="radio-pill" id="label-jquery">
+                <input type="radio" name="loadMethod" value="jquery" id="methodJqueryRadio">
+                <span class="icon">🔷</span>
+                <span class="text">jQuery <code>$.getJSON()</code></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="primary-btn-group">
+            <!-- Primary required button: "Load Student Data" -->
+            <button type="button" class="btn btn-primary" id="loadDataBtn">
+              <span class="btn-icon">📥</span>
+              <span class="btn-text">Load Student Data</span>
+            </button>
+
+            <!-- Direct Quick-Action Buttons for Evaluator convenience -->
+            <button type="button" class="btn btn-secondary" id="quickFetchBtn" title="Load data directly using JavaScript fetch()">
+              <span>Load via fetch()</span>
+            </button>
+
+            <button type="button" class="btn btn-secondary" id="quickJqueryBtn" title="Load data directly using jQuery $.getJSON()">
+              <span>Load via $.getJSON()</span>
+            </button>
+
+            <!-- Simulation button for Requirement 8: "JSON data cannot be loaded" -->
+            <button type="button" class="btn btn-outline-danger" id="simulateErrorBtn" title="Simulate a network / 404 error to test error handling">
+              <span>⚠️ Simulate Error</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter & Search Controls Bar -->
+        <div class="filters-toolbar">
+          <!-- Search Box: Requirement 5 -->
+          <div class="search-box-wrapper">
+            <label for="searchInput" class="field-label">Search Students:</label>
+            <div class="search-input-group">
+              <span class="search-icon">🔍</span>
+              <input 
+                type="text" 
+                id="searchInput" 
+                placeholder="Search by student name or PRN..." 
+                autocomplete="off"
+                disabled
+              >
+              <button type="button" id="clearSearchBtn" class="clear-btn" title="Clear search" style="display: none;">&times;</button>
+            </div>
+          </div>
+
+          <!-- Status Filter Dropdown: Requirement 6 -->
+          <div class="filter-dropdown-wrapper">
+            <label for="statusFilter" class="field-label">Registration Status:</label>
+            <div class="select-group">
+              <select id="statusFilter" disabled>
+                <option value="ALL">All Statuses</option>
+                <option value="Registered">Registered</option>
+                <option value="Pending">Pending</option>
+                <option value="Cancelled">Cancelled</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Reset Filter Button -->
+          <div class="reset-wrapper">
+            <label class="field-label">&nbsp;</label>
+            <button type="button" class="btn btn-ghost" id="resetFiltersBtn" disabled>
+              <span>↺ Reset Filters</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Metrics / Counter Summary Cards -->
+    <section class="stats-grid" id="statsSection">
+      <div class="stat-card">
+        <div class="stat-icon total-icon">👥</div>
+        <div class="stat-details">
+          <div class="stat-label">Total Records</div>
+          <div class="stat-value" id="totalCount">0</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon registered-icon">✅</div>
+        <div class="stat-details">
+          <div class="stat-label">Registered</div>
+          <div class="stat-value text-success" id="registeredCount">0</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon pending-icon">⏳</div>
+        <div class="stat-details">
+          <div class="stat-label">Pending</div>
+          <div class="stat-value text-warning" id="pendingCount">0</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon cancelled-icon">❌</div>
+        <div class="stat-details">
+          <div class="stat-label">Cancelled</div>
+          <div class="stat-value text-danger" id="cancelledCount">0</div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <div class="stat-icon match-icon">🎯</div>
+        <div class="stat-details">
+          <div class="stat-label">Visible Records</div>
+          <div class="stat-value text-info" id="matchCount">0</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Notification / Status Banner Area -->
+    <div id="statusBanner" class="status-banner" style="display: none;" role="alert">
+      <span id="statusBannerIcon" class="banner-icon">ℹ️</span>
+      <span id="statusBannerMessage" class="banner-message">Message text</span>
+      <button type="button" id="closeBannerBtn" class="close-banner-btn">&times;</button>
+    </div>
+
+    <!-- Data Display Section: Requirement 3 & 8 -->
+    <section class="card table-card">
+      <div class="card-header table-header-flex">
+        <div class="table-title-group">
+          <h2>Student Event Registrations</h2>
+          <span class="records-badge" id="tableRecordSummary">No data loaded yet</span>
+        </div>
+        <div class="table-actions">
+          <button type="button" class="btn btn-sm btn-outline" id="refreshBtn" title="Reload data" style="display: none;">
+            🔄 Refresh
+          </button>
+        </div>
+      </div>
+
+      <div class="card-body no-padding">
+        <!-- Initial Pre-load Empty State -->
+        <div id="initialState" class="state-container">
+          <div class="state-illustration">📂</div>
+          <h3>No Student Records Loaded</h3>
+          <p>Click the <strong>"Load Student Data"</strong> button above to asynchronously fetch event registration records from <code>students.json</code>.</p>
+          <button type="button" class="btn btn-primary" id="initialLoadBtn">Load Student Data</button>
+        </div>
+
+        <!-- Loading Spinner State -->
+        <div id="loadingState" class="state-container" style="display: none;">
+          <div class="spinner"></div>
+          <h3>Fetching Student Data...</h3>
+          <p id="loadingDescription">Requesting <code>students.json</code> asynchronously...</p>
+        </div>
+
+        <!-- Error State: Requirement 8 ("JSON data cannot be loaded") -->
+        <div id="errorState" class="state-container state-error" style="display: none;">
+          <div class="state-illustration">⚠️</div>
+          <h3 id="errorMessageTitle">JSON Data Cannot Be Loaded</h3>
+          <p id="errorMessageDetail">An error occurred while fetching student registration data.</p>
+          <div class="error-actions">
+            <button type="button" class="btn btn-primary" id="retryFetchBtn">Try Again</button>
+            <button type="button" class="btn btn-outline" id="loadDefaultBtn">Load students.json</button>
+          </div>
+        </div>
+
+        <!-- Dynamic Table Container -->
+        <div id="tableWrapper" class="table-responsive" style="display: none;">
+          <table class="students-table" id="studentsTable">
+            <thead>
+              <tr>
+                <th style="width: 60px;">#</th>
+                <th>Student Name</th>
+                <th>PRN</th>
+                <th>Department</th>
+                <th>Year</th>
+                <th>Event Name</th>
+                <th style="width: 150px; text-align: center;">Registration Status</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody">
+              <!-- Dynamically populated via JavaScript / jQuery -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Filter Empty State: Requirement 8 ("No student matches the search/filter criteria") -->
+        <div id="noMatchState" class="state-container" style="display: none;">
+          <div class="state-illustration">🔎</div>
+          <h3>No Matching Students Found</h3>
+          <p id="noMatchMessage">No student records match your current search query or filter selection.</p>
+          <button type="button" class="btn btn-secondary" id="clearFiltersActionBtn">Clear Filters</button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="page-footer">
+      <p>College Campus Event Registration System &bull; Case Study 10</p>
+      <p class="footer-meta">Designed for Web Technologies Laboratory | Student: Anish Singh (PRN: 24070521214)</p>
+    </footer>
+  </div>
+
+  <!-- jQuery CDN with fallback to local copy for complete offline support -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script>
+    if (typeof jQuery === 'undefined') {
+      document.write('<script src="jquery-3.7.1.min.js"><\/script>');
+    }
+  </script>
+
+  <!-- Application Logic -->
+  <script src="script.js"></script>
+</body>
+</html>
