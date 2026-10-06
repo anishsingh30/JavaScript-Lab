@@ -121,10 +121,68 @@
       </div>
     </section>
 
+    <!-- Class Scheduling Form Section -->
+    <section class="form-section">
+      <div class="section-header">
+        <div>
+          <h2 class="section-title">Schedule a Class</h2>
+          <p class="section-subtitle">Add faculty, subject, and timing details to update the class routine</p>
+        </div>
+      </div>
+
+      <form id="scheduleForm" class="schedule-form">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="newSubject">Subject Name <span class="required-asterisk">*</span></label>
+            <input type="text" id="newSubject" class="form-input" placeholder="e.g., Cloud Computing" required>
+          </div>
+
+          <div class="form-group">
+            <label for="newFaculty">Faculty Name <span class="required-asterisk">*</span></label>
+            <input type="text" id="newFaculty" class="form-input" placeholder="e.g., Dr. Meenakshi Sundaram" required>
+          </div>
+
+          <div class="form-group">
+            <label for="newClassroom">Classroom / Venue <span class="required-asterisk">*</span></label>
+            <input type="text" id="newClassroom" class="form-input" placeholder="e.g., Room 501 / IoT Lab" required>
+          </div>
+
+          <div class="form-group">
+            <label for="newStartTime">Start Time <span class="required-asterisk">*</span></label>
+            <input type="time" id="newStartTime" class="form-input" step="60" required>
+          </div>
+
+          <div class="form-group">
+            <label for="newEndTime">End Time <span class="required-asterisk">*</span></label>
+            <input type="time" id="newEndTime" class="form-input" step="60" required>
+          </div>
+
+          <div class="form-group form-actions-cell">
+            <span class="form-label-spacer">&nbsp;</span>
+            <div class="form-btn-group">
+              <button type="submit" id="addClassBtn" class="btn btn-primary">
+                &#43; Schedule Class
+              </button>
+              <button type="button" id="fillCurrentSlotBtn" class="btn btn-outline" title="Auto-fill times around current time for quick testing">
+                &#9201; Auto-fill Current Slot
+              </button>
+              <button type="reset" id="resetFormBtn" class="btn btn-secondary">
+                Clear
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="formFeedback" class="form-feedback" style="display: none;"></div>
+      </form>
+    </section>
+
     <!-- Full Schedule Table Section -->
     <section class="schedule-section">
       <div class="section-header">
-        <h2 class="section-title">Complete Class Routine</h2>
+        <div>
+          <h2 class="section-title">Complete Class Routine</h2>
+          <p class="section-subtitle">Chronological timetable automatically tracking real-time status</p>
+        </div>
         <span class="table-count-badge" id="classCountBadge">5 Classes Loaded</span>
       </div>
 
@@ -132,12 +190,13 @@
         <table class="schedule-table" id="scheduleTable">
           <thead>
             <tr>
-              <th scope="col" style="width: 60px;">Slot</th>
+              <th scope="col" style="width: 55px;">Slot</th>
               <th scope="col">Subject</th>
               <th scope="col">Faculty</th>
               <th scope="col">Classroom</th>
               <th scope="col">Time Interval</th>
-              <th scope="col" style="width: 130px;">Status</th>
+              <th scope="col" style="width: 120px;">Status</th>
+              <th scope="col" style="width: 80px; text-align: center;">Action</th>
             </tr>
           </thead>
           <tbody id="scheduleTableBody">

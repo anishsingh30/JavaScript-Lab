@@ -274,6 +274,32 @@ body {
   background-color: #e2e8f0;
 }
 
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary-dark);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.btn-danger-sm {
+  background-color: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  font-size: 0.76rem;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn-danger-sm:hover {
+  background-color: #fca5a5;
+  color: #991b1b;
+}
+
 /* ==========================================================================
    Current & Next Class Cards (2-Column Grid)
    ========================================================================== */
@@ -395,6 +421,114 @@ body {
 /* ==========================================================================
    Full Schedule Table Section
    ========================================================================== */
+/* ==========================================================================
+   Class Scheduling Form Section (Classic Academic White Theme)
+   ========================================================================== */
+.form-section {
+  background-color: var(--bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 22px 26px;
+  margin-bottom: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.section-subtitle {
+  font-size: 0.84rem;
+  color: var(--color-text-muted);
+  margin-top: 2px;
+}
+
+.schedule-form {
+  margin-top: 14px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+  align-items: flex-end;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-text-main);
+  letter-spacing: 0.2px;
+}
+
+.required-asterisk {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.form-label-spacer {
+  display: block;
+  font-size: 0.82rem;
+  line-height: 1;
+}
+
+.form-input {
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  color: var(--color-text-main);
+  background-color: #ffffff;
+  border: 1px solid var(--color-border-dark);
+  border-radius: var(--radius-sm);
+  padding: 8px 12px;
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  width: 100%;
+}
+
+.form-input:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.12);
+}
+
+.form-input::placeholder {
+  color: #94a3b8;
+  font-size: 0.82rem;
+}
+
+.form-actions-cell {
+  grid-column: 1 / -1;
+  margin-top: 4px;
+}
+
+.form-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.form-feedback {
+  margin-top: 14px;
+  font-size: 0.84rem;
+  padding: 9px 14px;
+  border-radius: var(--radius-sm);
+}
+
+.form-feedback.success {
+  display: block;
+  background-color: var(--color-success-bg);
+  color: var(--color-success);
+  border: 1px solid var(--color-success-border);
+}
+
+.form-feedback.error {
+  display: block;
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
 .schedule-section {
   background-color: var(--bg-card);
   border: 1px solid var(--color-border);

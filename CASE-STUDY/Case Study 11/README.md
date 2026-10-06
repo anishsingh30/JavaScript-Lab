@@ -122,6 +122,14 @@ function displayNotification(message, title = "Class Reminder", durationMs = 450
 }
 ```
 
+### 4. Interactive Class Scheduling Form (New Feature)
+Students and faculty can dynamically append new lecture slots to the routine:
+- **Input Fields:** Subject Name, Faculty Name, Classroom / Venue, Start Time, and End Time.
+- **Validation:** Enforces non-empty values, valid time sequences (`startTime < endTime`), and chronologically sorts the schedule upon insertion.
+- **Real-time Recalculation:** Immediately updates the countdown banner, active class badge, and routine table without page refresh.
+- **Temporary Notification:** Triggers a `setTimeout()` notification informing the user that the class was scheduled.
+- **Routine Management:** Includes an **"Auto-fill Current Slot"** button for instant evaluation, plus a **"Remove"** button in each table row to remove slots.
+
 ---
 
 ## 🚀 How to Run & Test
@@ -130,8 +138,15 @@ function displayNotification(message, title = "Class Reminder", durationMs = 450
    - Double-click `Case Study 11/index.html` or drag it into any modern web browser (Edge, Chrome, Firefox).
    - Zero dependencies or local build tools required.
 
-2. **Evaluation Controls Provided in UI:**
-   - **Sync Schedule to Current Time:** Calibrates the 5 classes around the current clock time so live countdowns and transitions can be evaluated at any hour.
+2. **Scheduling a New Class:**
+   - Scroll to the **"Schedule a Class"** section.
+   - Enter the Subject, Faculty, Classroom, and select Start and End times.
+   - Click **"+ Schedule Class"** to see it immediately added and sorted in the Complete Class Routine table.
+   - Alternatively, click **"Auto-fill Current Slot"** to pre-fill an upcoming class starting in 3 minutes.
+   - Click **"Remove"** on any row in the routine table to remove a class slot.
+
+3. **Evaluation Controls Provided in UI:**
+   - **Sync Schedule to Current Time:** Calibrates the classes around the current clock time so live countdowns and transitions can be evaluated at any hour.
    - **Test 10s Countdown:** Sets the current lecture to end in 10 seconds to quickly verify automatic class progression at `00:00:00`.
    - **Test 5-Min Notification:** Manually triggers the temporary banner: *"Your class will start in 5 minutes."* and proves that `setTimeout()` automatically dismisses it after 4 seconds.
    - **Reset Schedule:** Restores the standard 09:00 AM &ndash; 03:45 PM academic routine.

@@ -105,6 +105,16 @@ const test10sBtn = document.getElementById("test10sBtn");
 const triggerNotificationBtn = document.getElementById("triggerNotificationBtn");
 const resetScheduleBtn = document.getElementById("resetScheduleBtn");
 
+// Schedule Form Elements
+const scheduleFormEl = document.getElementById("scheduleForm");
+const newSubjectEl = document.getElementById("newSubject");
+const newFacultyEl = document.getElementById("newFaculty");
+const newClassroomEl = document.getElementById("newClassroom");
+const newStartTimeEl = document.getElementById("newStartTime");
+const newEndTimeEl = document.getElementById("newEndTime");
+const fillCurrentSlotBtn = document.getElementById("fillCurrentSlotBtn");
+const formFeedbackEl = document.getElementById("formFeedback");
+
 // ----------------------------------------------------------------------------
 // Helper Utilities
 // ----------------------------------------------------------------------------
@@ -444,6 +454,9 @@ function renderScheduleTable(currentSeconds, activeIndex, nextIndex) {
       <td>${cls.classroom}</td>
       <td>${formatTime12h(cls.startTime)} &ndash; ${formatTime12h(cls.endTime)}</td>
       <td><span class="${statusClass}">${statusText}</span></td>
+      <td style="text-align: center;">
+        <button type="button" class="btn-danger-sm btn-delete-slot" data-id="${cls.id}" title="Remove this class slot">Remove</button>
+      </td>
     `;
 
     scheduleTableBodyEl.appendChild(tr);
@@ -591,7 +604,139 @@ function resetToDefaultSchedule() {
   );
 }
 
+// ----------------------------------------------------------------------------
+// Feature 4: Interactive Class Scheduling Form Handlers
+// ----------------------------------------------------------------------------
+
+/**
+ * Handles adding a new faculty & subject schedule entry
+ */
+function handleScheduleFormSubmit(event) {
+  event.preventDefault();
+
+  const subject = newSubjectEl.value.trim();
+  const faculty = newFacultyEl.value.trim();
+  const classroom = newClassroomEl.value.trim();
+  let startTime = newStartTimeEl.value.trim();
+  let endTime = newEndTimeEl.value.trim();
+
+  // Reset feedback container
+  formFeedbackEl.style.display = "none";
+  formFeedbackEl.className = "form-feedback";
+
+  // Form validation
+  if (!subject || !faculty || !classroom || !startTime || !endTime) {
+    showFormFeedback("Please fill out all required fields: Subject, Faculty, Classroom, Start and End Time.", "error");
+    return;
+  }
+
+  // Ensure HH:MM:SS format
+  if (startTime.length === 5) startTime += ":00";
+  if (endTime.length === 5) endTime += ":00";
+
+  const startSec = timeStringToSeconds(startTime);
+  const endSec = timeStringToSeconds(endTime);
+
+  if (startSec >= endSec) {
+    showFormFeedback("Invalid timing: Start Time must be strictly earlier than End Time.", "error");
+    return;
+  }
+
+  // Construct new class record
+  const newClass = {
+    id: Date.now(),
+    subject: subject,
+    faculty: faculty,
+    classroom: classroom,
+    startTime: startTime,
+    endTime: endTime
+  };
+
+  // Append to schedule and re-sort chronologically by start time
+  classSchedule.push(newClass);
+  classSchedule.sort((a, b) => timeStringToSeconds(a.startTime) - timeStringToSeconds(b.startTime));
+
+  // Reset form
+  scheduleFormEl.reset();
+
+  showFormFeedback(`Successfully scheduled "${subject}" with ${faculty} (${formatTime12h(startTime)} - ${formatTime12h(endTime)}).`, "success");
+
+  // Re-run scheduler to update live countdown and display
+  updateScheduler();
+
+  // Temporary notification alert using setTimeout()
+  displayNotification(
+    `"${subject}" with ${faculty} has been scheduled for ${formatTime12h(startTime)}.`,
+    "Class Scheduled",
+    4500
+  );
+}
+
+/**
+ * Shows temporary feedback message in the scheduling form
+ */
+function showFormFeedback(message, type) {
+  formFeedbackEl.textContent = message;
+  formFeedbackEl.className = `form-feedback ${type}`;
+  formFeedbackEl.style.display = "block";
+
+  setTimeout(() => {
+    formFeedbackEl.style.display = "none";
+  }, 6000);
+}
+
+/**
+ * Helper to auto-fill current upcoming slot for fast evaluation/demo
+ */
+function autoFillCurrentSlot() {
+  const now = new Date();
+  const currentSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds();
+
+  const startSec = (currentSec + 3 * 60) % 86400; // starts in 3 minutes
+  const endSec = (startSec + 50 * 60) % 86400;   // ends 50 minutes later
+
+  newSubjectEl.value = "Cloud Computing & DevOps";
+  newFacultyEl.value = "Dr. M. K. Sundaram";
+  newClassroomEl.value = "Room 501 (Academic Block B)";
+  newStartTimeEl.value = secondsToTimeString(startSec).substring(0, 5);
+  newEndTimeEl.value = secondsToTimeString(endSec).substring(0, 5);
+
+  showFormFeedback("Form auto-filled with an upcoming slot starting in 3 minutes. Click '+ Schedule Class' to add it.", "success");
+}
+
+/**
+ * Removes a class from the routine table
+ */
+function removeScheduledClass(id) {
+  const target = classSchedule.find(c => c.id === id);
+  const subjectName = target ? target.subject : "Class";
+
+  classSchedule = classSchedule.filter(c => c.id !== id);
+  updateScheduler();
+
+  displayNotification(
+    `"${subjectName}" was removed from the routine.`,
+    "Routine Updated",
+    3500
+  );
+}
+
+// Table Event Delegation for Delete / Remove action
+scheduleTableBodyEl.addEventListener("click", (e) => {
+  const btn = e.target.closest(".btn-delete-slot");
+  if (btn) {
+    const id = Number(btn.getAttribute("data-id"));
+    removeScheduledClass(id);
+  }
+});
+
 // Attach Event Listeners
+if (scheduleFormEl) {
+  scheduleFormEl.addEventListener("submit", handleScheduleFormSubmit);
+}
+if (fillCurrentSlotBtn) {
+  fillCurrentSlotBtn.addEventListener("click", autoFillCurrentSlot);
+}
 syncNowBtn.addEventListener("click", syncScheduleToCurrentTime);
 test10sBtn.addEventListener("click", setTest10sCountdown);
 triggerNotificationBtn.addEventListener("click", triggerTest5MinNotification);
