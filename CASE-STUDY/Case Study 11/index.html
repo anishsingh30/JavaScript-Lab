@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Class Scheduler - Case Study 11</title>
+  <meta name="description" content="College Smart Class Scheduler with real-time countdown, automatic class progression, and timetable management.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Notification Toast (setTimeout driven) -->
+  <div id="notificationToast" class="notification-toast" role="alert" aria-live="assertive">
+    <div class="toast-icon">&#128276;</div>
+    <div class="toast-content">
+      <strong id="toastTitle">Class Notification</strong>
+      <p id="toastMessage">Your class will start in 5 minutes.</p>
+    </div>
+    <button type="button" id="toastCloseBtn" class="toast-close" aria-label="Close notification">&times;</button>
+  </div>
+
+  <div class="page-wrapper">
+    <!-- Header Section -->
+    <header class="portal-header">
+      <div class="header-content">
+        <div class="college-info">
+          <div class="badge-student">Case Study 11 &bull; Student: Anish Singh &bull; PRN: 24070521214</div>
+          <h1 class="portal-title">Smart Class Scheduler</h1>
+          <p class="portal-tagline">Department of Computer Science &amp; Engineering &bull; Daily Academic Routine</p>
+        </div>
+        <div class="clock-box">
+          <div class="clock-label">CURRENT SYSTEM TIME</div>
+          <div id="liveClock" class="clock-display">--:--:-- --</div>
+          <div id="liveDate" class="date-display">--------, -- --- ----</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Countdown & Status Banner -->
+    <section class="banner-section">
+      <div class="countdown-card">
+        <div class="countdown-header">
+          <span class="status-indicator-dot" id="statusDot"></span>
+          <span id="countdownStatusBadge" class="status-pill status-pill-active">Checking Schedule...</span>
+        </div>
+        <!-- Real-Time Countdown Display Required by Specification -->
+        <h2 id="countdownDisplay" class="countdown-timer">Class in progress - 00:00:00 remaining</h2>
+        <p id="countdownSubtext" class="countdown-subtext">Initializing scheduler timers...</p>
+
+        <!-- Evaluation Controls (Quick Demo & Testing) -->
+        <div class="demo-controls">
+          <span class="demo-label">Evaluation Controls:</span>
+          <button type="button" id="syncNowBtn" class="btn btn-outline" title="Align the 5 classes around the current time for live testing">
+            &#9201; Sync Schedule to Current Time
+          </button>
+          <button type="button" id="test10sBtn" class="btn btn-outline" title="Trigger a 10-second countdown to verify automatic transition to the next class">
+            &#9197; Test 10s Countdown
+          </button>
+          <button type="button" id="triggerNotificationBtn" class="btn btn-outline" title="Trigger 5-minute notification banner using setTimeout()">
+            &#128276; Test 5-Min Notification
+          </button>
+          <button type="button" id="resetScheduleBtn" class="btn btn-secondary" title="Restore default daily timetable">
+            &#8635; Reset Schedule
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Split Cards: Current Class & Next Scheduled Class -->
+    <section class="cards-grid">
+      <!-- Current Class Card -->
+      <div class="info-card" id="currentClassCard">
+        <div class="card-top">
+          <span class="card-badge badge-current">CURRENT CLASS</span>
+          <span id="currentStatusTag" class="status-tag">Active</span>
+        </div>
+        <h3 id="currentSubject" class="subject-title">Loading...</h3>
+        <div class="meta-list">
+          <div class="meta-item">
+            <span class="meta-label">Faculty:</span>
+            <span id="currentFaculty" class="meta-value">--</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Classroom / Venue:</span>
+            <span id="currentRoom" class="meta-value">--</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Class Timing:</span>
+            <span id="currentTimeSlot" class="meta-value">--:-- to --:--</span>
+          </div>
+        </div>
+        <div class="progress-bar-container">
+          <div id="classProgressBar" class="progress-bar" style="width: 0%;"></div>
+        </div>
+      </div>
+
+      <!-- Next Scheduled Class Card -->
+      <div class="info-card" id="nextClassCard">
+        <div class="card-top">
+          <span class="card-badge badge-next">NEXT SCHEDULED CLASS</span>
+          <span id="nextStatusTag" class="status-tag">Upcoming</span>
+        </div>
+        <h3 id="nextSubject" class="subject-title">Loading...</h3>
+        <div class="meta-list">
+          <div class="meta-item">
+            <span class="meta-label">Faculty:</span>
+            <span id="nextFaculty" class="meta-value">--</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Classroom / Venue:</span>
+            <span id="nextRoom" class="meta-value">--</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Class Timing:</span>
+            <span id="nextTimeSlot" class="meta-value">--:-- to --:--</span>
+          </div>
+        </div>
+        <div class="next-class-note" id="nextClassNotice">
+          Scheduled to begin shortly.
+        </div>
+      </div>
+    </section>
+
+    <!-- Full Schedule Table Section -->
+    <section class="schedule-section">
+      <div class="section-header">
+        <h2 class="section-title">Complete Class Routine</h2>
+        <span class="table-count-badge" id="classCountBadge">5 Classes Loaded</span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="schedule-table" id="scheduleTable">
+          <thead>
+            <tr>
+              <th scope="col" style="width: 60px;">Slot</th>
+              <th scope="col">Subject</th>
+              <th scope="col">Faculty</th>
+              <th scope="col">Classroom</th>
+              <th scope="col">Time Interval</th>
+              <th scope="col" style="width: 130px;">Status</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleTableBody">
+            <!-- Populated dynamically by script.js -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Academic Footer -->
+    <footer class="portal-footer">
+      <p>&copy; Academic Session &bull; Smart Class Scheduler &bull; Developed by <strong>Anish Singh</strong> (PRN: 24070521214)</p>
+      <p class="footer-subtext">Case Study 11 &bull; JavaScript Timers: <code>setInterval()</code> for real-time countdown &amp; <code>setTimeout()</code> for temporary alerts</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
